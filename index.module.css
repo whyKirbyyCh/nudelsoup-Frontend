@@ -1,0 +1,387 @@
+.frameChild {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    margin: 0 !important;
+    right: -0.437rem;
+    bottom: -0.437rem;
+    background-color: var(--color-mediumturquoise);
+    z-index: 1;
+}
+.analyticsChartIcon {
+    height: 8.331rem;
+    flex: 1;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+.rectangleParent {
+    width: 12.5rem;
+    top: 52.563rem;
+    left: 89.375rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.frameItem,
+.rectangleGroup,
+.rectangleParent {
+    margin: 0 !important;
+    position: absolute;
+}
+.frameItem {
+    height: 100%;
+    width: 100%;
+    right: -0.437rem;
+    bottom: -0.437rem;
+    background-color: var(--color-mediumturquoise);
+    z-index: 1;
+}
+.rectangleGroup {
+    width: 12.5rem;
+    top: 52.563rem;
+    left: 55.625rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.adCampaignsFor {
+    margin: 0;
+    flex: 1;
+    position: relative;
+    font-size: inherit;
+    font-weight: 400;
+    font-family: inherit;
+    display: inline-block;
+    max-width: 100%;
+}
+.frameInner {
+    height: 11.375rem;
+    width: 11.375rem;
+    position: absolute;
+    margin: 0 !important;
+    right: -11.187rem;
+    bottom: -10.625rem;
+    z-index: 1;
+}
+.adCampaignsForThePriceOfParent {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    max-width: 100%;
+}
+.separator,
+.weAreA {
+    position: relative;
+    flex-shrink: 0;
+}
+.separator {
+    display: inline-block;
+    min-width: 0.438rem;
+}
+.weAreA {
+    margin-left: -0.063rem;
+}
+.weAreACompanyBasedInSwitWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: calc(100% - 7px);
+    font-size: 0.938rem;
+}
+.frameContainer,
+.separatorParent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+.separatorParent {
+    flex-direction: row;
+    padding: 0 var(--padding-xl) 0 0;
+    box-sizing: border-box;
+    font-size: 0.75rem;
+}
+.frameContainer {
+    flex: 1;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+.empty {
+    margin: 0;
+    height: 2.188rem;
+    position: relative;
+    font-size: inherit;
+    font-weight: 400;
+    font-family: inherit;
+    display: inline-block;
+    min-width: 1.688rem;
+}
+.frameGroup,
+.placeholder {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.placeholder {
+    flex-direction: column;
+    padding: 5.706rem 0 0;
+    margin-left: -1.438rem;
+    font-size: 3.125rem;
+}
+.frameGroup {
+    width: 44.688rem;
+    flex-direction: row;
+    min-width: 44.688rem;
+    row-gap: 20px;
+    max-width: 100%;
+}
+.previewElementsChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: #aeefff;
+    border: 0 solid var(--color-black);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+.previewBackground {
+    position: absolute;
+    top: 0.438rem;
+    left: 0.388rem;
+    background-color: var(--color-black);
+    width: 24.613rem;
+    height: 15.856rem;
+}
+.innerPreviewChild {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-black);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.innerPreview,
+.previewContentBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--color-mediumturquoise);
+    width: 24.319rem;
+    height: 3.363rem;
+    z-index: 2;
+}
+.innerPreview {
+    background-color: var(--color-white);
+    border: 2px solid var(--color-black);
+    box-sizing: border-box;
+    height: 15.719rem;
+    z-index: 1;
+}
+.websitePreview {
+    position: absolute;
+    top: 13.688rem;
+    left: 9.375rem;
+    width: 25rem;
+    height: 16.294rem;
+    z-index: 1;
+}
+.previewElements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.more,
+.more1 {
+    margin: 0;
+    position: relative;
+    font-size: inherit;
+    font-weight: 700;
+    font-family: inherit;
+}
+.more {
+    text-shadow: 1px 0 0#000, 0 1px 0#000, -1px 0 0#000, 0-1px 0#000;
+    z-index: 2;
+}
+.more1 {
+    z-index: 1;
+}
+.moreParent,
+.moreWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.moreWrapper {
+    flex-direction: column;
+    padding: 0.187rem 0 0;
+    margin-left: -14.313rem;
+    color: var(--color-black);
+}
+.moreParent {
+    position: absolute;
+    top: 2.625rem;
+    left: 14.375rem;
+    flex-direction: row;
+}
+.previewContent {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 43.688rem;
+}
+.frameChild1,
+.groupIcon {
+    position: absolute;
+    width: 10.938rem;
+    height: 10.938rem;
+}
+.groupIcon {
+    top: 0.438rem;
+    left: 0.438rem;
+    z-index: 1;
+}
+.frameChild1 {
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+.frameDiv {
+    position: absolute;
+    top: 8rem;
+    left: 38.688rem;
+    width: 11.375rem;
+    height: 11.375rem;
+}
+.homeLink {
+    align-self: stretch;
+    height: 43.688rem;
+    position: relative;
+}
+.frameParent,
+.homeLinkWrapper {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 100%;
+}
+.homeLinkWrapper {
+    flex-direction: column;
+    padding: 2.375rem 0 0;
+    box-sizing: border-box;
+    min-width: 32.563rem;
+    font-size: var(--font-size-46xl);
+    color: var(--color-mediumturquoise);
+}
+.frameParent {
+    flex-direction: row;
+    gap: 6.437rem;
+}
+.content,
+.landingPage {
+    display: flex;
+    box-sizing: border-box;
+}
+.content {
+    width: 103.188rem;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0 1rem;
+    max-width: 100%;
+    text-align: left;
+    font-size: 4.375rem;
+    color: var(--color-black);
+    font-family: var(--font-space-grotesk);
+}
+.landingPage {
+    width: 100%;
+    position: relative;
+    background-color: var(--color-white);
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0 0 7.187rem;
+    gap: 6.125rem;
+    line-height: normal;
+    letter-spacing: normal;
+}
+@media screen and (max-width: 1325px) {
+    .frameGroup {
+        flex: 1;
+    }
+    .frameParent {
+        flex-wrap: wrap;
+    }
+}
+@media screen and (max-width: 1125px) {
+    .landingPage {
+        gap: 3.063rem;
+    }
+}
+@media screen and (max-width: 800px) {
+    .adCampaignsFor {
+        font-size: 3.5rem;
+    }
+    .frameContainer {
+        min-width: 100%;
+    }
+    .empty {
+        font-size: 2.5rem;
+    }
+    .placeholder {
+        margin-left: 0;
+    }
+    .frameGroup {
+        flex-wrap: wrap;
+        min-width: 100%;
+    }
+    .more,
+    .more1 {
+        font-size: var(--font-size-33xl);
+    }
+    .homeLinkWrapper {
+        min-width: 100%;
+    }
+    .frameParent {
+        gap: 3.188rem;
+    }
+}
+@media screen and (max-width: 450px) {
+    .adCampaignsFor {
+        font-size: 2.625rem;
+    }
+    .empty {
+        font-size: 1.875rem;
+    }
+    .more,
+    .more1 {
+        font-size: var(--font-size-20xl);
+    }
+    .frameParent {
+        gap: 1.625rem;
+    }
+    .landingPage {
+        gap: 1.5rem;
+    }
+}
