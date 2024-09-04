@@ -11,7 +11,7 @@ export default function Home() {
 
     return (
         <main className={styles.main}>
-            <Header iconSize={4}  navOptions={navOptions} fontSizeVariant={"large"} />
+            <Header iconSize={"large"}  navOptions={navOptions} fontSizeVariant={"large"} />
         </main>
     );
 }

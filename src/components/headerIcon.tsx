@@ -1,19 +1,19 @@
 import React from "react";
-import Image from "next/image";
 import styles from "../styles/components/headerIcon.module.css";
 
 interface HeaderIconProps {
-    size?: number;
+    size?: 'small' | 'large';
 }
 
-const HeaderIcon: React.FC<HeaderIconProps> = ({ size = 8 }) => {
+const HeaderIcon: React.FC<HeaderIconProps> = ({ size = "large" }) => {
+    const iconSizeClass = `header-${size}`;
+    const iconStyleClasses = `${styles.iconWrapper} ${styles[iconSizeClass]}`;
+
     return (
-        <div className={styles.iconWrapper} style={{ width: `${size}em`, height: `${size}em` }}>
-            <Image
+        <div className={iconStyleClasses}>
+            <img
                 src="/nudelsoup_logo_with_text.svg"
                 alt="nudelsoup logo"
-                width={size}
-                height={size}
                 className={styles.icon}
             />
         </div>

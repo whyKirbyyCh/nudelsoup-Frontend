@@ -1,7 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/components/header.module.css";
 import HeaderIcon from "./headerIcon";
+import HeaderButton from "./headerButton";
 
 interface NavOption {
     id: number;
@@ -10,15 +13,20 @@ interface NavOption {
 }
 
 interface HeaderProps {
-    iconSize?: number;
+    iconSize?: 'small' | 'large';
     navOptions: NavOption[];
     fontSizeVariant?: 'small' | 'large';
 }
 
-const Header: React.FC<HeaderProps> = ({ iconSize = 8, navOptions, fontSizeVariant = "small"}) => {
+const Header: React.FC<HeaderProps> = ({ iconSize = "large", navOptions, fontSizeVariant = "small"}) => {
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const headerSizeClass = `header-${fontSizeVariant}`;
     const headerClasses = `${styles.header} ${styles[headerSizeClass]}`;
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     return (
         <header className={headerClasses}>
@@ -28,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ iconSize = 8, navOptions, fontSizeVaria
                 </Link>
             </div>
             <nav className={styles.nav}>
-                <ul className={styles.navList}>
+                <ul className={`${styles.navList} ${menuOpen ? styles.open : ''}`}>
                     {navOptions.map((item) => (
                         <li key={item.id} className={styles.navItem}>
                             <Link href={item.href} className={styles.navLink}>
@@ -37,6 +45,19 @@ const Header: React.FC<HeaderProps> = ({ iconSize = 8, navOptions, fontSizeVaria
                         </li>
                     ))}
                 </ul>
+                <ul className={styles.navButtons}>
+                    <li className={`${styles.navButton} ${styles.demoButton}`}>
+                        <HeaderButton label="TRY DEMO" href="/signup" />
+                    </li>
+                    <li className={styles.navButton}>
+                        <HeaderButton label="LOG IN" href="/login" />
+                    </li>
+                </ul>
+                <button className={styles.hamburger} onClick={toggleMenu}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </nav>
         </header>
     );
