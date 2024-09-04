@@ -1,0 +1,38 @@
+.header{
+    background-color: var(--header-base-color);
+    display: flex;
+    gap: 1em;
+}
+
+.header-small {
+    font-size: var(--header-font-size-small);
+}
+
+.header-large {
+    font-size: var(--header-font-size-large);
+}
+
+.nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navList{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2em;
+}
+
+.navItem{
+    color: var(--text-color--header);
+    font-size: 1em;
+}
+
+.navLink{
+    text-decoration: none;
+    color: var(--text-color--header);
+}
+
