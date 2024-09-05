@@ -1,0 +1,13 @@
+.button{
+    background-color: var(--header-base-color);
+    border: 0.15em solid var(--text-color--header);
+    color: var(--text-color--header);
+    padding: 0.3em 0.8em;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: var(--text-color--header);
+    color: var(--header-base-color);
+}

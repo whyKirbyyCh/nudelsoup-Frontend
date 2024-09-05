@@ -1,0 +1,113 @@
+.pageTitleWrapper {
+    margin: 4em;
+}
+
+.pageTitleText1 {
+    font-size: var(--page-title-font-size);
+}
+
+.pageTitleText2 {
+    font-size: var(--page-title-font-size);
+}
+
+.subTitle {
+    font-size: var(--page-subtitle-font-size);
+}
+
+.pageTitleText::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-bottom: 50%;
+}
+
+@media (max-width: 850px) {
+    .pageTitleWrapper {
+        margin: 3em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 1vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 1vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
+
+@media (max-width: 750px) {
+    .pageTitleWrapper {
+        margin: 2em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 2vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 2vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
+
+@media (max-width: 650px) {
+    .pageTitleWrapper {
+        margin: 2em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 3.5vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 3.5vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
+
+@media (max-width: 525px) {
+    .pageTitleWrapper {
+        margin: 2em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 5vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 5vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
+
+@media (max-width: 450px) {
+    .pageTitleWrapper {
+        margin: 2em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 6vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 6vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
+
+@media (max-width: 350px) {
+    .pageTitleWrapper {
+        margin: 2em;
+    }
+    .pageTitleText1 {
+        font-size: calc(var(--page-title-font-size) - 7.5vw);
+    }
+    .pageTitleText2 {
+        font-size: calc(var(--page-title-font-size) - 7.5vw);
+    }
+    .subTitle {
+        font-size: var(--page-subtitle-font-size);
+    }
+}
