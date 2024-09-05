@@ -74,7 +74,7 @@
     }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 650px) {
     .header {
         padding: 0 1em;
     }
