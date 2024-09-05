@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../styles/components/header.module.css";
+import styles from "../../styles/components/header.module.css";
 import HeaderIcon from "./headerIcon";
 import HeaderButton from "./headerButton";
 

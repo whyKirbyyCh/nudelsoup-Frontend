@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import styles from "../styles/components/headerButton.module.css";
+import styles from "../../styles/components/headerButton.module.css";
 
 interface HeaderButtonProps {
     label: string;

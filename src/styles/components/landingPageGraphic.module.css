@@ -1,0 +1,32 @@
+.graphicWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.graphic {
+    max-width: 100%;
+    max-height: calc(100vh - 12em);
+    width: auto;
+    height: auto;
+    margin-right: 2em;
+    margin-top: 9em;
+    object-fit: contain;
+}
+
+@media (max-width: 16000px) {
+    .graphic {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .graphic {
+        display: none;
+    }
+}

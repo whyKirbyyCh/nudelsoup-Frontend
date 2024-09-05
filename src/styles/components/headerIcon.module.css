@@ -26,7 +26,9 @@
     }
 }
 
-@media (max-width: 768px) {
-
+@media (max-width: 650px) {
+    .iconWrapper {
+        margin: 0.5em 0.5em 0.5em 0.5em;
+    }
 }
 

@@ -11,7 +11,7 @@
 }
 
 .subTitle {
-    font-size: var(--page-title-font-size);
+    font-size: var(--page-subtitle-font-size);
 }
 
 .pageTitleText::after {

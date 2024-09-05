@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/components/headerIcon.module.css";
+import styles from "../../styles/components/headerIcon.module.css";
 
 interface HeaderIconProps {
     size?: 'small' | 'large';
