@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import Header from "../components/header";
+import LandingPageTitle from "../components/landingPageTitle";
 
 export default function Home() {
     const navOptions = [
@@ -12,6 +13,7 @@ export default function Home() {
     return (
         <main className={styles.main}>
             <Header iconSize={"large"}  navOptions={navOptions} fontSizeVariant={"large"} />
+            <LandingPageTitle titlePart1={"AD CAMPAIGNS FOR"}  titlePart2={"THE PRICE OF RAMEN"}/>
         </main>
     );
 }

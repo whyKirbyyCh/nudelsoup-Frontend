@@ -1,7 +1,7 @@
 .iconWrapper {
     line-height: 1;
     vertical-align: middle;
-    margin: 0 0.5em 0.5em 1.5em;
+    margin: 0.5em 1.5em 0.5em 1.5em;
     width: 5em;
     height: 5em;
 }
@@ -16,22 +16,17 @@
 
 @media (max-width: 1440px) {
     .iconWrapper {
-        width: 5em;
-        height: 5em;
+        margin: 0.5em 1.5em 0.5em 1.5em;
     }
 }
 
 @media (max-width: 1024px) {
     .iconWrapper {
-        width: 3em;
-        height: 3em;
+        margin: 0.5em 1.5em 0.5em 1.5em;
     }
 }
 
 @media (max-width: 768px) {
-    .iconWrapper {
-        width: 2em;
-        height: 2em;
-    }
+
 }
 
