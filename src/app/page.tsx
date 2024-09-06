@@ -5,6 +5,7 @@ import LandingPageGraphic from "../components/landingPageBody/landingPageGraphic
 import LandingPageAscii from "../components/landingPageBody/landingPageAscii";
 import PageButton from "../components/page/pageButton";
 import LandingPagePrice from "../components/landingPageBody/landingPagePrice";
+import LandingPageInfoBox from "../components/landingPageBody/landingPageInfoBox";
 
 export default function Home() {
     const navOptions = [
@@ -21,7 +22,7 @@ export default function Home() {
             </div>
             <div className={styles.content}>
                 <div className={styles.leftContent}>
-                    <LandingPageTitle titlePart1={"AD CAMPAIGNS FOR"}  titlePart2={"THE PRICE OF RAMEN"} subTitle={"we are a company based in switzerland everything is more expensive here..."}/>
+                    <LandingPageTitle titlePart1={"AD CAMPAIGNS FOR"}  titlePart2={"THE PRICE OF RAMEN"} subTitle={"we are a company based in Switzerland everything is more expensive here..."}/>
                     <div className={styles.textWrapper}>
                         <div className={styles.Text}>
                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
@@ -42,6 +43,11 @@ export default function Home() {
             </div>
             <div className={styles.bottomContent}>
                 <LandingPageAscii />
+            </div>
+            <div className={styles.scrolledContent}>
+                <LandingPageInfoBox title={"WE DO:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+                <LandingPageInfoBox title={"THIS IS FOR:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+                <LandingPageInfoBox title={"CAN YOU EXPECT:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
             </div>
         </main>
     );

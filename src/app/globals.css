@@ -10,7 +10,7 @@
     --header-font-size-large: calc(12px + 0.5vw);
     --page-title-font-size: calc(50px + 0.5vw);
     --page-subtitle-font-size: calc(10px + 0.3vw);
-    --page-font-size: calc(14px + 0.790625vw);
+    --page-font-size: calc(10px + 0.790625vw);
 }
 
 body {
