@@ -24,13 +24,14 @@
 }
 
 .infoBoxTitle{
-    font-size: calc(var(--page-title-font-size) - 1.8vw);
+    font-size: calc(var(--page-title-font-size) - 1.5vw);
+    font-weight: 600;
     color: var(--text-color);
     margin-bottom: 1em;
 }
 
 .infoBoxText{
-    font-size: calc(var(--page-font-size) - 0.5vw);
+    font-size: calc(var(--box-font-size) - 0.3vw);
     color: var(--text-color);
     text-align: justify;
 }
