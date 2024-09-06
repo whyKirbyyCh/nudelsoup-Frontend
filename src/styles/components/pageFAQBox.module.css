@@ -1,0 +1,54 @@
+.faqBox {
+    position: relative;
+    width: 40vw;
+    background-color: var(--background-color);
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.faqBox::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
+.questionWrapper {
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.toggleIcon {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    padding: 0 16px;
+}
+
+.answer p {
+    margin: 0;
+    color: #666;
+}
+
+.faqBox.open .answer {
+    max-height: 500px;
+    padding: 16px 16px;
+}
