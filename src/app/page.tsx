@@ -7,6 +7,7 @@ import PageButton from "../components/page/pageButton";
 import LandingPagePrice from "../components/landingPageBody/landingPagePrice";
 import LandingPageInfoBox from "../components/landingPageBody/landingPageInfoBox";
 import LandingPageTryDemo from "../components/landingPageBody/landingPageTryDemo";
+import Footer from "../components/footer/footer";
 
 export default function Home() {
     const navOptions = [
@@ -54,7 +55,9 @@ export default function Home() {
                 <LandingPageTryDemo/>
                 <PageButton label={"TRY OUR DEMO"} href={"/demo"}/>
             </div>
-
+            <div className={styles.footer}>
+                <Footer/>
+            </div>
         </main>
     );
 }
