@@ -1,0 +1,31 @@
+.footerContainer {
+    width: 100%;
+}
+
+.footerAsciiContainer {
+    position: relative;
+}
+
+.footerAscii {
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: 1em;
+    opacity: 40%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--header-base-color);
+    padding: 1em;
+}
+
+.footerText {
+    margin: 0;
+}

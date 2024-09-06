@@ -64,10 +64,17 @@
     position: relative;
 }
 
+.lowerSide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10em;
+}
+
 .scrolledContent {
     display: flex;
     width: 100%;
     gap: 2em;
     justify-content: center;
-    padding-bottom: 10em;
+    padding-bottom: 2em;
 }

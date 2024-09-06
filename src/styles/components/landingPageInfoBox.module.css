@@ -5,20 +5,33 @@
     height: auto;
     padding: 1.5em;
     background: var(--background-color);
-    border : 0.2em solid var(--text-color);
+    border : 0.1em solid var(--text-color);
     aspect-ratio: 5/4;
     align-content: center;
     text-align: center;
+    position: relative;
+}
+
+.infoBox::after{
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
 }
 
 .infoBoxTitle{
-    font-size: calc(var(--page-title-font-size) - 1.8vw);
+    font-size: calc(var(--page-title-font-size) - 1.5vw);
+    font-weight: 600;
     color: var(--text-color);
     margin-bottom: 1em;
 }
 
 .infoBoxText{
-    font-size: calc(var(--page-font-size) - 0.5vw);
+    font-size: calc(var(--box-font-size) - 0.3vw);
     color: var(--text-color);
     text-align: justify;
 }
