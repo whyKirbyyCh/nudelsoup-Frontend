@@ -5,10 +5,22 @@
     height: auto;
     padding: 1.5em;
     background: var(--background-color);
-    border : 0.2em solid var(--text-color);
+    border : 0.1em solid var(--text-color);
     aspect-ratio: 5/4;
     align-content: center;
     text-align: center;
+    position: relative;
+}
+
+.infoBox::after{
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
 }
 
 .infoBoxTitle{
