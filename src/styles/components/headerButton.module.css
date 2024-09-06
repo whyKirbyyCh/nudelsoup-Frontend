@@ -11,3 +11,8 @@
     background-color: var(--text-color--header);
     color: var(--header-base-color);
 }
+
+.button:focus{
+    background-color: var(--header-base-color);
+    color: var(--text-color--header);
+}

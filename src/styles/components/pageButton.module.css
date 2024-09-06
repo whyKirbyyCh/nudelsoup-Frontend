@@ -19,8 +19,8 @@
     position: absolute;
     top: 0.2em;
     left: 0.2em;
-    right: -0.5em;
-    bottom: -0.5em;
+    right: -0.35em;
+    bottom: -0.35em;
     background-color: var(--header-base-color);
     z-index: -1;
 }
@@ -30,7 +30,14 @@
     color: var(--background-color);
 }
 
-.button:hover::after {
+.button:focus {
     background: var(--background-color);
-    border: 0.2em solid var(--header-base-color);
+    color: var(--text-color);
+}
+
+.button:hover::after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
