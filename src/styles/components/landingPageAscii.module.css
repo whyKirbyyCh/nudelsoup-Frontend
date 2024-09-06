@@ -1,0 +1,17 @@
+.asciiWrapper {
+    position: absolute;
+    bottom: -0.5em;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ascii {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 35%;
+    pointer-events: none;
+}

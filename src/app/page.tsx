@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import Header from "../components/header/header";
 import LandingPageTitle from "../components/landingPageBody/landingPageTitle";
 import LandingPageGraphic from "../components/landingPageBody/landingPageGraphic";
+import LandingPageAscii from "../components/landingPageBody/landingPageAscii";
 
 export default function Home() {
     const navOptions = [
@@ -16,6 +17,7 @@ export default function Home() {
             <Header iconSize={"large"}  navOptions={navOptions} fontSizeVariant={"large"} />
             <LandingPageTitle titlePart1={"AD CAMPAIGNS FOR"}  titlePart2={"THE PRICE OF RAMEN"} subTitle={"we are a company based in switzerland everything is more expensive here..."}/>
             <LandingPageGraphic />
+            <LandingPageAscii />
         </main>
     );
 }
