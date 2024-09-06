@@ -1,0 +1,43 @@
+.buttonWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.button {
+    display: inline-block;
+    border: 0.15em solid var(--text-color);
+    padding: 0.3em 0.8em;
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    background: var(--background-color);
+    position: relative;
+}
+
+.button::after {
+    content: "";
+    position: absolute;
+    top: 0.2em;
+    left: 0.2em;
+    right: -0.35em;
+    bottom: -0.35em;
+    background-color: var(--header-base-color);
+    z-index: -1;
+}
+
+.button:hover {
+    background: var(--text-color);
+    color: var(--background-color);
+}
+
+.button:focus {
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+.button:hover::after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

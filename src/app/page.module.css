@@ -1,14 +1,73 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
 .header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 20vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
-.main {
-    overflow: hidden;
+.content {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.leftContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin-top: 9rem;
+    margin-bottom: 3rem;
+    margin-left: 4rem;
+}
+
+.textWrapper {
+    width: 50%;
+    margin-left: 3rem;
+    margin-top: 3rem;
+}
+
+.Text{
+    font-size: var(--page-font-size);
+}
+
+.bottomLeftContent {
+    margin-top: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rightContent {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -3rem;
+}
+
+.bottomContent {
+    width: 100%;
+    position: relative;
+}
+
+.scrolledContent {
+    display: flex;
+    width: 100%;
+    gap: 2em;
+    justify-content: center;
+    padding-bottom: 10em;
 }

@@ -1,0 +1,25 @@
+.infoBox{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: auto;
+    padding: 1.5em;
+    background: var(--background-color);
+    border : 0.2em solid var(--text-color);
+    aspect-ratio: 5/4;
+    align-content: center;
+    text-align: center;
+}
+
+.infoBoxTitle{
+    font-size: calc(var(--page-title-font-size) - 1.8vw);
+    color: var(--text-color);
+    margin-bottom: 1em;
+}
+
+.infoBoxText{
+    font-size: calc(var(--page-font-size) - 0.5vw);
+    color: var(--text-color);
+    text-align: justify;
+}
+
