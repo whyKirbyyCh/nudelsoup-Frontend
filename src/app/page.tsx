@@ -6,6 +6,7 @@ import LandingPageAscii from "../components/landingPageBody/landingPageAscii";
 import PageButton from "../components/page/pageButton";
 import LandingPagePrice from "../components/landingPageBody/landingPagePrice";
 import LandingPageInfoBox from "../components/landingPageBody/landingPageInfoBox";
+import LandingPageTryDemo from "../components/landingPageBody/landingPageTryDemo";
 
 export default function Home() {
     const navOptions = [
@@ -44,11 +45,16 @@ export default function Home() {
             <div className={styles.bottomContent}>
                 <LandingPageAscii />
             </div>
-            <div className={styles.scrolledContent}>
-                <LandingPageInfoBox title={"WE DO:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
-                <LandingPageInfoBox title={"THIS IS FOR:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
-                <LandingPageInfoBox title={"CAN YOU EXPECT:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+            <div className={styles.lowerSide}>
+                <div className={styles.scrolledContent}>
+                    <LandingPageInfoBox title={"WE DO:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+                    <LandingPageInfoBox title={"THIS IS FOR:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+                    <LandingPageInfoBox title={"CAN YOU EXPECT:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
+                </div>
+                <LandingPageTryDemo/>
+                <PageButton label={"TRY OUR DEMO"} href={"/demo"}/>
             </div>
+
         </main>
     );
 }
