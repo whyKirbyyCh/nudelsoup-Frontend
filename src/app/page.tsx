@@ -11,9 +11,9 @@ import Footer from "../components/footer/footer";
 
 export default function Home() {
     const navOptions = [
-        { id: 1, label: 'REVIEWS', href: '/' },
-        { id: 2, label: 'FAQ', href: '/about' },
-        { id: 3, label: 'PRICING', href: '/contact' },
+        { id: 1, label: 'REVIEWS', href: '/reviews' },
+        { id: 2, label: 'FAQ', href: '/faq' },
+        { id: 3, label: 'PRICING', href: '/pricing' },
         { id: 4, label: 'CONTACT', href: '/contact' },
     ];
 
@@ -53,7 +53,7 @@ export default function Home() {
                     <LandingPageInfoBox title={"CAN YOU EXPECT:"} text={"we are a company based in Switzerland everything is more expensive here..."} />
                 </div>
                 <LandingPageTryDemo/>
-                <PageButton label={"TRY OUR DEMO"} href={"/demo"}/>
+                <PageButton label={"TRY DEMO"} href={"/demo"}/>
             </div>
             <div className={styles.footer}>
                 <Footer/>
