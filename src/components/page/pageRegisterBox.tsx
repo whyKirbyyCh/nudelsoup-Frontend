@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
+
 import styles from "../../styles/components/pageRegisterBox.module.css";
 import PageTextField from "@/components/page/pageTextField";
 import PagePasswordField from "@/components/page/pagePasswordField";
+import PageButton from "@/components/page/pageButton";
 
 const PageRegisterBox: React.FC = () => {
 
@@ -34,6 +37,15 @@ const PageRegisterBox: React.FC = () => {
                 </div>
                 <PagePasswordField placeholder={"Confirm your password"}/>
             </div>
+            <div className={styles.registerBoxItemButton}>
+                <PageButton label={"REGISTER"} href={"/account-creation"}/>
+            </div>
+            <div className={styles.registerBoxItemLink}>
+                <Link href={"login"} className={styles.loginLink}>
+                    ALREADY HAVE AN ACCOUNT? LOGIN HERE!
+                </Link>
+            </div>
+
         </div>
     );
 };
