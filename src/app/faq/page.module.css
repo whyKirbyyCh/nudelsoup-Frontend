@@ -1,0 +1,64 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.title {
+    margin-top: 1em;
+}
+
+.pageEnd {
+    margin-top: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 7em;
+}
+
+.pageEndButton {
+    margin-top: 1em;
+}
+
+.mainPart{
+    margin-top: 2em;
+    display: flex;
+    gap: 3em;
+}
+
+.faqBoxWrapperLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+}
+
+.faqBoxWrapperRight{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+@media (max-width: 920px) {
+    .mainPart{
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .faqBoxWrapperLeft{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+    }
+
+    .faqBoxWrapperRight{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+}

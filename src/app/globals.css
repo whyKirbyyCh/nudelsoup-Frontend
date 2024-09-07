@@ -11,6 +11,7 @@
     --page-title-font-size: calc(50px + 0.5vw);
     --page-subtitle-font-size: calc(10px + 0.3vw);
     --page-font-size: calc(10px + 0.790625vw);
+    --not-landing-page-title-font-size: calc(50px + 1.5vw);
     --box-font-size: calc(14px + 0.790625vw);
 }
 
