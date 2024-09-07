@@ -28,7 +28,7 @@
     justify-content: space-between;
     align-items: flex-start;
     width: 80%;
-    margin-top: 9rem;
+    margin-top: 12rem;
     margin-bottom: 3rem;
     margin-left: 4rem;
 }
@@ -56,10 +56,13 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    top: -3rem;
 }
 
 .bottomContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4em;
     width: 100%;
     position: relative;
 }
