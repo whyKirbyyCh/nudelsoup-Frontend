@@ -1,0 +1,50 @@
+"use client";
+
+import React, { useState } from "react";
+import styles from "../../styles/components/pagePasswordField.module.css";
+
+interface PagePasswordFieldProps {
+    placeholder?: string;
+}
+
+const PagePasswordField: React.FC<PagePasswordFieldProps> = ({
+                                                                 placeholder = "Enter your password",
+                                                             }) => {
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    return (
+        <div className={styles.passwordField}>
+            <input
+                type={passwordVisible ? "text" : "password"}
+                placeholder={placeholder}
+                className={styles.passwordInput}
+            />
+            <button
+                type="button"
+                className={styles.toggleButton}
+                onClick={togglePasswordVisibility}
+                aria-label={passwordVisible ? "Hide password" : "Show password"}
+            >
+                {passwordVisible ? (
+                    <img
+                        src="/eye-closed.svg"
+                        alt="Hide password"
+                        className={styles.icon}
+                    />
+                ) : (
+                    <img
+                        src="/eye-open.svg"
+                        alt="Show password"
+                        className={styles.icon}
+                    />
+                )}
+            </button>
+        </div>
+    );
+};
+
+export default PagePasswordField;
