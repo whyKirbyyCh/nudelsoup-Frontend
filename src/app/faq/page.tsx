@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./page.module.css";
+import styles from "./faqPage.module.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import PageTitle from "@/components/page/pageTitle";
@@ -17,7 +17,7 @@ export default function Page() {
     return (
         <div>
             <Header iconSize={"large"}  navOptions={navOptions} fontSizeVariant={"large"} />
-            <div className={styles.content}>
+            <div className={styles.faqContent}>
                 <div className={styles.title}>
                     <PageTitle title={"FAQ"} />
                 </div>

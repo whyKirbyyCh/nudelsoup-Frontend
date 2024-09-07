@@ -1,4 +1,4 @@
-.content{
+.faqContent{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,6 +9,10 @@
 
 .title {
     margin-top: 1em;
+}
+
+.footer {
+    margin-top: 8em;
 }
 
 .pageEnd {
