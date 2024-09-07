@@ -1,0 +1,75 @@
+.contactBox{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 70%;
+    gap: 3em;
+    border: 0.1em solid var(--text-color);
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background: var(--background-color);
+}
+
+.contactBox::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
+.contactTitle {
+    font-size: calc(var(--page-title-font-size) - 0.5vw);
+    margin-bottom: 0.7em;
+    font-weight: 500;
+}
+
+.contactBoxItem {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.contactBoxItem2 {
+    display: flex;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.contactBoxItemName {
+    padding-right: 2em;
+    width: 10%;
+    font-size: calc(var(--page-font-size)- 0.5vw);
+    text-align: end;
+}
+
+.contactBoxItemButton {
+    margin-top: 0.7em;
+    z-index: 100;
+}
+
+.contactBoxItemLink {
+    margin-top: 1.5em;
+}
+
+.contactLink {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.contactLink:hover {
+    color: var(--accent-color);
+    font-weight: 600;
+}

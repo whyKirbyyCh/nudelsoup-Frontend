@@ -6,6 +6,7 @@
     --header-base-color: #68CABF;
     --accent-color: #AEEFFF;
 
+    /*font-size: calc(10px + 0.790625vw);*/
     --font-family: "Space Grotesk", sans-serif;
     --header-font-size-small: calc(12px + 0.3vw);
     --header-font-size-large: calc(12px + 0.5vw);
@@ -24,5 +25,9 @@ body {
 }
 
 input {
+    font-family: var(--font-family) sans-serif;
+}
+
+textarea {
     font-family: var(--font-family) sans-serif;
 }

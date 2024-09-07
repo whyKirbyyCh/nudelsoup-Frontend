@@ -1,0 +1,19 @@
+.messageField {
+    border: 0.1em solid var(--text-color);
+    width: 60%;
+    overflow: hidden;
+}
+
+.messageInput {
+    flex: 1;
+    margin: 0.5em;
+    width: 95%;
+    min-height: 25vh;
+    max-height: 40vh;
+    resize: none;
+    outline: none;
+    border: none;
+    font-size: calc(var(--page-font-size)- 0.5vw);
+    font-family: var(--font-family) sans-serif;
+}
+

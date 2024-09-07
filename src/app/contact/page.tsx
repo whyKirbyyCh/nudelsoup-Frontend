@@ -1,24 +1,25 @@
 import React from "react";
-import styles from "./registryPage.module.css";
+import styles from "./contactPage.module.css";
 import Header from "@/components/header/header";
-import PageRegisterBox from "@/components/page/pageRegisterBox";
+import PageContactForm from "@/components/page/pageContactForm";
 
 export default function Page() {
     const navOptions = [
         { id: 1, label: 'REVIEWS', href: '/reviews' },
         { id: 2, label: 'FAQ', href: '/faq' },
         { id: 3, label: 'PRICING', href: '/pricing' },
-        { id: 4, label: 'CONTACT', href: '/contact' },
-    ];
+    ]
 
     return (
-        <div className={styles.register}>
+        <div className={styles.contact}>
             <Header iconSize={"large"} navOptions={navOptions} fontSizeVariant={"large"} showButtons={true}/>
-            <div className={styles.registerContentWrapper}>
-                <PageRegisterBox/>
+            <div className={styles.contactContentWrapper}>
+                <PageContactForm/>
             </div>
             <div className={styles.decorativeCircle}></div>
             <div className={styles.decorativeCircle2}></div>
+            <div className={styles.decorativeCircle3}></div>
         </div>
+
     );
 }
