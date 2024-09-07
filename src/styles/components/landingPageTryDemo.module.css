@@ -1,5 +1,6 @@
 .demoWrapper {
     margin-bottom: 0.5em;
+    pointer-events: none;
 }
 
 .demo{

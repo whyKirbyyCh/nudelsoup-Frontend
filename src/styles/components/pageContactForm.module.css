@@ -1,4 +1,4 @@
-.loginBox{
+.contactBox{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,7 @@
     justify-items: center;
     align-content: center;
     justify-content: center;
-    width: 90%;
+    width: 70%;
     gap: 3em;
     border: 0.1em solid var(--text-color);
     padding-top: 1.5em;
@@ -14,7 +14,7 @@
     background: var(--background-color);
 }
 
-.loginBox::after {
+.contactBox::after {
     content: "";
     position: absolute;
     top: 0.5em;
@@ -25,13 +25,13 @@
     z-index: -1;
 }
 
-.loginTitle {
+.contactTitle {
     font-size: calc(var(--page-title-font-size) - 0.5vw);
     margin-bottom: 0.7em;
     font-weight: 500;
 }
 
-.loginBoxItem {
+.contactBoxItem {
     display: flex;
     align-items: center;
     justify-items: center;
@@ -40,7 +40,7 @@
     width: 100%;
 }
 
-.loginBoxItem2 {
+.contactBoxItem2 {
     display: flex;
     justify-items: center;
     align-content: center;
@@ -48,28 +48,28 @@
     width: 100%;
 }
 
-.loginBoxItemName {
+.contactBoxItemName {
     padding-right: 2em;
     width: 10%;
     font-size: calc(var(--page-font-size)- 0.5vw);
     text-align: end;
 }
 
-.loginBoxItemButton {
+.contactBoxItemButton {
     margin-top: 0.7em;
     z-index: 100;
 }
 
-.loginBoxItemLink {
+.contactBoxItemLink {
     margin-top: 1.5em;
 }
 
-.loginLink {
+.contactLink {
     text-decoration: none;
     color: var(--text-color);
 }
 
-.loginLink:hover {
+.contactLink:hover {
     color: var(--accent-color);
     font-weight: 600;
 }

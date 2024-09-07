@@ -1,7 +1,9 @@
 .priceWrapper {
+    pointer-events: none;
 }
 
 .price{
     width: 50%;
     height: 50%;
+    pointer-events: none;
 }
