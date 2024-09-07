@@ -51,10 +51,10 @@ const Header: React.FC<HeaderProps> = ({
                         </li>
                     ))}
                 </ul>
-                {showButtons && ( // Conditionally render buttons based on the showButtons prop
+                {showButtons && (
                     <ul className={styles.navButtons}>
                         <li className={`${styles.navButton} ${styles.demoButton}`}>
-                            <HeaderButton label="TRY DEMO" href="/signup" />
+                            <HeaderButton label="TRY DEMO" href="/demo" />
                         </li>
                         <li className={styles.navButton}>
                             <HeaderButton label="LOG IN" href="/login" />
