@@ -16,9 +16,15 @@ interface HeaderProps {
     iconSize?: 'small' | 'large';
     navOptions: NavOption[];
     fontSizeVariant?: 'small' | 'large';
+    showButtons?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ iconSize = "large", navOptions, fontSizeVariant = "small"}) => {
+const Header: React.FC<HeaderProps> = ({
+                                           iconSize = "large",
+                                           navOptions,
+                                           fontSizeVariant = "small",
+                                           showButtons = true
+                                       }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const headerSizeClass = `header-${fontSizeVariant}`;
@@ -32,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ iconSize = "large", navOptions, fontSiz
         <header className={headerClasses}>
             <div className={styles.logo}>
                 <Link href="/">
-                    <HeaderIcon size={iconSize}/>
+                    <HeaderIcon size={iconSize} />
                 </Link>
             </div>
             <nav className={styles.nav}>
@@ -45,14 +51,16 @@ const Header: React.FC<HeaderProps> = ({ iconSize = "large", navOptions, fontSiz
                         </li>
                     ))}
                 </ul>
-                <ul className={styles.navButtons}>
-                    <li className={`${styles.navButton} ${styles.demoButton}`}>
-                        <HeaderButton label="TRY DEMO" href="/signup" />
-                    </li>
-                    <li className={styles.navButton}>
-                        <HeaderButton label="LOG IN" href="/login" />
-                    </li>
-                </ul>
+                {showButtons && ( // Conditionally render buttons based on the showButtons prop
+                    <ul className={styles.navButtons}>
+                        <li className={`${styles.navButton} ${styles.demoButton}`}>
+                            <HeaderButton label="TRY DEMO" href="/signup" />
+                        </li>
+                        <li className={styles.navButton}>
+                            <HeaderButton label="LOG IN" href="/login" />
+                        </li>
+                    </ul>
+                )}
                 <button className={styles.hamburger} onClick={toggleMenu}>
                     <span></span>
                     <span></span>

@@ -1,0 +1,15 @@
+.textField {
+    display: flex;
+    align-items: center;
+    border: 0.1em solid var(--text-color);
+    width: 60%;
+    height: 5vh;
+}
+
+.textInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: var(--page-font-size);
+    font-family: var(--font-family) sans-serif;
+}
