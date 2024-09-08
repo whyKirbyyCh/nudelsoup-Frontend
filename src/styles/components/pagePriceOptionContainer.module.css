@@ -1,0 +1,37 @@
+.priceOptionBox {
+    width: 25%;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    background: var(--background-color);
+    border: 0.1em solid var(--text-color);
+}
+
+.priceOptionBox::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
+.priceOptionBoxTitle {
+    font-size: calc(var(--page-font-size) + 0.5vw);
+    margin-top: 1.5em;
+}
+
+.priceOptionBoxText {
+    margin-top: 1.5em;
+    font-size: var(--page-font-size);
+    margin-bottom: 3.5em;
+}
+
+.priceOptionBoxButton {
+    margin-bottom: 2.5em;
+}
