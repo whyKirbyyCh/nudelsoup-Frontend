@@ -23,8 +23,6 @@ const PageRegisterBox: React.FC = () => {
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
     const handleRegisterClick = async () => {
-        console.log("Register click");
-
         setPasswordErrorMessage("");
         setEmailErrorMessage("");
         setUsernameErrorMessage("");
@@ -104,16 +102,15 @@ const PageRegisterBox: React.FC = () => {
                     console.error("Registration failed:", data.message);
                 } else {
                     const errorText = await response.text();
-                    console.error("Unexpected response:", errorText);
+                    setApiErrorMessage("There was an error registering your account. Please try again.");
                 }
                 return;
             }
 
             const data = await response.json();
-            console.log("Registration successful:", data);
             router.push("/account-register");
         } catch (error) {
-            console.error("Error registering user:", error);
+            setApiErrorMessage("There was an error registering your account. Please try again.");
         }
     };
 
