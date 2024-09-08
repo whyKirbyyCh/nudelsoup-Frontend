@@ -5,11 +5,11 @@ import styles from "../../styles/components/pagePasswordField.module.css";
 
 interface PagePasswordFieldProps {
     placeholder?: string;
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PagePasswordField: React.FC<PagePasswordFieldProps> = ({
-                                                                 placeholder = "Enter your password",
-                                                             }) => {
+const PagePasswordField: React.FC<PagePasswordFieldProps> = ({ placeholder = "Enter your password", value, onChange}) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -22,6 +22,8 @@ const PagePasswordField: React.FC<PagePasswordFieldProps> = ({
                 type={passwordVisible ? "text" : "password"}
                 placeholder={placeholder}
                 className={styles.passwordInput}
+                value={value}
+                onChange={onChange}
             />
             <button
                 type="button"

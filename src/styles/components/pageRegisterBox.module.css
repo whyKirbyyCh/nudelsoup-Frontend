@@ -48,12 +48,11 @@
 }
 
 .registerBoxItemButton {
-    margin-top: 0.7em;
     z-index: 100;
+    margin-bottom: -2em;
 }
 
 .registerBoxItemLink {
-    margin-top: 1.5em;
 }
 
 .loginLink {
@@ -64,4 +63,13 @@
 .loginLink:hover {
     color: var(--accent-color);
     font-weight: 600;
+}
+
+.registerBoxItemError{
+    font-size: calc(var(--page-font-size));
+    color: var(--error-color);
+    margin-bottom: -1em;
+    text-align: center;
+    margin-right: 1em;
+    margin-left: 1em;
 }

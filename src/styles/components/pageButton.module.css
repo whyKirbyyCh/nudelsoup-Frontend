@@ -12,6 +12,7 @@
     cursor: pointer;
     background: var(--background-color);
     position: relative;
+    font-size: var(--page-font-size);
 }
 
 .button::after {
@@ -30,9 +31,8 @@
     color: var(--background-color);
 }
 
-.button:focus {
-    background: var(--background-color);
-    color: var(--text-color);
+.button:active {
+    animation: pressedEffect 0.5s forwards;
 }
 
 .button:hover::after {
@@ -40,4 +40,19 @@
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+@keyframes pressedEffect {
+    0% {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
+    80% {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
+    100% {
+        background: var(--text-color);
+        color: var(--background-color);
+    }
 }
