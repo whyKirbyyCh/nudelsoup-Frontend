@@ -5,6 +5,7 @@
     --background-color: #ffffff;
     --header-base-color: #68CABF;
     --accent-color: #AEEFFF;
+    --error-color: #a60000;
 
     /*font-size: calc(10px + 0.790625vw);*/
     --font-family: "Space Grotesk", sans-serif;
