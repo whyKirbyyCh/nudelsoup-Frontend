@@ -4,3 +4,43 @@
     justify-content: center;
     margin-top: 1em;
 }
+
+.decorativeCircle {
+    position: absolute;
+    z-index: -100;
+    bottom: 8em;
+    left: -5em;
+    width: 40em;
+    height: 40em;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    border: 0.1em solid var(--text-color);
+    pointer-events: none;
+}
+
+.decorativeCircle2 {
+    position: absolute;
+    z-index: -100;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40em;
+    height: 40em;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    border: 0.1em solid var(--text-color);
+    pointer-events: none;
+}
+
+.decorativeCircle3 {
+    position: absolute;
+    z-index: -100;
+    bottom: 8em;
+    right: -5em;
+    width: 40em;
+    height: 40em;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    border: 0.1em solid var(--text-color);
+    pointer-events: none;
+}
