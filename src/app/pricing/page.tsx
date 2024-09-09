@@ -5,6 +5,7 @@ import styles from "./pricingPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import PagePricingBox from "@/components/page/pagePricingBox";
+import PopupTimeBasedRecommendation from "@/components/popup/popupTimeBasedRecommendation";
 
 export default function Page() {
     const navOptions = [
@@ -45,7 +46,7 @@ export default function Page() {
             />
             <div className={styles.pricingContentWrapper}>
                 <div className={styles.pricingContentTitle}>
-                    <PageTitle title={"CHOOSE YOUR MEAL SIZE*"} size={4} />
+                    <PageTitle title={"CHOOSE YOUR MEAL SIZE*"} size={4}/>
                 </div>
                 <div className={styles.pricingContent}>
                     <PagePricingBox
@@ -69,6 +70,13 @@ export default function Page() {
                     {selectedOption === 2 && <div className={styles.decorativeCircle2}></div>}
                     {selectedOption === 3 && <div className={styles.decorativeCircle3}></div>}
                 </div>
+            </div>
+            <div className={styles.pricingPopup}>
+                <PopupTimeBasedRecommendation
+                    title="Special Offer!"
+                    text="Check out our exclusive deals available now."
+                    time={5000}
+                />
             </div>
         </div>
     );
