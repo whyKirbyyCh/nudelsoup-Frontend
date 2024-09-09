@@ -9,7 +9,7 @@
     position: absolute;
     z-index: -100;
     bottom: 6.5em;
-    left: -5em;
+    left: -15em;
     width: 45em;
     height: 45em;
     border-radius: 50%;
@@ -36,7 +36,7 @@
     position: absolute;
     z-index: -100;
     bottom: 6.5em;
-    right: -5em;
+    right: -15em;
     width: 45em;
     height: 45em;
     border-radius: 50%;
@@ -46,12 +46,10 @@
 }
 
 .errorMessage {
-    position: absolute;
-    bottom: 5em;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     color: var(--error-color);
     text-align: center;
     font-size: calc(var(--page-font-size));
     z-index: 10;
+    margin-top: 0.75em;
 }

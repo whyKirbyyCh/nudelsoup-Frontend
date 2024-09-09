@@ -85,7 +85,7 @@ const PagePricingBox: React.FC<PagePricingBoxProps> = ({title1, text1, onClick1,
                     </div>}
                 {moreInfo === 3 &&
                     <div className={styles.pricingBoxContainer}>
-                        <PagePriceOptionBox title={title3} text={text3} buttonText1={buttonText3} onClick1={lessInfo3} buttonText2={"MORE INFO"} onClick2={lessInfo} priceOption={3}/>
+                        <PagePriceOptionBox title={title3} text={text3} buttonText1={buttonText3} onClick1={lessInfo3} buttonText2={"LESS INFO"} onClick2={lessInfo} priceOption={3}/>
                         <PagePriceInformationBox title={"OUR 'DELUXE PARTY BUFFET' OPTION EXPLAINED"} text={"this is text"}/>
                     </div>}
                 <div className={styles.pricingBoxButton}>
