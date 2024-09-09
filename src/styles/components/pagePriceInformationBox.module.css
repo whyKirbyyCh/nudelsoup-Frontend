@@ -1,6 +1,6 @@
 .priceOptionBox {
-    width: 30%;
-    min-height: 55vh;
+    width: calc(50% + 4.5em);
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,16 +30,11 @@
     margin-top: 1.5em;
     font-size: var(--page-font-size);
     margin-bottom: 4.5em;
-    align-items: center;
-    text-align: center;
-}
-
-.priceSVG{
-    margin-bottom: 1.5em;
 }
 
 .priceOptionBoxButton {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1em;
     margin-bottom: 1.75em;

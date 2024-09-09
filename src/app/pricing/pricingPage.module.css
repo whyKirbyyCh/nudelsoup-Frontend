@@ -8,10 +8,10 @@
 .decorativeCircle {
     position: absolute;
     z-index: -100;
-    bottom: 8em;
-    left: -5em;
-    width: 40em;
-    height: 40em;
+    bottom: 6.5em;
+    left: -15em;
+    width: 45em;
+    height: 45em;
     border-radius: 50%;
     background-color: var(--accent-color);
     border: 0.1em solid var(--text-color);
@@ -24,8 +24,8 @@
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40em;
-    height: 40em;
+    width: 45em;
+    height: 45em;
     border-radius: 50%;
     background-color: var(--accent-color);
     border: 0.1em solid var(--text-color);
@@ -35,12 +35,21 @@
 .decorativeCircle3 {
     position: absolute;
     z-index: -100;
-    bottom: 8em;
-    right: -5em;
-    width: 40em;
-    height: 40em;
+    bottom: 6.5em;
+    right: -15em;
+    width: 45em;
+    height: 45em;
     border-radius: 50%;
     background-color: var(--accent-color);
     border: 0.1em solid var(--text-color);
     pointer-events: none;
+}
+
+.errorMessage {
+    position: relative;
+    color: var(--error-color);
+    text-align: center;
+    font-size: calc(var(--page-font-size));
+    z-index: 10;
+    margin-top: 0.75em;
 }

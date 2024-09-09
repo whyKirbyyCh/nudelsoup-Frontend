@@ -1,6 +1,7 @@
 .buttonWrapper {
     position: relative;
     display: inline-block;
+    z-index: 100;
 }
 
 .button {
@@ -40,6 +41,9 @@
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+.disabled {
 }
 
 @keyframes pressedEffect {
