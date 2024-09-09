@@ -44,3 +44,14 @@
     border: 0.1em solid var(--text-color);
     pointer-events: none;
 }
+
+.errorMessage {
+    position: absolute;
+    bottom: 5em;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--error-color);
+    text-align: center;
+    font-size: calc(var(--page-font-size));
+    z-index: 10;
+}

@@ -42,6 +42,9 @@
     bottom: 0;
 }
 
+.disabled {
+}
+
 @keyframes pressedEffect {
     0% {
         background: var(--background-color);
