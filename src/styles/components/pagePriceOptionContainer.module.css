@@ -34,4 +34,5 @@
 
 .priceOptionBoxButton {
     margin-bottom: 2.5em;
+    z-index: 100;
 }

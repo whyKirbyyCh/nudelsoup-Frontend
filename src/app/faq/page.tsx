@@ -38,12 +38,9 @@ export default function Page() {
                 <div className={styles.pageEnd}>
                     <PageSVGElement svgSrc={"./more-questions.svg"} alt={"faq"}/>
                     <div className={styles.pageEndButton}>
-                        <PageButton label={"MORE QUESTIONS? CONTACT US!"} href={"/contact"}/>
+                        <PageButton label={"CONTACT US!"} href={"/contact"}/>
                     </div>
                 </div>
-            </div>
-            <div className={styles.footer}>
-                <Footer/>
             </div>
         </div>
     );
