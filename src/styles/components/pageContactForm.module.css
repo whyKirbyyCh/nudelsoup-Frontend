@@ -73,3 +73,15 @@
     color: var(--accent-color);
     font-weight: 600;
 }
+
+.errorMessage {
+    width: 100%;
+    position: absolute;
+    bottom: 3.75em;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--error-color);
+    text-align: center;
+    font-size: calc(var(--page-font-size));
+    z-index: 10;
+}
