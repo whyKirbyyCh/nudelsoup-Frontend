@@ -1,0 +1,26 @@
+.notFoundPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--accent-color);
+    overflow: hidden;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.notFoundImage {
+    width: 80%;
+    height: 80%;
+}
