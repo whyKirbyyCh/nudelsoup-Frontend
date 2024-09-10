@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { serialize } from 'cookie';
 
 interface UserRegisterRequest {
     email: string;
@@ -12,6 +14,8 @@ interface ResponseData {
     message: string;
     userId?: string;
 }
+
+const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     if (req.method !== 'POST') {
@@ -46,7 +50,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             createdAt: new Date(),
         });
 
-        return res.status(201).json({ message: 'User registered successfully', userId: result.insertedId.toString() });
+        const userId = result.insertedId.toString();
+
+        const token = jwt.sign(
+            { userId, username },
+            JWT_SECRET,
+            { expiresIn: '14d' }
+        );
+
+        res.setHeader(
+            'Set-Cookie',
+            serialize('authToken', token, {
+                httpOnly: false,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 14 * 24 * 60 * 60,
+                path: '/',
+                sameSite: 'strict',
+            })
+        );
+
+        return res.status(201).json({ message: 'User registered successfully', userId });
     } catch (error) {
         console.error('Error registering user:', error);
         return res.status(500).json({ message: 'Internal server error' });
