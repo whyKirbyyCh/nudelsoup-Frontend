@@ -5,9 +5,10 @@ interface PopupTimeBasedRecommendationProps {
     title: string;
     text: string;
     time: number;
+    mirror?: boolean;
 }
 
-const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> = ({ title, text, time }) => {
+const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> = ({ title, text, time, mirror }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
             <img
                 src="/popup-body.svg"
                 alt="Popup Background"
-                className={styles.popupImage}
+                className={`${styles.popupImage} ${mirror ? styles.mirrored : ''}`} // Conditionally add mirrored class
             />
             <div className={styles.popupContent}>
                 <button onClick={handleClose} className={styles.closeButton}>

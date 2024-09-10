@@ -72,9 +72,10 @@ export default function Page() {
             </div>
             <div className={styles.pricingPopup}>
                 <PopupTimeBasedRecommendation
-                    title="Special Offer!"
-                    text="Check out our exclusive deals available now."
-                    time={5000}
+                    title="Not sure about your purchase?"
+                    text="Check out what other people have to say about our product."
+                    time={120000}
+                    mirror={true}
                 />
             </div>
         </div>
