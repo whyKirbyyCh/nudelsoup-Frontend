@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/popup/popupTimeBasedRecommendation.module.css";
 
@@ -12,11 +13,17 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-        }, time);
+        const cookie = document.cookie
+            .split("; ")
+            .find(row => row.startsWith("authToken="));
+        console.log(cookie);
+        if (!cookie) {
+            const timer = setTimeout(() => {
+                setIsVisible(true);
+            }, time);
 
-        return () => clearTimeout(timer);
+            return () => clearTimeout(timer);
+        }
     }, [time]);
 
     const handleClose = () => {
@@ -32,7 +39,7 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
             <img
                 src="/popup-body.svg"
                 alt="Popup Background"
-                className={`${styles.popupImage} ${mirror ? styles.mirrored : ''}`} // Conditionally add mirrored class
+                className={`${styles.popupImage} ${mirror ? styles.mirrored : ''}`}
             />
             <div className={styles.popupContent}>
                 <button onClick={handleClose} className={styles.closeButton}>
