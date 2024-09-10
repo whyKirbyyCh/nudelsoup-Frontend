@@ -33,7 +33,6 @@ export default function Page() {
 
     const handleCheckoutError = () => {
         setErrorMessage("Please select a one of the options before proceeding to checkout");
-        console.log("Please select a one of the options first");
     };
 
     return (

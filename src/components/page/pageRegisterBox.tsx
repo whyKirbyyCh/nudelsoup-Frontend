@@ -108,7 +108,6 @@ const PageRegisterBox: React.FC = () => {
                 const contentType = response.headers.get("content-type");
                 if (contentType && contentType.includes("application/json")) {
                     const data = await response.json();
-                    console.error("Registration failed:", data.message);
                 } else {
                     const errorText = await response.text();
                     setApiErrorMessage("There was an error registering your account. Please try again.");

@@ -71,7 +71,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         return res.status(201).json({ message: 'User registered successfully', userId });
     } catch (error) {
-        console.error('Error registering user:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 }

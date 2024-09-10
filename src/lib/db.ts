@@ -38,9 +38,6 @@ export async function connectToDatabase() {
         return { client, db };
     } catch (error) {
         if (error instanceof Error) {
-            console.error('Failed to connect to database:', error.message);
-        } else {
-            console.error('An unexpected error occurred:', error);
         }
         throw new Error('Unable to connect to the database. Please try again later.');
     }

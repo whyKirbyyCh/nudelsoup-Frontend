@@ -71,7 +71,6 @@ export default async function handler(
             username: user.username,
         });
     } catch (error) {
-        console.error('Error logging in user:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
