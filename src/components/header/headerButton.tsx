@@ -4,12 +4,13 @@ import styles from "../../styles/components/headerButton.module.css";
 
 interface HeaderButtonProps {
     label: string;
-    href: string;
+    href?: string;
+    onClick?: () => void;
 }
 
-const HeaderButton: React.FC<HeaderButtonProps> = ({ label, href }) => {
+const HeaderButton: React.FC<HeaderButtonProps> = ({ label, href = "#" , onClick}) => {
     return (
-        <Link href={href} className={styles.button}>
+        <Link href={href} className={styles.button} onClick={onClick}>
             {label}
         </Link>
     );

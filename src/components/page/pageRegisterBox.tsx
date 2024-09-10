@@ -1,8 +1,6 @@
-// PageRegisterBox.tsx
-
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -27,6 +25,17 @@ const PageRegisterBox: React.FC = () => {
         setEmailErrorMessage("");
         setUsernameErrorMessage("");
         setApiErrorMessage("");
+
+        useEffect(() => {
+            const checkAuthCookie = async () => {
+                const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
+                if (cookies) {
+                    router.push('/account-overview');
+                }
+            };
+
+            checkAuthCookie().then();
+        }, [router]);
 
         if (!email || email.trim() === "") {
             setEmailErrorMessage("Please enter an email address");
