@@ -20,22 +20,22 @@ const PageRegisterBox: React.FC = () => {
     const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
+    useEffect(() => {
+        const checkAuthCookie = async () => {
+            const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
+            if (cookies) {
+                router.push('/account-overview');
+            }
+        };
+
+        checkAuthCookie().then();
+    }, [router]);
+
     const handleRegisterClick = async () => {
         setPasswordErrorMessage("");
         setEmailErrorMessage("");
         setUsernameErrorMessage("");
         setApiErrorMessage("");
-
-        useEffect(() => {
-            const checkAuthCookie = async () => {
-                const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
-                if (cookies) {
-                    router.push('/account-overview');
-                }
-            };
-
-            checkAuthCookie().then();
-        }, [router]);
 
         if (!email || email.trim() === "") {
             setEmailErrorMessage("Please enter an email address");
@@ -107,15 +107,13 @@ const PageRegisterBox: React.FC = () => {
             if (!response.ok) {
                 const contentType = response.headers.get("content-type");
                 if (contentType && contentType.includes("application/json")) {
-                    const data = await response.json();
+                    return;
                 } else {
-                    const errorText = await response.text();
                     setApiErrorMessage("There was an error registering your account. Please try again.");
                 }
                 return;
             }
 
-            const data = await response.json();
             router.push("/account-register");
         } catch (error) {
             setApiErrorMessage("There was an error registering your account. Please try again.");
