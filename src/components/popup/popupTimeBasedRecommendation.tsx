@@ -15,8 +15,7 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
     useEffect(() => {
         const cookie = document.cookie
             .split("; ")
-            .find(row => row.startsWith("authToken="));
-        console.log(cookie);
+            .find((row) => row.startsWith("authToken="));
         if (!cookie) {
             const timer = setTimeout(() => {
                 setIsVisible(true);
@@ -30,28 +29,32 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
         setIsVisible(false);
     };
 
-    if (!isVisible) {
-        return null;
-    }
-
     return (
-        <div className={styles.popupTimeBasedRecommendation}>
-            <img
-                src="/popup-body.svg"
-                alt="Popup Background"
-                className={`${styles.popupImage} ${mirror ? styles.mirrored : ''}`}
-            />
-            <div className={styles.popupContent}>
-                <button onClick={handleClose} className={styles.closeButton}>
-                    &times;
-                </button>
-                <div className={styles.popupTimeBasedRecommendationTitle}>
-                    {title}
-                </div>
-                <div className={styles.popupTimeBasedRecommendationText}>
-                    {text}
-                </div>
-            </div>
+        <div
+            className={`${styles.popupTimeBasedRecommendation} ${
+                !isVisible ? styles.hidden : ""
+            }`}
+        >
+            {isVisible && (
+                <>
+                    <img
+                        src="/popup-body.svg"
+                        alt="Popup Background"
+                        className={`${styles.popupImage} ${mirror ? styles.mirrored : ""}`}
+                    />
+                    <div className={styles.popupContent}>
+                        <button onClick={handleClose} className={styles.closeButton}>
+                            &times;
+                        </button>
+                        <div className={styles.popupTimeBasedRecommendationTitle}>
+                            {title}
+                        </div>
+                        <div className={styles.popupTimeBasedRecommendationText}>
+                            {text}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

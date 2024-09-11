@@ -24,9 +24,10 @@ interface PagePricingBoxProps {
 
     isButtonDisabled: boolean;
     onCheckoutError: () => void;
+    onCheckoutSuccess: () => void;
 }
 
-const PagePricingBox: React.FC<PagePricingBoxProps> = ({title1, text1, onClick1, buttonText1, title2, text2, onClick2, buttonText2, title3, text3, onClick3, buttonText3, isButtonDisabled, onCheckoutError}) => {
+const PagePricingBox: React.FC<PagePricingBoxProps> = ({title1, text1, onClick1, buttonText1, title2, text2, onClick2, buttonText2, title3, text3, onClick3, buttonText3, isButtonDisabled, onCheckoutError, onCheckoutSuccess}) => {
     const[moreInfo, setMoreInfo] = useState(-1);
 
     const moreInfo1 = () => {
@@ -89,7 +90,7 @@ const PagePricingBox: React.FC<PagePricingBoxProps> = ({title1, text1, onClick1,
                         <PagePriceInformationBox title={"OUR 'DELUXE PARTY BUFFET' OPTION EXPLAINED"} text={"this is text"}/>
                     </div>}
                 <div className={styles.pricingBoxButton}>
-                    <PageCheckoutButton label={"TO CHECKOUT"} onClick={isButtonDisabled ? onCheckoutError : undefined} />
+                    <PageCheckoutButton label={"TO CHECKOUT"} onClick={isButtonDisabled ? onCheckoutError : onCheckoutSuccess} />
                 </div>
             </div>
         </div>

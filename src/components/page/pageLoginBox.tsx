@@ -7,6 +7,7 @@ import styles from '../../styles/components/pageLoginBox.module.css';
 import PageTextField from '@/components/page/pageTextField';
 import PagePasswordField from '@/components/page/pagePasswordField';
 import PageButton from '@/components/page/pageButton';
+import { jwtDecode } from "jwt-decode";
 
 const PageLoginBox: React.FC = () => {
     const router = useRouter();
@@ -15,11 +16,30 @@ const PageLoginBox: React.FC = () => {
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [apiErrorMessage, setApiErrorMessage] = useState('');
 
+    interface JwtPayload {
+        userId: string;
+        username: string;
+        isAdmin: boolean;
+        isPayingCustomer: boolean;
+        exp: number; // If you're using expiration
+    }
+
     useEffect(() => {
         const checkAuthCookie = async () => {
-            const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
-            if (cookies) {
-                router.push('/account-overview');
+            const cookie = document.cookie.split('; ').find(row => row.startsWith('authToken='));
+            if (cookie) {
+                const token = cookie.split('=')[1];
+                try {
+                    const decodedToken = jwtDecode<JwtPayload>(token);
+                    if (decodedToken.isPayingCustomer) {
+                        router.push('/account-overview');
+                    } else {
+                        router.push('/pricing');
+                    }
+                } catch (error) {
+                    console.error('Failed to decode token', error);
+                    router.push('/login');
+                }
             }
         };
 

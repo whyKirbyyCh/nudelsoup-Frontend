@@ -15,6 +15,7 @@ interface ResponseData {
     userId?: string;
 }
 
+// TODO: Move this to .env
 const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -43,21 +44,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // TODO: Make sure that this is save, might need to move it to env
+        const isAdmin = email === 'timschmid02@icloud.com';
         const result = await db.collection('users').insertOne({
             email,
             username,
             password: hashedPassword,
+            isVerified: false,
+            isPayingCustomer: false,
+            isAdmin,
             createdAt: new Date(),
         });
 
         const userId = result.insertedId.toString();
 
         const token = jwt.sign(
-            { userId, username },
+            { userId, username, isAdmin, isPayingCustomer: false },
             JWT_SECRET,
             { expiresIn: '14d' }
         );
 
+        // TODO: Make sure that httpOnly: false is not insecure.
         res.setHeader(
             'Set-Cookie',
             serialize('authToken', token, {

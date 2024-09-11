@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 import styles from "../../styles/components/pageRegisterBox.module.css";
 import PageTextField from "@/components/page/pageTextField";
@@ -20,11 +21,30 @@ const PageRegisterBox: React.FC = () => {
     const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
+    interface JwtPayload {
+        userId: string;
+        username: string;
+        isAdmin: boolean;
+        isPayingCustomer: boolean;
+        exp: number;
+    }
+
     useEffect(() => {
         const checkAuthCookie = async () => {
-            const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
-            if (cookies) {
-                router.push('/account-overview');
+            const cookie = document.cookie.split("; ").find(row => row.startsWith("authToken="));
+            if (cookie) {
+                const token = cookie.split("=")[1];
+                try {
+                    const decodedToken = jwtDecode<JwtPayload>(token);
+                    if (decodedToken.isPayingCustomer) {
+                        router.push("/account-overview");
+                    } else {
+                        router.push("/pricing");
+                    }
+                } catch (error) {
+                    console.error("Failed to decode token", error);
+                    router.push("/login");
+                }
             }
         };
 
@@ -75,9 +95,8 @@ const PageRegisterBox: React.FC = () => {
         }
 
         const hasNumber = /\d/.test(password);
-        const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>-_]/.test(password);
-        if (!hasNumber || !hasSpecialCharacter) {
-            setPasswordErrorMessage("Password must contain at least one number and one special character");
+        if (!hasNumber) {
+            setPasswordErrorMessage("Password must contain at least one number");
             return;
         }
 
@@ -105,8 +124,7 @@ const PageRegisterBox: React.FC = () => {
             });
 
             if (!response.ok) {
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
+                if (response.headers.get("content-type")?.includes("application/json")) {
                     return;
                 } else {
                     setApiErrorMessage("There was an error registering your account. Please try again.");
@@ -114,7 +132,7 @@ const PageRegisterBox: React.FC = () => {
                 return;
             }
 
-            router.push("/account-register");
+            router.push("/pricing");
         } catch (error) {
             setApiErrorMessage("There was an error registering your account. Please try again.");
         }
