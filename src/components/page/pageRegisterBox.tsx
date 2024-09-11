@@ -125,7 +125,26 @@ const PageRegisterBox: React.FC = () => {
 
             if (!response.ok) {
                 if (response.headers.get("content-type")?.includes("application/json")) {
-                    return;
+                    const errorData = await response.json();
+                    switch (response.status) {
+                        case 400:
+                            setApiErrorMessage("Invalid input. Please check your data and try again.");
+                            break;
+                        case 401:
+                            setApiErrorMessage("Unauthorized access. Please log in and try again.");
+                            break;
+                        case 403:
+                            setApiErrorMessage("Forbidden. You do not have permission to perform this action.");
+                            break;
+                        case 409:
+                            setApiErrorMessage("This email or username already exists. Please try a different one.");
+                            break;
+                        case 500:
+                            setApiErrorMessage("Server error. Please try again later.");
+                            break;
+                        default:
+                            setApiErrorMessage(errorData.message || "An unexpected error occurred. Please try again.");
+                    }
                 } else {
                     setApiErrorMessage("There was an error registering your account. Please try again.");
                 }
@@ -137,6 +156,7 @@ const PageRegisterBox: React.FC = () => {
             setApiErrorMessage("There was an error registering your account. Please try again.");
         }
     };
+
 
     return (
         <div className={styles.registerBox}>

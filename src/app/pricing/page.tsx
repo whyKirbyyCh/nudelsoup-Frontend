@@ -91,7 +91,7 @@ export default function Page() {
                 return;
             }
 
-            router.push("/pricing");
+            router.push("/account-setup");
         } catch (error) {
             console.error("Error updating payment status:", error);
             setErrorMessage("There was an error with your payment!");

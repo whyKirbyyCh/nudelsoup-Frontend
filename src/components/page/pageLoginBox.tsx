@@ -76,14 +76,29 @@ const PageLoginBox: React.FC = () => {
             if (!response.ok) {
                 const contentType = response.headers.get('content-type');
 
-                if (contentType?.includes("application/json")) {
+                if (contentType?.includes('application/json')) {
                     const data = await response.json();
-                    if (response.status === 404) {
-                        setEmailErrorMessage('User not found. Please check your email.');
-                    } else if (response.status === 401) {
-                        setApiErrorMessage('Invalid credentials. Please check your password.');
-                    } else {
-                        setApiErrorMessage(data.message || 'An unexpected error occurred.');
+                    switch (response.status) {
+                        case 400:
+                            setApiErrorMessage('Invalid input. Please check your login details.');
+                            break;
+                        case 401:
+                            setApiErrorMessage('Invalid credentials. Please check your password.');
+                            break;
+                        case 403:
+                            setApiErrorMessage('Your account is not authorized to access this resource.');
+                            break;
+                        case 404:
+                            setEmailErrorMessage('User not found. Please check your email.');
+                            break;
+                        case 500:
+                            setApiErrorMessage('Server error. Please try again later.');
+                            break;
+                        case 503:
+                            setApiErrorMessage('Service is temporarily unavailable. Please try again later.');
+                            break;
+                        default:
+                            setApiErrorMessage(data.message || 'An unexpected error occurred.');
                     }
                 } else {
                     setApiErrorMessage('An unexpected error occurred. Please try again.');

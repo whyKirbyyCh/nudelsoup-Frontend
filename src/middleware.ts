@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 // TODO: add all routes
-const protectedRoutes = ["/account-overview", "/another-protected-route"];
-const payingCustomerRoutes = ["/hello", "/exclusive-deals"];
+const protectedRoutes = ["/account-overview", "/account-creation"];
+const payingCustomerRoutes = ["/account-overview", "/account-creation"];
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? "THESECRETEKEYTHATSHALLNOTBEKNOWN");
 
