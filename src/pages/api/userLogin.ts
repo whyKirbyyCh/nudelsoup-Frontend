@@ -47,11 +47,19 @@ export default async function handler(
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        const token = jwt.sign(
-            { userId: user._id, username: user.username, isAdmin: user.isAdmin, isPayingCustomer: user.isPayingCustomer },
-            JWT_SECRET,
-            { expiresIn: "14d" }
-        );
+        const payload = {
+            userId: user._id,
+            username: user.username,
+            isAdmin: user.isAdmin,
+            isPayingCustomer: user.isPayingCustomer,
+            isVerified: user.isVerified,
+            isAgreed: user.isAgreed,
+            isSetupDone: user.isSetupDone,
+            email: user.email,
+            createdAt: user.createdAt,
+        };
+
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "14d" });
 
         res.setHeader(
             "Set-Cookie",

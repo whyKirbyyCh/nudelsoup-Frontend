@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 // TODO: add all routes
 const protectedRoutes = ["/account-overview", "/account-creation"];
 const payingCustomerRoutes = ["/account-overview", "/account-creation"];
-const agreedRoutes = ["/terms-conditions"];
+const agreedRoutes = ["/hallo"];
 const verifiedRoutes = ["/verified-only-content"];
 const setupDoneRoutes = ["/dashboard"];
 

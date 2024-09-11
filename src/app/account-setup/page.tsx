@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/header/header";
 import styles from "./account-setupPage.module.css";
 import AccountCreationContainer from "@/components/account/accountCreationContainer";
@@ -26,6 +26,34 @@ export default function Page() {
         { id: 4, label: 'SEO', href: '/seo' },
         { id: 5, label: 'RESOURCES', href: '/resources' },
     ]
+
+    useEffect(() => {
+        const checkAgreedToTerms = () => {
+            const token = getCookie("authToken");
+            if (!token) {
+                setErrorMessage("User is not authenticated. Please log in.");
+                return;
+            }
+
+            const decodedToken = jwt.decode(token) as JwtPayload | null;
+
+            if (
+                !decodedToken ||
+                typeof decodedToken !== "object" ||
+                !decodedToken.userId
+            ) {
+                setErrorMessage("Invalid token or missing userId");
+                return;
+            }
+
+            if (decodedToken.isAgreed) {
+                setAgreedToTerms(true);
+            }
+
+        };
+
+        checkAgreedToTerms();
+    }, []);
 
     const handleAgreeToTerms = () => {
         setAgreedToTerms(true);
