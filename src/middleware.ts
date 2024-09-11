@@ -62,22 +62,18 @@ export async function middleware(request: NextRequest) {
             const { payload } = await jwtVerify(authToken, JWT_SECRET);
             const decoded = payload as unknown as JwtPayload;
 
-            // Redirect non-paying users trying to access paying customer routes
             if (isPayingCustomerRoute && !decoded.isPayingCustomer) {
                 return NextResponse.redirect(new URL("/pricing", request.url));
             }
 
-            // Redirect users who haven't agreed to terms
             if (isAgreedRoute && !decoded.isAgreed) {
                 return NextResponse.redirect(new URL("/terms-conditions", request.url));
             }
 
-            // Redirect unverified users trying to access verified-only content
             if (isVerifiedRoute && !decoded.isVerified) {
                 return NextResponse.redirect(new URL("/verify-account", request.url));
             }
 
-            // Redirect users who haven't completed setup trying to access setup done routes
             if (isSetupDoneRoute && !decoded.isSetupDone) {
                 return NextResponse.redirect(new URL("/complete-setup", request.url));
             }
