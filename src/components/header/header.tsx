@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import styles from "../../styles/components/header.module.css";
 import HeaderIcon from "./headerIcon";
 import HeaderButton from "./headerButton";
+import HeaderPicture from "@/components/header/headerPicture";
 
 interface NavOption {
     id: number;
@@ -26,7 +26,6 @@ const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSize
     const [seesDifferentNav, setSeesDifferentNav] = useState(false);
     const headerSizeClass = `header-${fontSizeVariant}`;
     const headerClasses = `${styles.header} ${styles[headerSizeClass]}`;
-    const router = useRouter();
 
     useEffect(() => {
         const checkAuthStatus = () => {
@@ -46,23 +45,13 @@ const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSize
         setMenuOpen(!menuOpen);
     };
 
-    const handleLogout = () => {
-        document.cookie = "authToken=; Max-Age=0; path=/;";
-        document.cookie = "seesDifferentNav=; Max-Age=0; path=/;";
-        setIsAuthenticated(false);
-        setSeesDifferentNav(false);
-
-        setTimeout(() => {
-            router.push("/");
-        }, 0);
-    };
-
     const payingCustomerNavOptions = [
         { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },
         { id: 2, label: 'PRODUCTS', href: '/product-overview' },
-        { id: 3, label: 'ANALYTICS', href: '/analytics' },
-        { id: 4, label: 'SEO', href: '/seo' },
-        { id: 5, label: 'RESOURCES', href: '/resources' },
+        { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
+        { id: 4, label: 'ANALYTICS', href: '/analytics' },
+        { id: 5, label: 'SEO', href: '/seo' },
+        { id: 6, label: 'RESOURCES', href: '/resources' },
     ]
 
     const displayedNavOptions = isAuthenticated && seesDifferentNav ? payingCustomerNavOptions : navOptions;
@@ -88,12 +77,7 @@ const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSize
                     <ul className={styles.navButtons}>
                         {isAuthenticated ? (
                             <>
-                                <li className={styles.navButton}>
-                                    <HeaderButton label="SETTINGS" href="/settings" />
-                                </li>
-                                <li className={styles.navButton}>
-                                    <HeaderButton label="LOG OUT" onClick={handleLogout} />
-                                </li>
+                                <HeaderPicture />
                             </>
                         ) : (
                             <>

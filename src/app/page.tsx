@@ -10,7 +10,6 @@ import LandingPagePrice from "../components/landingPageBody/landingPagePrice";
 import LandingPageInfoBox from "../components/landingPageBody/landingPageInfoBox";
 import LandingPageTryDemo from "../components/landingPageBody/landingPageTryDemo";
 import Footer from "../components/footer/footer";
-import PopupTimeBasedRecommendation from "@/components/popup/popupTimeBasedRecommendation";
 import React from "react";
 
 export default function Home() {
@@ -61,14 +60,6 @@ export default function Home() {
             </div>
             <div className={styles.footer}>
                 <Footer/>
-            </div>
-            <div className={styles.pricingPopup}>
-                <PopupTimeBasedRecommendation
-                    title="Not sure about your purchase?"
-                    text="Take a quick tour around our system to see if it fits your needs."
-                    time={600000}
-                    mirror={false}
-                />
             </div>
         </main>
     );

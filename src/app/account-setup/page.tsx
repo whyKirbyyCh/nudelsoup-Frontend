@@ -22,9 +22,10 @@ export default function Page() {
     const payingCustomerNavOptions = [
         { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },
         { id: 2, label: 'PRODUCTS', href: '/product-overview' },
-        { id: 3, label: 'ANALYTICS', href: '/analytics' },
-        { id: 4, label: 'SEO', href: '/seo' },
-        { id: 5, label: 'RESOURCES', href: '/resources' },
+        { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
+        { id: 4, label: 'ANALYTICS', href: '/analytics' },
+        { id: 5, label: 'SEO', href: '/seo' },
+        { id: 6, label: 'RESOURCES', href: '/resources' },
     ]
 
     useEffect(() => {
