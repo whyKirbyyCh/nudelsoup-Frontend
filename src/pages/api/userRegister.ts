@@ -53,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             isVerified: false,
             isPayingCustomer: false,
             isAgreed: false,
+            isSetupDone: false,
             isAdmin,
             createdAt: new Date(),
         });
