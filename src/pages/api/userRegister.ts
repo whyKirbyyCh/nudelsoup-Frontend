@@ -52,6 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             password: hashedPassword,
             isVerified: false,
             isPayingCustomer: false,
+            isAgreed: false,
             isAdmin,
             createdAt: new Date(),
         });

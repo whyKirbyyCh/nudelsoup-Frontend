@@ -1,0 +1,9 @@
+.accountCreationContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    margin-top: 1em;
+}
