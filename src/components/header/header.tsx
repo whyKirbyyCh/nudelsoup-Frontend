@@ -50,8 +50,6 @@ const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSize
         { id: 2, label: 'PRODUCTS', href: '/product-overview' },
         { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
         { id: 4, label: 'ANALYTICS', href: '/analytics' },
-        { id: 5, label: 'SEO', href: '/seo' },
-        { id: 6, label: 'RESOURCES', href: '/resources' },
     ]
 
     const displayedNavOptions = isAuthenticated && seesDifferentNav ? payingCustomerNavOptions : navOptions;

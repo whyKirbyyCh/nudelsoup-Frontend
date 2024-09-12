@@ -24,8 +24,6 @@ export default function Page() {
         { id: 2, label: 'PRODUCTS', href: '/product-overview' },
         { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
         { id: 4, label: 'ANALYTICS', href: '/analytics' },
-        { id: 5, label: 'SEO', href: '/seo' },
-        { id: 6, label: 'RESOURCES', href: '/resources' },
     ]
 
     useEffect(() => {
