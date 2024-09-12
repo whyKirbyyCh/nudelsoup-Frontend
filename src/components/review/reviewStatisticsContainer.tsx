@@ -1,8 +1,15 @@
-import React from "react";
+"use client";
+
+import React, {useState} from "react";
 import styles from "../../styles/components/review/reviewStatisticsContainer.module.css";
 import ReviewStars from "@/components/review/reviewStars";
 
 const ReviewStatisticsContainer: React.FC = () => {
+    const [verifiedPurchaseAmount, setVerifiedPurchaseAmount] = useState(63)
+    const [activeSubscriptionAmount, setActiveSubscriptionAmount] = useState(45)
+    const [averageRating, setAverageRating] = useState(4.5)
+    const [reviewAmount, setReviewAmount] = useState(1157)
+
     return (
         <div className={styles.reviewStatisticsContainer}>
             <div className={styles.reviewStatisticsContainerTitle}>
@@ -16,10 +23,12 @@ const ReviewStatisticsContainer: React.FC = () => {
                         className={styles.averageSymbol}
                     />
                     <div className={styles.averageSymbolPoints}>: </div>
-                    <ReviewStars rating={4.592}/>
+                    <ReviewStars rating={averageRating}/>
                 </div>
                 <div className={styles.reviewStatisticsContainerTopRight}>
-
+                    <div className={styles.reviewSectionTitle}>VERIFIED PURCHASES</div>
+                    <div className={styles.reviewSectionPoint}>:</div>
+                    <div className={styles.reviewSectionAmount}>{verifiedPurchaseAmount}%</div>
                 </div>
             </div>
             <div className={styles.reviewStatisticsContainerBottom}>
@@ -31,11 +40,13 @@ const ReviewStatisticsContainer: React.FC = () => {
                     />
                     <div className={styles.amountSymbolPoints}>:</div>
                     <div className={styles.reviewAmounts}>
-                        1175
+                        {reviewAmount}
                     </div>
                 </div>
                 <div className={styles.reviewStatisticsContainerBottomRight}>
-
+                    <div className={styles.reviewSectionTitle}>ACTIVE SUBSCRIPTION</div>
+                    <div className={styles.reviewSectionPoint}>:</div>
+                    <div className={styles.reviewSectionAmount}>{activeSubscriptionAmount}%</div>
                 </div>
             </div>
         </div>
