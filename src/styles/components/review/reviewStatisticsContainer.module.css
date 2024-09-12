@@ -8,7 +8,12 @@
     margin-top: 1em;
     border: 0.1em solid var(--text-color);
     background: var(--background-color);
+    padding-bottom: 1em;
+}
 
+.reviewStatisticsContainerTitle{
+    font-size: calc(var(--page-title-font-size) - 1.75vw);
+    margin-top: 0.5em;
 }
 
 .reviewStatisticsContainer::after {
@@ -20,4 +25,75 @@
     bottom: -0.5em;
     background-color: var(--text-color);
     z-index: -1;
+}
+
+.reviewStatisticsContainerTop {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.reviewStatisticsContainerBottom {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.reviewStatisticsContainerTopLeft {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-left: 1em;
+}
+
+.averageSymbol {
+    width: 3.5em;
+    height: 3.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.averageSymbolPoints {
+    font-size: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reviewStatisticsContainerBottomLeft {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-left: 1em;
+}
+
+.amountSymbol {
+    width: 3.5em;
+    height: 3.5em;
+    display: flex;
+    align-items: center; /* Center the image vertically if needed */
+    justify-content: center; /* Center the image horizontally if needed */
+}
+
+.amountSymbolPoints {
+    font-size: 3em;
+    display: flex;
+    align-items: center; /* Center the text vertically */
+    justify-content: center; /* Center the text horizontally */
+}
+
+.reviewAmounts {
+    font-size: 3em;
+    margin-left: 0.25em;
+    margin-top: 0.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

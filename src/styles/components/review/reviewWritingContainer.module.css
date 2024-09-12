@@ -8,6 +8,12 @@
     background: var(--background-color);
     width: 45vw;
     height: 20vh;
+    padding-bottom: 1em;
+}
+
+.reviewWritingContainerTitle{
+    font-size: calc(var(--page-title-font-size) - 1.75vw);
+    margin-top: 0.5em;
 }
 
 .reviewWritingContainer::after {
