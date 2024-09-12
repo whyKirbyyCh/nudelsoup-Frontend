@@ -5,10 +5,6 @@
     margin: -0.25em;
 }
 
-.starRect {
-    fill: white;
-}
-
 .starPath {
     stroke: black;
     stroke-width: 0.5;

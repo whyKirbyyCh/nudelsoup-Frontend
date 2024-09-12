@@ -1,17 +1,16 @@
-.reviewStatisticsContainer {
+.reviewWritingContainer {
     position: relative;
-    width: 45vw;
-    height: 20vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 1em;
     border: 0.1em solid var(--text-color);
     background: var(--background-color);
-
+    width: 45vw;
+    height: 20vh;
 }
 
-.reviewStatisticsContainer::after {
+.reviewWritingContainer::after {
     content: "";
     position: absolute;
     top: 0.5em;
