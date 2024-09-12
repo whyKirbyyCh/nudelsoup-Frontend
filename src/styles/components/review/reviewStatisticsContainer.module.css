@@ -1,7 +1,7 @@
 .reviewStatisticsContainer {
     position: relative;
     width: 45vw;
-    height: 20vh;
+    height: 25vh;
     display: flex;
     flex-direction: column;
     align-items: center;
