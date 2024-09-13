@@ -26,7 +26,7 @@ const ReviewStatisticsContainer: React.FC = () => {
                     <ReviewStars rating={averageRating}/>
                 </div>
                 <div className={styles.reviewStatisticsContainerTopRight}>
-                    <div className={styles.reviewSectionTitle}>VERIFIED PURCHASES</div>
+                    <div className={styles.reviewSectionTitle}>verified purchases</div>
                     <div className={styles.reviewSectionPoint}>:</div>
                     <div className={styles.reviewSectionAmount}>{verifiedPurchaseAmount}%</div>
                 </div>
@@ -42,9 +42,10 @@ const ReviewStatisticsContainer: React.FC = () => {
                     <div className={styles.reviewAmounts}>
                         {reviewAmount}
                     </div>
+                    <div className={styles.reviewSectionTitle}>reviews</div>
                 </div>
                 <div className={styles.reviewStatisticsContainerBottomRight}>
-                    <div className={styles.reviewSectionTitle}>ACTIVE SUBSCRIPTION</div>
+                    <div className={styles.reviewSectionTitle}>active subscriptions</div>
                     <div className={styles.reviewSectionPoint}>:</div>
                     <div className={styles.reviewSectionAmount}>{activeSubscriptionAmount}%</div>
                 </div>

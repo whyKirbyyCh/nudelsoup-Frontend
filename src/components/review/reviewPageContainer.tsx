@@ -3,6 +3,7 @@ import styles from "../../styles/components/review/reviewPageContainer.module.cs
 import ReviewStatisticsContainer from "./reviewStatisticsContainer"
 import ReviewWritingContainer from "./reviewWritingContainer";
 import ReviewSelectionContainer from "@/components/review/reviewSelectionContainer";
+import PageButton from "@/components/page/pageButton";
 
 const ReviewPageContainer: React.FC = () => {
     return (
@@ -13,6 +14,9 @@ const ReviewPageContainer: React.FC = () => {
             </div>
             <div>
                 <ReviewSelectionContainer/>
+            </div>
+            <div>
+                <PageButton label={"SHOW MORE"}/>
             </div>
         </div>
     );
