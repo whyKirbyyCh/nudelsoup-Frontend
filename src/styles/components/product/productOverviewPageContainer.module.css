@@ -7,24 +7,16 @@
     border: 0.1em solid var(--text-color);
     height: 70vh;
     background: var(--background-color);
-}
-
-.productOverviewPageContainer::after {
-    content: "";
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    right: -0.5em;
-    bottom: -0.5em;
-    background-color: var(--text-color);
-    z-index: -1;
+    overflow: scroll;
+    padding-bottom: 2em;
+    box-sizing: border-box;
 }
 
 .products {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 5vw;
     margin-top: 3em;
     z-index: 5;
 }
+

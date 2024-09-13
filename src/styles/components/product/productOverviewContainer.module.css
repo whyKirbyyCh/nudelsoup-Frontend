@@ -11,27 +11,8 @@
     cursor: pointer;
 }
 
-.productOverviewContainer::after {
-    content: "";
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    right: -0.5em;
-    bottom: -0.5em;
-    background-color: var(--header-base-color);
-    pointer-events: none;
-    z-index: -1;
-}
-
 .productOverviewContainer:active {
     animation: pressedEffect 0.5s forwards;
-}
-
-.productOverviewContainer:hover::after {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
 }
 
 .productOverviewIcon{
@@ -50,4 +31,10 @@
     justify-content: center;
     align-items: center;
     height: 12vw;
+}
+
+.productOverviewTitle{
+    font-size: calc(var(--page-font-size) + 0.2vw);
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }

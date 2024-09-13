@@ -1,20 +1,37 @@
+"use client";
+
 import React from "react";
 import styles from "../../styles/components/product/productOverviewPageContainer.module.css";
-import PageButton from "@/components/page/pageButton";
 import ProductOverviewContainer from "@/components/product/productOverviewContainer";
+import ProductAdditionButton from "@/components/product/productAdditionButton";
 
-const ProductOverviewPageContainer: React.FC = () => {
+interface Product {
+    title: string;
+    svgSrc: number;
+    description: string;
+}
+
+interface ProductOverviewPageContainerProps {
+    products: Product[];
+    addButtonClick: () => void;
+}
+
+const ProductOverviewPageContainer: React.FC<ProductOverviewPageContainerProps> = ({ products, addButtonClick }) => {
     return (
         <div className={styles.productOverviewPageContainer}>
             <div className={styles.products}>
-                <ProductOverviewContainer title={"Product 1"} svgSrc={0} description={"This is product 1"}/>
-                <ProductOverviewContainer title={"Product 2"} svgSrc={0} description={"This is product 2"}/>
-                <ProductOverviewContainer title={"Product 3"} svgSrc={0} description={"This is product 3"}/>
-            </div>
-            <div className={styles.button}>
+                {products.map((product, index) => (
+                    <ProductOverviewContainer
+                        key={index}
+                        title={product.title}
+                        svgSrc={product.svgSrc}
+                        description={product.description}
+                    />
+                ))}
+                <ProductAdditionButton key="product-addition-button" onClick={addButtonClick}/>
             </div>
         </div>
     );
-}
+};
 
-export default ProductOverviewPageContainer
+export default ProductOverviewPageContainer;
