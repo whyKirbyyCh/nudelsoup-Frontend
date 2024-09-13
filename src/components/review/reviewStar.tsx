@@ -16,7 +16,7 @@ const ReviewStar: React.FC<ReviewStarProps> = ({ fillPercentage }) => {
             <rect width="25" height="25" className={styles.starRect} />
             <defs>
                 <linearGradient id={`star-fill-${fillPercentage}`}>
-                    <stop offset={`${fillPercentage}%`} stopColor="#AEEFFF" />
+                    <stop offset={`${fillPercentage}%`} stopColor="#FFDC78" />
                     <stop offset={`${fillPercentage}%`} stopColor="#FFFFFF" />
                 </linearGradient>
             </defs>

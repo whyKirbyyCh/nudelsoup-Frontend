@@ -1,5 +1,11 @@
 .productOverviewTitle {
     display: flex;
     justify-content: center;
-    margin-top: 0.5em;
+    margin-top: 1em;
+}
+
+.productOverviewContent {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
 }
