@@ -90,3 +90,7 @@
     height: 100%;
     z-index: 1000;
 }
+
+.productOverviewPopup{
+    z-index: 100;
+}
