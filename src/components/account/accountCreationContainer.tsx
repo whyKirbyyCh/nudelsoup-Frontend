@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/account/accountCreationContainer.module.css";
 import PageButton from "@/components/page/pageButton";
+import { useRouter } from "next/navigation";
 
 const AccountCreationContainer = () => {
+    const router = useRouter();
     const [selectedOption, setSelectedOption] = useState(0);
 
     const selectOptionNext = () => {
@@ -16,7 +18,8 @@ const AccountCreationContainer = () => {
     };
 
     const saveAndExit = () => {
-        // Save and exit functionality
+        // TODO: Add the save to DB logic here
+        router.push("/product-overview");
     };
 
     const handleSelectOption = (index : number) => {
@@ -74,7 +77,14 @@ const AccountCreationContainer = () => {
                     <PageButton label={"NEXT"} onClick={selectOptionNext} />
                 </div>
             </div>
-            <div className={styles.accountCreationRightside}></div>
+            <div className={styles.accountCreationRightside}>
+                { selectedOption === 0 && "1"}
+                { selectedOption === 1 && "2"}
+                { selectedOption === 2 && "3"}
+                { selectedOption === 3 && "4"}
+                { selectedOption === 4 && "5"}
+                { selectedOption === 5 && "6"}
+            </div>
         </div>
     );
 };

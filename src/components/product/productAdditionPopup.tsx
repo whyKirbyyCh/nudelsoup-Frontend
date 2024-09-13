@@ -25,6 +25,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
             description,
         });
         onClose();
+        // TODO: add the save to db etc here
     };
 
     return (
