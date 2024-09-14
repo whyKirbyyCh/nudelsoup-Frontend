@@ -9,18 +9,24 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
+
 }
 
 .popupContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
+    background-color: var(--background-color);
+    padding: 2em 2em 2em 2em;
+    border: 0.1em solid var(--text-color);
+    max-width: 50vw;
     width: 100%;
+    position: relative;
+    align-content: center;
+    text-align: center;
 }
 
-.popupContent h2 {
-    margin-top: 0;
+.popupContentTitle {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: calc(var(--page-title-font-size) - 1vw);
 }
 
 .popupContent form {
@@ -28,19 +34,40 @@
     flex-direction: column;
 }
 
-.popupContent label {
-    margin-bottom: 10px;
+.formGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
 }
 
-.popupContent input,
-.popupContent textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 4px;
+.formGroup label {
+    width: 10vw;
+    margin-bottom: 0;
+    margin-right: 1em;
+    text-align: right;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+    flex: 1;
+    padding: 0.75em;
+    margin-top: 0;
+    border: 0.1em solid var(--text-color);
+    outline: none;
+}
+
+.formGroup textarea {
+    height: 5em;
+    overflow-y: auto;
+    resize: none;
 }
 
 .buttonGroup {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    align-self: center;
+    gap: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
 }

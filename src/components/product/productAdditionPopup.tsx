@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../styles/components/product/productAdditionPopup.module.css";
+import PageButton from "@/components/page/pageButton";
 
 interface Product {
     title: string;
@@ -13,12 +14,19 @@ interface ProductAdditionPopupProps {
 }
 
 const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, onAddProduct }) => {
-    const [title, setTitle] = React.useState('');
-    const [svgSrc, setSvgSrc] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [title, setTitle] = React.useState("");
+    const [svgSrc, setSvgSrc] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [businessModel, setBusinessModel] = React.useState("B2C");
+    const [productType, setProductType] = React.useState("technology");
+    const [productMarket, setProductMarket] = React.useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const isFormValid = title !== "" && svgSrc !== "" && description !== "" && productMarket !== "";
+
+    const handleSubmit = () => {
+        if (!isFormValid) {
+            return;
+        }
         onAddProduct({
             title,
             svgSrc: parseInt(svgSrc, 10) || 0,
@@ -31,23 +39,74 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
     return (
         <div className={styles.popupOverlay}>
             <div className={styles.popupContent}>
-                <h2>Add New Product</h2>
+                <div className={styles.popupContentTitle}>
+                    ADD A PRODUCT
+                </div>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Title:
-                        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                    </label>
-                    <label>
-                        SVG Src:
-                        <input type="number" value={svgSrc} onChange={(e) => setSvgSrc(e.target.value)} required />
-                    </label>
-                    <label>
-                        Description:
-                        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-                    </label>
+                    <div className={styles.formGroup}>
+                        <label>PRODUCT TITLE:</label>
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>ICON:</label>
+                        <input
+                            type="number"
+                            value={svgSrc}
+                            onChange={(e) => setSvgSrc(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>BUSINESS MODEL:</label>
+                        <select
+                            value={businessModel}
+                            onChange={(e) => setBusinessModel(e.target.value)}
+                            required
+                        >
+                            <option value="B2C">B2C</option>
+                            <option value="B2B">B2B</option>
+                            <option value="B2G">B2G</option>
+                            <option value="C2C">C2C</option>
+                        </select>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>PRODUCT TYPE:</label>
+                        <select
+                            value={productType}
+                            onChange={(e) => setProductType(e.target.value)}
+                            required
+                        >
+                            <option value="technology">TECHNOLOGY</option>
+                            <option value="other">OTHER</option>
+                        </select>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>MARKET:</label>
+                        <input
+                            value={productMarket}
+                            onChange={(e) => setProductMarket(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>DESCRIPTION:</label>
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                        />
+                    </div>
                     <div className={styles.buttonGroup}>
-                        <button type="submit">Add Product</button>
-                        <button type="button" onClick={onClose}>Cancel</button>
+                        <PageButton
+                            label={"SAVE"}
+                            onClick={handleSubmit}
+                        />
+                        <PageButton label={"EXIT"} onClick={onClose} />
                     </div>
                 </form>
             </div>
