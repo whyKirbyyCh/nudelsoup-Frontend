@@ -15,21 +15,32 @@ interface ProductAdditionPopupProps {
 
 const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, onAddProduct }) => {
     const [title, setTitle] = React.useState("");
-    const [svgSrc, setSvgSrc] = React.useState("");
+    const [svgSrc, setSvgSrc] = React.useState<number | null>(null);
     const [description, setDescription] = React.useState("");
     const [businessModel, setBusinessModel] = React.useState("B2C");
     const [productType, setProductType] = React.useState("technology");
     const [productMarket, setProductMarket] = React.useState("");
 
-    const isFormValid = title !== "" && svgSrc !== "" && description !== "" && productMarket !== "";
+    const isFormValid = title !== "" && svgSrc !== null && description !== "" && productMarket !== "";
+
+    const productIcons = [
+        { id: 0, href: "productIcons/default-project-icon.svg" },
+        { id: 1, href: "productIcons/ai-project-icon.svg" },
+        { id: 2, href: "productIcons/configuration-project-icon.svg" },
+        { id: 3, href: "productIcons/data-project-icon.svg" },
+        { id: 4, href: "productIcons/database-project-icon.svg" },
+        { id: 5, href: "productIcons/ecommerce-project-icon.svg" },
+        { id: 6, href: "productIcons/networking-project-icon.svg" },
+        { id: 7, href: "productIcons/video-project-icon.svg" },
+    ];
 
     const handleSubmit = () => {
-        if (!isFormValid) {
+        if (!isFormValid || svgSrc === null) {
             return;
         }
         onAddProduct({
             title,
-            svgSrc: parseInt(svgSrc, 10) || 0,
+            svgSrc,
             description,
         });
         onClose();
@@ -54,12 +65,17 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
                     </div>
                     <div className={styles.formGroup}>
                         <label>ICON:</label>
-                        <input
-                            type="number"
-                            value={svgSrc}
-                            onChange={(e) => setSvgSrc(e.target.value)}
-                            required
-                        />
+                        <div className={styles.iconGrid}>
+                            {productIcons.map((icon) => (
+                                <img
+                                    key={icon.id}
+                                    src={`/${icon.href}`}
+                                    alt={`Icon ${icon.id}`}
+                                    className={`${styles.icon} ${svgSrc === icon.id ? styles.selectedIcon : ''}`}
+                                    onClick={() => setSvgSrc(icon.id)}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className={styles.formGroup}>
                         <label>BUSINESS MODEL:</label>
