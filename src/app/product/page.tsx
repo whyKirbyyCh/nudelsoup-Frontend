@@ -30,7 +30,7 @@ export default function Page() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.productTitle}>
+            <div className={styles.productHeader}>
                 <Header
                     iconSize="large"
                     navOptions={payingCustomerNavOptions}

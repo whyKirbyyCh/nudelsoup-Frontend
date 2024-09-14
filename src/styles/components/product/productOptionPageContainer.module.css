@@ -24,10 +24,10 @@
     text-align: center;
     border: none;
     background: transparent;
-    font-size: var(--page-font-size);
+    font-size: calc(var(--page-font-size) + 0.2vw);
     cursor: pointer;
     outline: none;
-    border-right: 0.1em solid var(--text-color);
+    border-right: 0.07em solid var(--text-color);
 }
 
 .tab:last-child {
@@ -35,6 +35,6 @@
 }
 
 .active {
-    border-bottom: 0.2em solid var(--text-color);
+    border-bottom: 0.15em solid var(--text-color);
     background-color: var(--background-color);
 }
