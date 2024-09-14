@@ -90,5 +90,5 @@
 }
 
 .selectedIcon {
-    border: 0.1em solid var(--header-base-color);
+    background: var(--header-base-color);
 }

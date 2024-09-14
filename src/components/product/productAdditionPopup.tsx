@@ -15,7 +15,7 @@ interface ProductAdditionPopupProps {
 
 const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, onAddProduct }) => {
     const [title, setTitle] = React.useState("");
-    const [svgSrc, setSvgSrc] = React.useState<number | null>(null);
+    const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
     const [description, setDescription] = React.useState("");
     const [businessModel, setBusinessModel] = React.useState("B2C");
     const [productType, setProductType] = React.useState("technology");
