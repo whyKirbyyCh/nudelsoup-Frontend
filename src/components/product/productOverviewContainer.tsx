@@ -11,7 +11,7 @@ interface ProductOverviewContainerProps {
 
 const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svgSrc, title, description}) => {
     const [svgLink, setSvgLink] = React.useState("/productIcons/default-project-icon.svg");
-    
+
     useEffect(() => {
         if (svgSrc === 0) {
             setSvgLink("/productIcons/default-project-icon.svg")
@@ -35,7 +35,7 @@ const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svg
     }, []);
 
     const goToSettings = () => {
-        console.log("go to settings")
+        console.log("Go to settings")
     }
 
     return (
