@@ -38,7 +38,7 @@ const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svg
     }, []);
 
     const goToProduct = () => {
-        router.push(`/product?id=${id}`);
+        router.push(`/product?id=${id}&title=${title}`);
     };
 
     return (

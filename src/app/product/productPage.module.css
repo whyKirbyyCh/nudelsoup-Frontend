@@ -1,0 +1,25 @@
+.productContent {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin: 1em auto;
+}
+
+.productContent::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
+.productTitle {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+}
