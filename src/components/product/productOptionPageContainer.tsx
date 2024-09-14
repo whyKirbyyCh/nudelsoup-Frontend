@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/product/productOptionPageContainer.module.css";
+import CampaignOverviewPageContainer from "@/components/campaign/campaignOverviewPageContainer";
 
-const ProductOptionPageContainer: React.FC = () => {
+interface ProductOptionPageContainerProps {
+    productId: string
+}
+
+const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({productId}) => {
     const [activeTab, setActiveTab] = useState("DETAILS");
 
     return (
@@ -26,9 +31,21 @@ const ProductOptionPageContainer: React.FC = () => {
                     ANALYTICS
                 </button>
             </div>
-            {activeTab === "DETAILS" && <div className={styles.tabContent}>DETAILS</div>}
-            {activeTab === "CAMPAIGNS" && <div className={styles.tabContent}>CAMPAIGNS</div>}
-            {activeTab === "ANALYTICS" && <div className={styles.tabContent}>ANALYTICS</div>}
+            {activeTab === "DETAILS" &&
+                <div className={styles.tabContent}>
+                    DETAILS
+                </div>
+            }
+            {activeTab === "CAMPAIGNS" &&
+                <div className={styles.tabContent}>
+                    <CampaignOverviewPageContainer productId={productId}/>
+                </div>
+            }
+            {activeTab === "ANALYTICS" &&
+                <div className={styles.tabContent}>
+                    ANALYTICS
+                </div>
+            }
         </div>
     );
 };

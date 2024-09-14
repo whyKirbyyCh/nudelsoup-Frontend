@@ -87,7 +87,12 @@
     transition: border 0.2s;
     padding: 2em;
     background: var(--accent-color);
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
+
 
 .selectedIcon {
     background: var(--header-base-color);

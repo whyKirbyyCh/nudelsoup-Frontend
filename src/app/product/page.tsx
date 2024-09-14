@@ -10,7 +10,7 @@ import PageTitle from "@/components/page/pageTitle";
 export default function Page() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const id = searchParams?.get("id");
+    const id = searchParams?.get("id") || "";
     const title = searchParams?.get("title") ?? "PRODUCT";
 
     const payingCustomerNavOptions = [
@@ -21,9 +21,9 @@ export default function Page() {
     ];
 
     useEffect(() => {
-        if (!id) {
+        if (id === "") {
             router.push("/product-overview");
-        } else if (!title) {
+        } else if (!title || title === "PRODUCT") {
             router.push("/product-overview");
         }
     }, [id, router]);
@@ -42,7 +42,7 @@ export default function Page() {
                 <PageTitle title={title} size={4}/>
             </div>
             <div className={styles.productContent}>
-                <ProductOptionPageContainer/>
+                <ProductOptionPageContainer productId={id}/>
             </div>
         </div>
     );
