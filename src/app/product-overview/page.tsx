@@ -10,10 +10,10 @@ import ProductAdditionPopup from "@/components/product/productAdditionPopup";
 export default function Page() {
     const [showAddProductMenu, setShowAddProductMenu] = React.useState(false);
     const [products, setProducts] = React.useState([
-        { title: "Product 1", svgSrc: 0, description: "This is product 1" },
-        { title: "Product 2", svgSrc: 0, description: "This is product 2" },
-        { title: "Product 3", svgSrc: 0, description: "This is product 3" },
-        { title: "Product 4", svgSrc: 0, description: "This is product 4" },
+        { title: "Product 1", svgSrc: 0, description: "This is product 1", id: 1 },
+        { title: "Product 2", svgSrc: 0, description: "This is product 2", id: 2 },
+        { title: "Product 3", svgSrc: 0, description: "This is product 3", id: 3 },
+        { title: "Product 4", svgSrc: 0, description: "This is product 4", id: 4 },
     ]);
     const payingCustomerNavOptions = [
         { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },

@@ -6,6 +6,7 @@ interface Product {
     title: string;
     svgSrc: number;
     description: string;
+    id: number;
 }
 
 interface ProductAdditionPopupProps {
@@ -38,7 +39,20 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
         if (!isFormValid || svgSrc === null) {
             return;
         }
+
+        const hashTitle = (title: string) => {
+            let hash = 0;
+            for (let i = 0; i < title.length; i++) {
+                hash = hash * 31 + title.charCodeAt(i);
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        };
+
+        const newProductId = hashTitle(title) + Date.now();
+
         onAddProduct({
+            id: newProductId,
             title,
             svgSrc,
             description,

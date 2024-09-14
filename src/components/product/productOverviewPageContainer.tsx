@@ -9,6 +9,7 @@ interface Product {
     title: string;
     svgSrc: number;
     description: string;
+    id: number;
 }
 
 interface ProductOverviewPageContainerProps {
@@ -26,6 +27,7 @@ const ProductOverviewPageContainer: React.FC<ProductOverviewPageContainerProps> 
                         title={product.title}
                         svgSrc={product.svgSrc}
                         description={product.description}
+                        id={product.id}
                     />
                 ))}
                 <ProductAdditionButton key="product-addition-button" onClick={addButtonClick}/>

@@ -2,14 +2,17 @@
 
 import React, { useEffect } from "react";
 import styles from "../../styles/components/product/productOverviewContainer.module.css";
+import { useRouter } from "next/navigation";
 
 interface ProductOverviewContainerProps {
     svgSrc: number;
     title: string;
     description: string;
+    id: number;
 }
 
-const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svgSrc, title, description}) => {
+const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svgSrc, title, description, id }) => {
+    const router = useRouter();
     const [svgLink, setSvgLink] = React.useState("/productIcons/default-project-icon.svg");
 
     useEffect(() => {
@@ -34,12 +37,12 @@ const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svg
         }
     }, []);
 
-    const goToSettings = () => {
-        console.log("Go to settings")
-    }
+    const goToProduct = () => {
+        router.push(`/product?id=${id}`);
+    };
 
     return (
-        <div className={styles.productOverviewContainer} onClick={goToSettings}>
+        <div className={styles.productOverviewContainer} onClick={goToProduct}>
             <div className={styles.productOverviewIconBackground}>
                 <img
                     src={svgLink}
