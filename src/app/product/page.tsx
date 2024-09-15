@@ -61,10 +61,6 @@ export default function Page() {
         },
     ];
 
-    const addButtonClick = () => {
-        console.log("add product")
-    };
-
     return (
         <div className={styles.container}>
             <div className={styles.productHeader}>
@@ -79,7 +75,7 @@ export default function Page() {
                 <PageTitle title={title} size={4}/>
             </div>
             <div className={styles.productContent}>
-                <ProductOptionPageContainer productId={id} campaigns={campaigns} addButtonClick={addButtonClick}/>
+                <ProductOptionPageContainer productId={id} campaigns={campaigns}/>
             </div>
         </div>
     );

@@ -15,32 +15,30 @@ interface Campaign {
     productTitle?: string;
 }
 
-interface CampaignAdditionPopupProps {
+interface CampaignAdditionPopupInProductProps {
     onClose: () => void;
     onAddCampaign: (newCampaign: Campaign) => void;
 }
 
-const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
+const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductProps> = ({
                                                                          onClose,
                                                                          onAddCampaign,
                                                                      }) => {
     const [title, setTitle] = React.useState("");
     const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
     const [targetAudience, setTargetAudience] = React.useState("");
-    const [campaignType, setCampaignType] = React.useState("select");
+    const [campaignType, setCampaignType] = React.useState("social");
     const [campaignGoal, setCampaignGoal] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
-    const [productTitle, setProductTitle] = React.useState(""); // Corrected input for productTitle
     const router = useRouter();
 
     const isFormValid =
         title !== "" &&
         svgSrc !== null &&
         targetAudience !== "" &&
-        campaignType !== "" && campaignType !== "select" &&
+        campaignType !== "" &&
         campaignGoal !== "" &&
-        startDate !== "" &&
-        productTitle !== "" && productTitle !== "select";
+        startDate !== "";
 
     const campaignIcons = [
         { id: 0, href: "campaignIcons/default-project-icon.svg" },
@@ -78,7 +76,6 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
             campaignGoal,
             startDate,
             stillActive: true,
-            productTitle, // Ensuring productTitle is included
         });
         onClose();
     };
@@ -94,7 +91,7 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
     return (
         <div className={styles.popupOverlay}>
             <div className={styles.popupContent}>
-                <div className={styles.popupContentTitle}>ADD A CAMPAIGN*</div>
+                <div className={styles.popupContentTitle}>ADD A CAMPAIGN</div>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div className={styles.formGroup}>
                         <label>CAMPAIGN TITLE:</label>
@@ -122,20 +119,6 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
                         </div>
                     </div>
                     <div className={styles.formGroup}>
-                        <label>PRODUCT:</label>
-                        <select
-                            value={productTitle}
-                            onChange={(e) => setProductTitle(e.target.value)}
-                            required
-                        >
-                            <option value="">Select Product</option>
-                            <option value="Product 1">Product 1</option>
-                            <option value="Product 2">Product 2</option>
-                            <option value="Product 3">Product 3</option>
-                            <option value="Product 4">Product 4</option>
-                        </select>
-                    </div>
-                    <div className={styles.formGroup}>
                         <label>TARGET AUDIENCE:</label>
                         <input
                             type="text"
@@ -151,7 +134,6 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
                             onChange={(e) => setCampaignType(e.target.value)}
                             required
                         >
-                            <option value="select">Select Type</option>
                             <option value="social">SOCIAL</option>
                             <option value="email">EMAIL</option>
                             <option value="ads">ADS</option>
@@ -188,4 +170,4 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
     );
 };
 
-export default CampaignAdditionPopup;
+export default CampaignAdditionPopupInProduct;
