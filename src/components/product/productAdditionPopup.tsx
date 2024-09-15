@@ -22,9 +22,10 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
     const [businessModel, setBusinessModel] = React.useState("B2C");
     const [productType, setProductType] = React.useState("technology");
     const [productMarket, setProductMarket] = React.useState("");
+    const [productLink, setProductLink] = React.useState("");
     const router = useRouter();
 
-    const isFormValid = title !== "" && svgSrc !== null && description !== "" && productMarket !== "";
+    const isFormValid = title !== "" && svgSrc !== null && description !== "" && productMarket !== "" && productLink !== "";
 
     const productIcons = [
         { id: 0, href: "productIcons/default-project-icon.svg" },
@@ -137,10 +138,18 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
                             required
                         />
                     </div>
+                    <div className={styles.formGroup}>
+                        <label>LINK:</label>
+                        <input
+                            value={productLink}
+                            onChange={(e) => setProductLink(e.target.value)}
+                            required
+                        />
+                    </div>
                     <div className={styles.buttonGroup}>
                         <PageButton label={"SAVE"} onClick={handleSubmit}/>
-                        <PageButton label={"CUSTOMISE"} onClick={directToCustom} />
-                        <PageButton label={"EXIT"} onClick={onClose} />
+                        <PageButton label={"CUSTOMISE"} onClick={directToCustom}/>
+                        <PageButton label={"EXIT"} onClick={onClose}/>
                     </div>
                 </form>
             </div>
