@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
+    text-align: center;
 
 }
 
@@ -78,6 +79,12 @@
     gap: 0.5em;
 }
 
+.infoIcon{
+    width: 2vw;
+    height: 2vw;
+    margin-left: 3em;
+}
+
 .icon {
     width: 50px;
     height: 50px;
@@ -96,4 +103,9 @@
 
 .selectedIcon {
     background: var(--header-base-color);
+}
+
+.infoIcon {
+    width: 2vw;
+    height: 2vw;
 }
