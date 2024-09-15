@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../../styles/components/product/productAdditionPopup.module.css";
 import PageButton from "@/components/page/pageButton";
+import { useRouter} from "next/navigation";
 
 interface Product {
     title: string;
@@ -21,6 +22,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
     const [businessModel, setBusinessModel] = React.useState("B2C");
     const [productType, setProductType] = React.useState("technology");
     const [productMarket, setProductMarket] = React.useState("");
+    const router = useRouter();
 
     const isFormValid = title !== "" && svgSrc !== null && description !== "" && productMarket !== "";
 
@@ -59,6 +61,10 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
         });
         onClose();
         // TODO: add the save to db etc here
+    };
+
+    const directToCustom = () => {
+        router.push("/product-creation");
     };
 
     return (
@@ -132,10 +138,8 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
                         />
                     </div>
                     <div className={styles.buttonGroup}>
-                        <PageButton
-                            label={"SAVE"}
-                            onClick={handleSubmit}
-                        />
+                        <PageButton label={"SAVE"} onClick={handleSubmit}/>
+                        <PageButton label={"CUSTOMISE"} onClick={directToCustom} />
                         <PageButton label={"EXIT"} onClick={onClose} />
                     </div>
                 </form>

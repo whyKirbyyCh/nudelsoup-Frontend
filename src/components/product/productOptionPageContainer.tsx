@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/product/productOptionPageContainer.module.css";
 import CampaignOverviewPageContainer from "@/components/campaign/campaignOverviewPageContainer";
+import ProductDetailsContainer from "@/components/product/productDetailsContainer";
 
 interface Campaign {
     campaignId: string;
@@ -10,6 +11,7 @@ interface Campaign {
     campaignGoal: string;
     startDate: string;
     stillActive: boolean;
+    svgSrc: number;
 }
 
 interface ProductOptionPageContainerProps {
@@ -45,7 +47,7 @@ const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({
             </div>
             {activeTab === "DETAILS" &&
                 <div className={styles.tabContent}>
-                    DETAILS
+                    <ProductDetailsContainer productId={productId}/>
                 </div>
             }
             {activeTab === "CAMPAIGNS" &&

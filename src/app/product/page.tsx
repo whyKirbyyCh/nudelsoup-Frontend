@@ -49,10 +49,20 @@ export default function Page() {
             stillActive: false,
             svgSrc: 1
         },
+        {
+            campaignId: "987654322",
+            title: "Campaign 3",
+            targetAudience: "Audience C",
+            campaignType: "Type Z",
+            campaignGoal: "Goal 1",
+            startDate: "05.06.2007",
+            stillActive: false,
+            svgSrc: 1
+        },
     ];
 
     const addButtonClick = () => {
-       router.push("/create-campaign");
+        console.log("add product")
     };
 
     return (
