@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 20vw;
-    height: 12vw;
+    height: auto;
     border: 1.5em solid var(--text-color);
     cursor: pointer;
 }

@@ -37,6 +37,7 @@ export default function Page() {
             campaignGoal: "Goal 1",
             startDate: "01.02.2003",
             stillActive: true,
+            svgSrc: 1
         },
         {
             campaignId: "987654321",
@@ -46,20 +47,12 @@ export default function Page() {
             campaignGoal: "Goal 2",
             startDate: "05.06.2007",
             stillActive: false,
-        },
-        {
-            campaignId: "987654321",
-            title: "Campaign 3",
-            targetAudience: "Audience C",
-            campaignType: "Type Z",
-            campaignGoal: "Goal 3",
-            startDate: "05.06.2087",
-            stillActive: true,
+            svgSrc: 1
         },
     ];
 
     const addButtonClick = () => {
-        console.log("add product")
+       router.push("/create-campaign");
     };
 
     return (

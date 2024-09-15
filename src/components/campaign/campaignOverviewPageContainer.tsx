@@ -12,6 +12,7 @@ interface Campaign {
     campaignGoal: string;
     startDate: string;
     stillActive: boolean;
+    svgSrc: number;
 }
 
 interface CampaignOverviewPageContainerProps {
@@ -34,6 +35,7 @@ const CampaignOverviewPageContainer: React.FC<CampaignOverviewPageContainerProps
                         campaignGoal={campaign.campaignGoal}
                         startDate={campaign.startDate}
                         stillActive={campaign.stillActive}
+                        svgSrc={campaign.svgSrc}
                     />
                 ))}
                 <CampaignAdditionButton key="campaign-addition-button" onClick={addButtonClick} />
