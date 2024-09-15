@@ -4,6 +4,7 @@ import React from "react";
 import styles from "../../styles/components/campaign/campaignOverviewPageContainer.module.css";
 import CampaignOverviewContainer from "@/components/campaign/campaignOverviewContainer";
 import CampaignAdditionButton from "@/components/campaign/campaignAdditionButton";
+
 interface Campaign {
     campaignId: string;
     title: string;
@@ -13,6 +14,7 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
+    productTitle?: string;
 }
 
 interface CampaignOverviewPageContainerProps {
@@ -21,7 +23,7 @@ interface CampaignOverviewPageContainerProps {
     addButtonClick: () => void;
 }
 
-const CampaignOverviewPageContainer: React.FC<CampaignOverviewPageContainerProps> = ({ productId, campaigns , addButtonClick }) => {
+const CampaignOverviewPageContainer: React.FC<CampaignOverviewPageContainerProps> = ({ productId, campaigns , addButtonClick}) => {
     return (
         <div className={styles.campaignOverviewPageContainer}>
             <div className={styles.campaigns}>
@@ -36,6 +38,7 @@ const CampaignOverviewPageContainer: React.FC<CampaignOverviewPageContainerProps
                         startDate={campaign.startDate}
                         stillActive={campaign.stillActive}
                         svgSrc={campaign.svgSrc}
+                        productTitle={campaign.productTitle}
                     />
                 ))}
                 <CampaignAdditionButton key="campaign-addition-button" onClick={addButtonClick} />

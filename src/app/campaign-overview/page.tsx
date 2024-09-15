@@ -11,6 +11,7 @@ export default function Page() {
     const [showAddCampaignMenu, setShowAddCampaignMenu] = useState(false);
     const [campaigns, setCampaigns] = useState([
         {
+            productTitle: "Product 1",
             campaignId: "123456789",
             title: "Campaign 1",
             targetAudience: "Audience A",
@@ -29,6 +30,7 @@ export default function Page() {
             startDate: "05.06.2007",
             stillActive: false,
             svgSrc: 1,
+            productTitle: "Product 2",
         },
         {
             campaignId: "987654322",
@@ -39,6 +41,7 @@ export default function Page() {
             startDate: "05.06.2007",
             stillActive: false,
             svgSrc: 1,
+            productTitle: "Product 2",
         },
     ]);
 

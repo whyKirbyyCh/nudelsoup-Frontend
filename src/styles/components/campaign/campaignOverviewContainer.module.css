@@ -38,3 +38,7 @@
 .campaignOverviewContainer:hover .campaignOverviewIconBackground{
     background: var(--accent-color);
 }
+
+.campaignOverviewProductName{
+    font-weight: 600;
+}

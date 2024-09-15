@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import styles from "../../styles/components/campaign/campaignOverviewContainer.module.css";
-import PageButton from "@/components/page/pageButton";
 
 interface CampaignOverviewContainerProps {
     campaignId: string;
@@ -11,12 +10,20 @@ interface CampaignOverviewContainerProps {
     startDate: string;
     stillActive: boolean;
     svgSrc?: number;
+    productTitle?: string;
 }
 
-const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ campaignId, title, targetAudience, campaignType, startDate, stillActive, campaignGoal, svgSrc = 0 }) => {
+const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ campaignId, title, targetAudience, campaignType, startDate, stillActive, campaignGoal, svgSrc = 0, productTitle }) => {
     const [svgLink, setSvgLink] = React.useState("/campaignIcons/default-project-icon.svg");
+    const [showProductName, setShowProductName] = React.useState(false);
 
     useEffect(() => {
+        if (productTitle) {
+            setShowProductName(true);
+        } else {
+            setShowProductName(false);
+        }
+
         if (svgSrc === 0) {
             setSvgLink("/campaignIcons/default-project-icon.svg")
         } else if (svgSrc === 1) {
@@ -51,6 +58,11 @@ const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ 
                 {title}
             </div>
             <div className={styles.campaignOverviewContent}>
+                {showProductName &&
+                    <div className={styles.campaignOverviewProductName}>
+                        PRODUCT: {productTitle}
+                    </div>
+                }
                 <div className={styles.campaignOverviewStartDate}>
                     STARTED: {startDate}
                 </div>

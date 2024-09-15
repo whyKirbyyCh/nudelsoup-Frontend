@@ -12,6 +12,7 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
+    productTitle?: string;
 }
 
 interface CampaignAdditionPopupProps {
@@ -29,6 +30,7 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
     const [campaignType, setCampaignType] = React.useState("social");
     const [campaignGoal, setCampaignGoal] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
+    const [productTitle, setProductTitle] = React.useState("");
     const router = useRouter();
 
     const isFormValid =
@@ -37,7 +39,8 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
         targetAudience !== "" &&
         campaignType !== "" &&
         campaignGoal !== "" &&
-        startDate !== "";
+        startDate !== "" &&
+        productTitle !== "";
 
     const campaignIcons = [
         { id: 0, href: "campaignIcons/default-project-icon.svg" },
@@ -83,6 +86,10 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
         router.push("/campaign-creation");
     };
 
+    const addProduct = () => {
+        router.push("/product-overview");
+    };
+
     return (
         <div className={styles.popupOverlay}>
             <div className={styles.popupContent}>
@@ -112,6 +119,19 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
                                 />
                             ))}
                         </div>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>CAMPAIGN TYPE:</label>
+                        <select
+                            value={productTitle}
+                            onChange={(e) => setProductTitle(e.target.value)}
+                            required
+                        >
+                            <option value="product_1">PRODUCT 1</option>
+                            <option value="product_2">PRODUCT 2</option>
+                            <option value="product_3">PRODUCT 3</option>
+                            <option value="product_4">PRODUCT 4</option>
+                        </select>
                     </div>
                     <div className={styles.formGroup}>
                         <label>TARGET AUDIENCE:</label>
@@ -154,9 +174,10 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
                         />
                     </div>
                     <div className={styles.buttonGroup}>
-                        <PageButton label={"SAVE"} onClick={handleSubmit} />
-                        <PageButton label={"CUSTOMISE"} onClick={directToCustom} />
-                        <PageButton label={"EXIT"} onClick={onClose} />
+                        <PageButton label={"SAVE"} onClick={handleSubmit}/>
+                        <PageButton label={"CUSTOMISE"} onClick={directToCustom}/>
+                        <PageButton label={"ADD PRODUCT"} onClick={addProduct}/>
+                        <PageButton label={"EXIT"} onClick={onClose}/>
                     </div>
                 </form>
             </div>
