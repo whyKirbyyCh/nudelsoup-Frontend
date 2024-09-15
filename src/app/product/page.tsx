@@ -28,6 +28,40 @@ export default function Page() {
         }
     }, [id, router]);
 
+    const campaigns = [
+        {
+            campaignId: "123456789",
+            title: "Campaign 1",
+            targetAudience: "Audience A",
+            campaignType: "Type X",
+            campaignGoal: "Goal 1",
+            startDate: "01.02.2003",
+            stillActive: true,
+        },
+        {
+            campaignId: "987654321",
+            title: "Campaign 2",
+            targetAudience: "Audience B",
+            campaignType: "Type Y",
+            campaignGoal: "Goal 2",
+            startDate: "05.06.2007",
+            stillActive: false,
+        },
+        {
+            campaignId: "987654321",
+            title: "Campaign 3",
+            targetAudience: "Audience C",
+            campaignType: "Type Z",
+            campaignGoal: "Goal 3",
+            startDate: "05.06.2087",
+            stillActive: true,
+        },
+    ];
+
+    const addButtonClick = () => {
+        console.log("add product")
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.productHeader}>
@@ -42,7 +76,7 @@ export default function Page() {
                 <PageTitle title={title} size={4}/>
             </div>
             <div className={styles.productContent}>
-                <ProductOptionPageContainer productId={id}/>
+                <ProductOptionPageContainer productId={id} campaigns={campaigns} addButtonClick={addButtonClick}/>
             </div>
         </div>
     );

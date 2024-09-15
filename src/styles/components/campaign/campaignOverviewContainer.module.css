@@ -1,0 +1,36 @@
+.campaignOverviewContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0.1em solid var(--text-color);
+    padding: 2em;
+    background: var(--background-color);
+    cursor: pointer;
+    z-index: auto;
+}
+
+.campaignOverviewContainer::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--header-base-color);
+    z-index: -1;
+}
+
+.campaignOverviewContainer:hover::after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.campaignOverviewTitle{
+    font-size: calc(var(--page-font-size) + 0.3vw);
+    font-weight: 500;
+    margin-bottom: 0.5em;
+}

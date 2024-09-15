@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import styles from "../../styles/components/product/productOptionPageContainer.module.css";
 import CampaignOverviewPageContainer from "@/components/campaign/campaignOverviewPageContainer";
 
-interface ProductOptionPageContainerProps {
-    productId: string
+interface Campaign {
+    campaignId: string;
+    title: string;
+    targetAudience: string;
+    campaignType: string;
+    campaignGoal: string;
+    startDate: string;
+    stillActive: boolean;
 }
 
-const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({productId}) => {
+interface ProductOptionPageContainerProps {
+    productId: string
+    campaigns: Campaign[]
+    addButtonClick: () => void
+}
+
+const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({productId, campaigns, addButtonClick}) => {
     const [activeTab, setActiveTab] = useState("DETAILS");
 
     return (
@@ -38,7 +50,7 @@ const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({
             }
             {activeTab === "CAMPAIGNS" &&
                 <div className={styles.tabContent}>
-                    <CampaignOverviewPageContainer productId={productId}/>
+                    <CampaignOverviewPageContainer productId={productId} campaigns={campaigns} addButtonClick={addButtonClick}/>
                 </div>
             }
             {activeTab === "ANALYTICS" &&

@@ -33,6 +33,10 @@
     height: 12vw;
 }
 
+.productOverviewContainer:hover .productOverviewIconBackground{
+    background: var(--header-base-color);
+}
+
 .productOverviewTitle{
     font-size: calc(var(--page-font-size) + 0.2vw);
     margin-top: 0.5em;
