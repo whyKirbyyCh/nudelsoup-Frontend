@@ -72,7 +72,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
         <div className={styles.popupOverlay}>
             <div className={styles.popupContent}>
                 <div className={styles.popupContentTitle}>
-                    ADD A PRODUCT*
+                    ADD A PRODUCT
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>

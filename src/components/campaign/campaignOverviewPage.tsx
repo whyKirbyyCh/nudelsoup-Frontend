@@ -4,6 +4,7 @@ import React from "react";
 import styles from "../../styles/components/campaign/campaignOverviewPageContainer.module.css";
 import CampaignOverviewContainer from "@/components/campaign/campaignOverviewContainer";
 import CampaignAdditionButton from "@/components/campaign/campaignAdditionButton";
+
 interface Campaign {
     campaignId: string;
     title: string;
