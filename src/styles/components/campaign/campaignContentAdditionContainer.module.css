@@ -1,49 +1,39 @@
-
 .campaignContentAdditionContainer {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 100%;
     gap: 1em;
     border: 0.1em solid var(--text-color);
     background: var(--background-color);
-    padding-bottom: 2em;
-    padding-right: 2em;
-    padding-left: 2em;
-}
-
-.campaignContentAdditionContainer::after {
-    content: "";
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    right: -0.5em;
-    bottom: -0.5em;
-    background-color: var(--text-color);
-    z-index: -1;
+    padding: 0 2em 2em 2em;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .campaignContentAdditionTitle {
     font-size: calc(var(--page-font-size) + 0.5vw);
-    margin-bottom: 0.5em;
-    margin-top: 1em;
+    margin: 1em 0 0.5em 0;
     font-weight: 500;
     text-align: center;
 }
 
 .campaignContentAddition {
     width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .campaignContentAdditionBody {
     display: grid;
-    grid-template-columns: max-content 1fr; /* First column for labels, second for inputs/values */
+    grid-template-columns: max-content 1fr;
     gap: 1em;
-    width: 100%;
     margin-bottom: 1em;
     font-size: var(--page-font-size);
-    align-items: center; /* Centers items vertically in their grid cells */
+    align-items: center;
+    overflow: hidden;
 }
 
 .campaignContentAdditionContainerButtons {
@@ -72,15 +62,22 @@
     display: flex;
     border: 0.1em solid var(--text-color);
     padding: 0.5em;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.valueSelection{
+.valueSelection {
     display: flex;
     border: 0.1em solid var(--text-color);
     padding: 1em;
+    max-width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
 }
 
-.campaignContentSelectionButtons{
+.campaignContentSelectionButtons {
     display: flex;
     flex-direction: column;
     align-items: center;
