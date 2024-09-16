@@ -1,15 +1,16 @@
+
 .campaignContentAdditionContainer {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
     align-items: center;
-    justify-items: center;
     width: 100%;
     gap: 1em;
     border: 0.1em solid var(--text-color);
     background: var(--background-color);
+    padding-bottom: 2em;
+    padding-right: 2em;
+    padding-left: 2em;
 }
 
 .campaignContentAdditionContainer::after {
@@ -21,4 +22,61 @@
     bottom: -0.5em;
     background-color: var(--text-color);
     z-index: -1;
+}
+
+.campaignContentAdditionTitle {
+    font-size: calc(var(--page-font-size) + 0.5vw);
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+    font-weight: 500;
+    text-align: center;
+}
+
+.campaignContentAddition {
+    width: 100%;
+}
+
+.campaignContentAdditionBody {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1em;
+    font-size: var(--page-font-size);
+    gap: 1em;
+}
+
+.campaignContentAdditionContainerButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+}
+
+.campaignContentAdditionContainerBox {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    overflow-x: auto;
+    height: auto;
+}
+
+.label {
+    margin-right: 0.5em;
+}
+
+.value {
+    display: flex;
+    border: 0.1em solid var(--text-color);
+    padding: 1em;
+}
+
+.campaignContentSelectionbuttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
 }

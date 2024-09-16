@@ -38,14 +38,16 @@ const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = 
                     PRODUCT DETAILS
                 </button>
             </div>
-            {activeTab === "DETAILS" && <div>DETAILS</div>}
-            {activeTab === "CONTENT" &&
-                <div className={styles.campaignContentTab}>
-                    <CampaignContentAdditionContainer campaignId={campaignId} />
-                    <CampaignContentArchiveContainer campaignId={campaignId} />
-                </div>}
-            {activeTab === "ANALYTICS" && <div>ANALYTICS</div>}
-            {activeTab === "PRODUCT DETAILS" && <div>PRODUCT DETAILS</div>}
+            <div className={styles.campaignPageContent}>
+                {activeTab === "DETAILS" && <div>DETAILS</div>}
+                {activeTab === "CONTENT" &&
+                    <div className={styles.campaignContentTab}>
+                        <CampaignContentAdditionContainer campaignId={campaignId} />
+                        <CampaignContentArchiveContainer campaignId={campaignId} />
+                    </div>}
+                {activeTab === "ANALYTICS" && <div>ANALYTICS</div>}
+                {activeTab === "PRODUCT DETAILS" && <div>PRODUCT DETAILS</div>}
+            </div>
         </div>
     );
 };

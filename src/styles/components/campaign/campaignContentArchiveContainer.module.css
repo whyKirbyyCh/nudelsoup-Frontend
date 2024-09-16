@@ -10,6 +10,9 @@
     gap: 1em;
     border: 0.1em solid var(--text-color);
     background: var(--background-color);
+    padding-bottom: 2em;
+    padding-right: 2em;
+    padding-left: 2em;
 }
 
 .campaignContentArchiveContainer::after {
