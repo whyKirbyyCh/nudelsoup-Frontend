@@ -64,30 +64,39 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
             </div>
             <div className={styles.campaignContentAddition}>
                 <div className={styles.campaignContentAdditionBody}>
-                    <div>TOPIC:</div>
-                    <div>GOAL:</div>
-                    <div className={styles.campaignContentAdditionContainerBox}>
-                        <div className={styles.label}>SITES:</div>
-                        <div className={styles.value}>
-                            <div className={styles.campaignContentSelectionbuttons}>
-                                <PageButtonSmall label={"ALL"} onClick={selectAllServices} />
-                                <PageButtonSmall label={"SELECTION"} onClick={selectNoServices} />
-                                <PageButtonSmall label={"NONE"} onClick={selectNoServices} />
-                            </div>
-                            <ServicesSelectionContainer
-                                services={services}
-                                selectedServices={selectedServices}
-                                onSelectionChange={setSelectedServices}
-                            />
+                    <div className={styles.label}>TOPIC:</div>
+                    <div className={styles.value}>[Your input or content for topic]</div>
+
+                    <div className={styles.label}>GOAL:</div>
+                    <div className={styles.value}>[Your input or content for goal]</div>
+
+                    <div className={styles.label}>SITES:</div>
+                    <div className={styles.valueSelection}>
+                        <div className={styles.campaignContentSelectionButtons}>
+                            <PageButtonSmall label={"ALL"} onClick={selectAllServices}/>
+                            <PageButtonSmall label={"SELECTION"} onClick={selectNoServices}/>
+                            <PageButtonSmall label={"NONE"} onClick={selectNoServices}/>
                         </div>
+                        <ServicesSelectionContainer
+                            services={services}
+                            selectedServices={selectedServices}
+                            onSelectionChange={setSelectedServices}
+                        />
                     </div>
-                    <div>REMARKS:</div>
+
+                    <div className={styles.label}>REMARKS:</div>
+                    <div className={styles.value}>[Your input or content for remarks]</div>
                 </div>
                 {!hasContentBeenCreated && (
                     <div className={styles.campaignContentAdditionContainerButtons}>
-                        <PageButton label={"RESET INPUT"} onClick={resetContent} />
-                        <PageButton label={"CREATE YOUR OWN POSTS"} onClick={createContent} />
-                        <PageButton label={"GENERATE POSTS"} onClick={generateContent} />
+                        <PageButton label={"RESET INPUT"} onClick={resetContent}/>
+                        <PageButton label={"CREATE YOUR OWN POSTS"} onClick={createContent}/>
+                        <PageButton label={"GENERATE POSTS"} onClick={generateContent}/>
+                    </div>
+                )}
+                {hasContentBeenCreated && (
+                    <div>
+                        The posts will appear here
                     </div>
                 )}
             </div>
