@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import styles from "../../styles/components/campaign/campaignOverviewContainer.module.css";
+import { useRouter } from "next/navigation";
 
 interface CampaignOverviewContainerProps {
     campaignId: string;
@@ -16,6 +17,7 @@ interface CampaignOverviewContainerProps {
 const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ campaignId, title, targetAudience, campaignType, startDate, stillActive, campaignGoal, svgSrc = 0, productTitle }) => {
     const [svgLink, setSvgLink] = React.useState("/campaignIcons/default-project-icon.svg");
     const [showProductName, setShowProductName] = React.useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         if (productTitle) {
@@ -45,8 +47,12 @@ const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ 
         }
     }, []);
 
+    const goToCampaign = () => {
+        router.push(`/campaign?id=${campaignId}&title=${title}`);
+    };
+
     return (
-        <div className={styles.campaignOverviewContainer}>
+        <div className={styles.campaignOverviewContainer} onClick={goToCampaign}>
             <div className={styles.campaignOverviewIconBackground}>
                 <img
                     src={svgLink}

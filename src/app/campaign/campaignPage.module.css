@@ -1,0 +1,36 @@
+.campaignContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.campaignHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.campaignTitle {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.campaignContent {
+    position: relative;
+    width: 85%;
+    display: flex;
+    margin-top: 2em;
+}
+
+.campaignContent::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
