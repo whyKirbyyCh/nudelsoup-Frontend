@@ -15,6 +15,9 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const [hasContentBeenCreated, setHasContentBeenCreated] = useState(false);
     const [selectedService, setSelectedService] = useState("SELECTION");
     const [selectedServices, setSelectedServices] = useState<number[]>([]);
+    const [topic, setTopic] = useState(""); // State for topic input
+    const [goal, setGoal] = useState(""); // State for goal input
+    const [remarks, setRemarks] = useState(""); // State for remarks input
 
     const services = [
         { id: 1, name: "Product Hunt" },
@@ -90,6 +93,9 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const resetContent = () => {
         console.log("reset content");
         setSelectedServices([]);
+        setTopic(""); // Reset topic input
+        setGoal(""); // Reset goal input
+        setRemarks(""); // Reset remarks input
     };
 
     const handleSpecificServiceSelect = (serviceName: string) => {
@@ -109,10 +115,22 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
             <div className={styles.campaignContentAddition}>
                 <div className={styles.campaignContentAdditionBody}>
                     <div className={styles.label}>TOPIC:</div>
-                    <div className={styles.value}>[Your input or content for topic]</div>
+                    <input
+                        type="text"
+                        className={styles.value}
+                        value={topic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        placeholder="Enter topic"
+                    />
 
                     <div className={styles.label}>GOAL:</div>
-                    <div className={styles.value}>[Your input or content for goal]</div>
+                    <input
+                        type="text"
+                        className={styles.value}
+                        value={goal}
+                        onChange={(e) => setGoal(e.target.value)}
+                        placeholder="Enter goal"
+                    />
 
                     <div className={styles.label}>SITES:</div>
                     <div className={styles.valueSelection}>
@@ -130,7 +148,13 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                     </div>
 
                     <div className={styles.label}>REMARKS:</div>
-                    <div className={styles.value}>[Your input or content for remarks]</div>
+                    <input
+                        type="text"
+                        className={styles.value}
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                        placeholder="Enter remarks"
+                    />
                 </div>
                 {!hasContentBeenCreated && (
                     <div className={styles.campaignContentAdditionContainerButtons}>
