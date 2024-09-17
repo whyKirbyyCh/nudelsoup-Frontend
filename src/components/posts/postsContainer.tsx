@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/posts/postsContainer.module.css";
 import PageButtonSmall from "@/components/page/PageButtonSmall";
 
@@ -11,25 +11,32 @@ interface PostsContainerProps {
     onSave: (id: number, newTitle: string, newText: string) => void;
 }
 
-const PostsContainer: React.FC<PostsContainerProps> = ({
-                                                           id,
-                                                           title,
-                                                           text,
-                                                           site,
-                                                           onDelete,
-                                                           onSave,
-                                                       }) => {
+const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
     const [editedText, setEditedText] = useState(text);
 
+    useEffect(() => {
+        setEditedTitle(title);
+    }, [title]);
+
+    useEffect(() => {
+        setEditedText(text);
+    }, [text]);
+
     const handleEditClick = () => {
-        if (isEditing) {
-            onSave(id, editedTitle, editedText);
-            setIsEditing(false);
-        } else {
-            setIsEditing(true);
-        }
+        setIsEditing(true);
+    };
+
+    const handleSaveClick = () => {
+        onSave(id, editedTitle, editedText);
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setEditedTitle(title);
+        setEditedText(text);
+        setIsEditing(false);
     };
 
     const handleDeleteClick = () => {
@@ -45,6 +52,7 @@ const PostsContainer: React.FC<PostsContainerProps> = ({
                         type="text"
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
+                        className={styles.postsContainerTitleInput}
                     />
                 ) : (
                     title
@@ -55,18 +63,23 @@ const PostsContainer: React.FC<PostsContainerProps> = ({
                     <textarea
                         value={editedText}
                         onChange={(e) => setEditedText(e.target.value)}
+                        className={styles.postsContainerTitleTextarea}
                     />
                 ) : (
                     text
                 )}
             </div>
             <div className={styles.postsContainerButtons}>
-                <PageButtonSmall
-                    label={isEditing ? "SAVE" : "EDIT"}
-                    onClick={handleEditClick}
-                />
-                {!isEditing && (
-                    <PageButtonSmall label="DELETE" onClick={handleDeleteClick} />
+                {isEditing ? (
+                    <>
+                        <PageButtonSmall label="SAVE" onClick={handleSaveClick} />
+                        <PageButtonSmall label="CANCEL" onClick={handleCancelClick} />
+                    </>
+                ) : (
+                    <>
+                        <PageButtonSmall label="EDIT" onClick={handleEditClick} />
+                        <PageButtonSmall label="DELETE" onClick={handleDeleteClick} />
+                    </>
                 )}
             </div>
         </div>

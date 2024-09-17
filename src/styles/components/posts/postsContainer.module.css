@@ -14,7 +14,7 @@
 .postsContainerSite{
     display: flex;
     text-align: center;
-    font-size: calc(var(--page-font-size) + 0.3vw);
+    font-size: calc(var(--page-font-size) + 0.2vw);
     font-weight: 500;
     color: var(--header-base-color);
 }
@@ -22,14 +22,14 @@
 .postsContainerTitle{
     display: flex;
     text-align: center;
-    font-size: calc(var(--page-font-size) + 0.4vw);
+    font-size: calc(var(--page-font-size) + 0.6vw);
     font-weight: 600;
 }
 
 .postsContainerText{
     display: flex;
     text-align: center;
-    font-size: calc(var(--page-font-size) - 0.3vw);
+    font-size: calc(var(--page-font-size) - 0.5vw);
     padding-left: 1em;
     padding-right: 1em;
 }
@@ -40,4 +40,17 @@
     display: flex;
     gap: 1em;
     margin-top: 1em;
+}
+
+.postsContainerTitleInput{
+    outline: none;
+    border: 0.15em solid var(--text-color);
+    padding: 0.5em;
+}
+
+.postsContainerTitleTextarea{
+    outline: none;
+    border: 0.15em solid var(--text-color);
+    padding: 0.5em;
+    resize: none;
 }

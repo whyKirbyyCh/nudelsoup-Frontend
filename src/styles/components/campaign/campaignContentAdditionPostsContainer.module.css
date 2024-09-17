@@ -25,3 +25,10 @@
     justify-items: center;
     margin-top: 1em;
 }
+
+.campaignContentAdditionPostsContainerButton {
+    margin-top: 3em;
+    margin-bottom: 1em;
+    display: flex;
+    gap: 2em;
+}

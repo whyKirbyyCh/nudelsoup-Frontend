@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/campaign/campaignContentAdditionPostsContainer.module.css";
 import PostsContainer from "@/components/posts/postsContainer";
+import PageButton from "@/components/page/pageButton";
 
 interface CampaignContentAdditionPostsContainerProps {
     campaignId: string;
@@ -23,27 +24,28 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
             id: 1,
             site: "Reddit",
             title: "Post 1",
-            text: "Content of post 1...",
+            text: "Content of post 1... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
             id: 2,
             site: "Twitter",
             title: "Post 2",
-            text: "Content of post 2...",
+            text: "Content of post 2... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
             id: 3,
             site: "Facebook",
             title: "Post 3",
-            text: "Content of post 3...",
+            text: "Content of post 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
             id: 4,
             site: "GitHub",
             title: "Post 4",
-            text: "Content of post 4...",
+            text: "Content of post 4... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
     ]);
+    const [showPostTOS, setShowPostTOS] = useState(false);
 
     const handleDelete = (id: number) => {
         setPosts(posts.filter((post) => post.id !== id));
@@ -57,6 +59,10 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
                     : post
             )
         );
+    };
+
+    const handleShowPostTOS = () => {
+        setShowPostTOS(!showPostTOS);
     };
 
     return (
@@ -76,6 +82,10 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
                         onSave={handleSave}
                     />
                 ))}
+            </div>
+            <div className={styles.campaignContentAdditionPostsContainerButton}>
+                <PageButton label={"PUBLISH"} onClick={handleShowPostTOS} />
+                <PageButton label={"RESET"} />
             </div>
         </div>
     );
