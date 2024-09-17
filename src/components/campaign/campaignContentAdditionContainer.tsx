@@ -4,6 +4,7 @@ import PageButton from "@/components/page/pageButton";
 import PageButtonSmall from "@/components/page/PageButtonSmall";
 import PageSelectionMenu from "@/components/page/pageSelectionMenu";
 import ServicesSelectionContainer from "@/components/services/servicesSelectionContainer";
+import CampaignContentAdditionPostsContainer from "@/components/campaign/campaignContentAdditionPostsContainer";
 import { useRouter } from "next/navigation";
 
 interface CampaignContentContainerProps {
@@ -225,7 +226,17 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                         <PageButton label={"GENERATE POSTS"} onClick={generateContent}/>
                     </div>
                 )}
-                {hasContentBeenCreated && <div>The posts will appear here</div>}
+                {hasContentBeenCreated &&
+                    <div className={styles.campaignContentAdditionPosts}>
+                        <CampaignContentAdditionPostsContainer
+                            campaignId={""}
+                            topic={topic}
+                            goal={goal}
+                            selectedServices={selectedServices}
+                            selectedSubReddits={selectedSubReddits}
+                        />
+                    </div>
+                }
             </div>
         </div>
     );
