@@ -17,9 +17,7 @@ interface Post {
     text: string;
 }
 
-const CampaignContentAdditionPostsContainer: React.FC<
-    CampaignContentAdditionPostsContainerProps
-> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits }) => {
+const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits }) => {
     const [posts, setPosts] = useState<Post[]>([
         {
             id: 1,
