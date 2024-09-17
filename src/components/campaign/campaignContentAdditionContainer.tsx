@@ -15,9 +15,11 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const [hasContentBeenCreated, setHasContentBeenCreated] = useState(false);
     const [selectedService, setSelectedService] = useState("SELECTION");
     const [selectedServices, setSelectedServices] = useState<number[]>([]);
-    const [topic, setTopic] = useState(""); // State for topic input
-    const [goal, setGoal] = useState(""); // State for goal input
-    const [remarks, setRemarks] = useState(""); // State for remarks input
+    const [topic, setTopic] = useState("");
+    const [goal, setGoal] = useState("");
+    const [remarks, setRemarks] = useState("");
+    const [hasRedditBeenSelected, setHasRedditBeenSelected] = useState(false);
+    const [selectedSubReddits, setSelectedSubReddits] = useState<number[]>([]);
 
     const services = [
         { id: 1, name: "Product Hunt" },
@@ -41,9 +43,27 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         { id: 19, name: "CodePen" },
     ];
 
+    const subreddits = [
+        { id: 1, name: "r/learnprogramming" },
+        { id: 2, name: "r/webdev" },
+        { id: 3, name: "r/tech" },
+        { id: 4, name: "r/AskScience" },
+        { id: 5, name: "r/devRant" },
+        { id: 6, name: "r/dev.io" },
+        { id: 7, name: "r/HackerNews" },
+        { id: 8, name: "r/Spiceworks" },
+        { id: 9, name: "r/IndieHackers" },
+        { id: 10, name: "r/devcord" }
+    ];
+
     const options = [
         { id: 1, name: "SOCIAL MEDIA" },
         { id: 2, name: "DEVELOPER" },
+        { id: 3, name: "CREATE CUSTOM" },
+    ];
+
+    const options2 = [
+        { id: 1, name: "DEVELOPER" },
         { id: 3, name: "CREATE CUSTOM" },
     ];
 
@@ -52,9 +72,10 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
             case "SOCIAL MEDIA":
                 setSelectedServices(
                     services
-                        .filter((s) => ["Twitter", "Facebook", "LinkedIn"].includes(s.name))
+                        .filter((s) => ["Twitter", "Facebook", "LinkedIn", "Reddit"].includes(s.name))
                         .map((s) => s.id)
                 );
+                handleSpecificServiceSelect("Reddit")
                 break;
             case "DEVELOPER":
                 setSelectedServices(
@@ -72,12 +93,32 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         }
     };
 
+    const handleSubRedditChange = (option: string) => {
+        switch (option) {
+            case "CREATE CUSTOM":
+                console.log("Custom route");
+                router.push("/site-selection-creation");
+                break;
+
+            default:
+                break;
+        }
+    };
+
     const selectAllServices = () => {
         setSelectedServices(services.map((service) => service.id));
     };
 
     const selectNoServices = () => {
         setSelectedServices([]);
+    };
+
+    const selectAllSubReddits = () => {
+        setSelectedSubReddits(subreddits.map((subreddits) => subreddits.id));
+    };
+
+    const selectNoSubReddits = () => {
+        setSelectedSubReddits([]);
     };
 
     const createContent = () => {
@@ -93,14 +134,16 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const resetContent = () => {
         console.log("reset content");
         setSelectedServices([]);
-        setTopic(""); // Reset topic input
-        setGoal(""); // Reset goal input
-        setRemarks(""); // Reset remarks input
+        setTopic("");
+        setGoal("");
+        setRemarks("");
+        setHasRedditBeenSelected(false);
     };
 
     const handleSpecificServiceSelect = (serviceName: string) => {
-        if (serviceName === "Twitter") {
-            console.log("Twitter has been selected! Performing a specific action...");
+        if (serviceName === "Reddit") {
+            setHasRedditBeenSelected(true);
+            console.log("Reddit has been selected! Performing a specific action...");
         }
         if (serviceName === "Facebook") {
             console.log("Facebook has been selected! Trigger another action...");
@@ -147,6 +190,25 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                         />
                     </div>
 
+                    {hasRedditBeenSelected && (
+                        <>
+                            <div className={styles.label}>SUBREDDITS:</div>
+                            <div className={styles.valueSelection}>
+                                <div className={styles.campaignContentSelectionButtons}>
+                                    <PageButtonSmall label={"ALL"} onClick={selectAllSubReddits}/>
+                                    <PageSelectionMenu options={options2} onSelection={handleSubRedditChange}/>
+                                    <PageButtonSmall label={"NONE"} onClick={selectNoSubReddits}/>
+                                </div>
+                                <ServicesSelectionContainer
+                                    services={subreddits}
+                                    selectedServices={selectedSubReddits}
+                                    onSelectionChange={setSelectedSubReddits}
+                                    onServiceSelect={handleSpecificServiceSelect}
+                                />
+                            </div>
+                        </>
+                    )}
+
                     <div className={styles.label}>REMARKS:</div>
                     <input
                         type="text"
@@ -158,9 +220,9 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                 </div>
                 {!hasContentBeenCreated && (
                     <div className={styles.campaignContentAdditionContainerButtons}>
-                        <PageButton label={"RESET INPUT"} onClick={resetContent} />
-                        <PageButton label={"CREATE YOUR OWN POSTS"} onClick={createContent} />
-                        <PageButton label={"GENERATE POSTS"} onClick={generateContent} />
+                        <PageButton label={"RESET INPUT"} onClick={resetContent}/>
+                        <PageButton label={"CREATE YOUR OWN POSTS"} onClick={createContent}/>
+                        <PageButton label={"GENERATE POSTS"} onClick={generateContent}/>
                     </div>
                 )}
                 {hasContentBeenCreated && <div>The posts will appear here</div>}
