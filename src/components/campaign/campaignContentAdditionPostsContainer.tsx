@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../styles/components/campaign/campaignContentAdditionPostsContainer.module.css";
 import PostsContainer from "@/components/posts/postsContainer";
 import PageButton from "@/components/page/pageButton";
+import PopupPublishTOS from "@/components/popup/popupPublishTOS";
 
 interface CampaignContentAdditionPostsContainerProps {
     campaignId: string;
@@ -62,9 +63,16 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
     };
 
     const handleShowPostTOS = () => {
-        setShowPostTOS(!showPostTOS);
+        setShowPostTOS(true);
     };
 
+    const onAgree = () => {
+        setShowPostTOS(false);
+    };
+
+    const onDisagree = () => {
+        setShowPostTOS(false);
+    };
     return (
         <div className={styles.campaignContentAdditionPostsContainer}>
             <div className={styles.campaignContentAdditionPostsContainerTitle}>
@@ -83,10 +91,17 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
                     />
                 ))}
             </div>
-            <div className={styles.campaignContentAdditionPostsContainerButton}>
-                <PageButton label={"PUBLISH"} onClick={handleShowPostTOS} />
-                <PageButton label={"RESET"} />
-            </div>
+            { !showPostTOS && (
+                <div className={styles.campaignContentAdditionPostsContainerButton}>
+                    <PageButton label={"PUBLISH"} onClick={handleShowPostTOS} />
+                    <PageButton label={"RESET"} />
+                </div>
+            )}
+            {showPostTOS && (
+                <div className={styles.campaignContentAdditionPostsContainerPopup}>
+                    <PopupPublishTOS onAgree={onAgree} onDisagree={onDisagree} />
+                </div>
+            )}
         </div>
     );
 };
