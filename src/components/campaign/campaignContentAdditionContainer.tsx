@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/campaign/campaignContentAdditionContainer.module.css";
 import PageButton from "@/components/page/pageButton";
 import PageButtonSmall from "@/components/page/PageButtonSmall";
@@ -156,6 +156,11 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         setHasContentBeenCreated(false)
         setHasRedditBeenSelected(false)
     }
+
+    useEffect(() => {
+        const redditServiceId = 11;
+        setHasRedditBeenSelected(selectedServices.includes(redditServiceId));
+    }, [selectedServices]);
 
     return (
         <div className={styles.campaignContentAdditionContainer}>
