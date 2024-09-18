@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/posts/postsContainer.module.css";
 import PageButtonSmall from "@/components/page/PageButtonSmall";
+import { useRouter } from "next/navigation";
 
 interface PostsContainerProps {
     id: number;
@@ -9,12 +10,14 @@ interface PostsContainerProps {
     text: string;
     onDelete?: (id: number) => void;
     onSave?: (id: number, newTitle: string, newText: string) => void;
+    allowNavigation?: boolean;
 }
 
-const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave}) => {
+const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave, allowNavigation = false}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
     const [editedText, setEditedText] = useState(text);
+    const router = useRouter();
 
     useEffect(() => {
         setEditedTitle(title);
@@ -47,8 +50,17 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
         }
     };
 
+    const handleNavigate = () => {
+        console.log("navigate to post", id);
+        router.push(`/post/${id}`);
+    }
+
+    const handleNoNavigation = () => {
+        console.log("no navigation");
+    }
+
     return (
-        <div className={styles.postsContainer}>
+        <div className={`${styles.postsContainer} ${allowNavigation ? styles.clickable : ""}`} onClick={allowNavigation ? handleNavigate : handleNoNavigation}>
             <div className={styles.postsContainerSite}>{site}</div>
             <div className={styles.postsContainerTitle}>
                 {isEditing ? (

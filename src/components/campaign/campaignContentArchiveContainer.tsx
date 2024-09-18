@@ -64,6 +64,7 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                         site={post.site}
                         title={post.title}
                         text={post.text}
+                        allowNavigation={true}
                     />
                 ))}
             </div>

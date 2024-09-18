@@ -12,6 +12,10 @@
     box-sizing: border-box;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .postsContainerSite {
     display: flex;
     text-align: center;

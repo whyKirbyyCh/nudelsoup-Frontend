@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import styles from "../../styles/components/campaign/campaignOverviewPage.module.css";
 import CampaignContentAdditionContainer from "@/components/campaign/campaignContentAdditionContainer";
 import CampaignContentArchiveContainer from "@/components/campaign/campaignContentArchiveContainer";
+import CampaignContentDetails from "@/components/campaign/campaignContentDetails";
 
 interface CampaignOptionPageContainerProps {
     campaignId: string;
@@ -39,12 +40,17 @@ const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = 
                 </button>
             </div>
             <div className={styles.campaignPageContent}>
-                {activeTab === "DETAILS" && <div>DETAILS</div>}
+                {activeTab === "DETAILS" &&
+                    <div>
+                        <CampaignContentDetails campaignId={campaignId} />
+                    </div>
+                }
                 {activeTab === "CONTENT" &&
                     <div className={styles.campaignContentTab}>
                         <CampaignContentAdditionContainer campaignId={campaignId} />
                         <CampaignContentArchiveContainer campaignId={campaignId} />
-                    </div>}
+                    </div>
+                }
                 {activeTab === "ANALYTICS" && <div>ANALYTICS</div>}
                 {activeTab === "PRODUCT DETAILS" && <div>PRODUCT DETAILS</div>}
             </div>
