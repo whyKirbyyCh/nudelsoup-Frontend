@@ -3,6 +3,7 @@ import styles from "../../styles/components/campaign/campaignContentAdditionPost
 import PostsContainer from "@/components/posts/postsContainer";
 import PageButton from "@/components/page/pageButton";
 import PopupPublishTOS from "@/components/popup/popupPublishTOS";
+import PostAdditionButton from "@/components/posts/postAdditionButton";
 
 interface CampaignContentAdditionPostsContainerProps {
     campaignId: string;
@@ -74,6 +75,11 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
     const onDisagree = () => {
         setShowPostTOS(false);
     };
+
+    const handleAddPost = () => {
+        console.log("add post");
+    };
+
     return (
         <div className={styles.campaignContentAdditionPostsContainer}>
             <div className={styles.campaignContentAdditionPostsContainerTitle}>
@@ -91,6 +97,7 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
                         onSave={handleSave}
                     />
                 ))}
+                <PostAdditionButton onClick={handleAddPost}/>
             </div>
             { !showPostTOS && (
                 <div className={styles.campaignContentAdditionPostsContainerButton}>

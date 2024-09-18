@@ -1,4 +1,4 @@
-.postsContainer{
+.postsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,9 +9,10 @@
     background: var(--background-color);
     padding-top: 2em;
     padding-bottom: 2em;
+    box-sizing: border-box;
 }
 
-.postsContainerSite{
+.postsContainerSite {
     display: flex;
     text-align: center;
     font-size: calc(var(--page-font-size) + 0.2vw);
@@ -19,22 +20,25 @@
     color: var(--header-base-color);
 }
 
-.postsContainerTitle{
+.postsContainerTitle {
     display: flex;
     text-align: center;
     font-size: calc(var(--page-font-size) + 0.6vw);
     font-weight: 600;
 }
 
-.postsContainerText{
+.postsContainerText {
     display: flex;
     text-align: center;
     font-size: calc(var(--page-font-size) - 0.5vw);
     padding-left: 1em;
     padding-right: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.postsContainerButtons{
+.postsContainerButtons {
     align-items: center;
     justify-items: center;
     display: flex;
@@ -42,15 +46,21 @@
     margin-top: 1em;
 }
 
-.postsContainerTitleInput{
+.postsContainerTitleInput {
     outline: none;
     border: 0.15em solid var(--text-color);
     padding: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.postsContainerTitleTextarea{
+.postsContainerTitleTextarea {
     outline: none;
     border: 0.15em solid var(--text-color);
     padding: 0.5em;
     resize: none;
+    width: 100%;
+    height: 150px;
+    overflow-y: auto;
+    box-sizing: border-box;
 }

@@ -1,0 +1,16 @@
+.postAdditionButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 17vw;
+    height: auto;
+    min-height: 15.5em;
+    border: 1.5em solid var(--text-color);
+    cursor: pointer;
+}
+
+.postAdditionIcon{
+    width: 6.5em;
+    height: 6.5em;
+    user-select: none;
+}
