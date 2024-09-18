@@ -21,6 +21,7 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const [remarks, setRemarks] = useState("");
     const [hasRedditBeenSelected, setHasRedditBeenSelected] = useState(false);
     const [selectedSubReddits, setSelectedSubReddits] = useState<number[]>([]);
+    const [selectedProduct, setSelectedProduct] = useState("SELECT PRODUCT");
 
     const services = [
         { id: 1, name: "Product Hunt" },
@@ -133,7 +134,6 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     };
 
     const resetContent = () => {
-        console.log("reset content");
         setSelectedServices([]);
         setTopic("");
         setGoal("");
@@ -164,6 +164,20 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
             </div>
             <div className={styles.campaignContentAddition}>
                 <div className={styles.campaignContentAdditionBody}>
+                    <div className={styles.label}>PRODUCT:</div>
+                    <select
+                        className={styles.valueSelect}
+                        value={selectedProduct}
+                        onChange={(e) => setSelectedProduct(e.target.value)}
+                    >
+                        <option value={selectedProduct} disabled hidden>
+                            {selectedProduct}
+                        </option>
+                        <option value="Product 1">Product 1</option>
+                        <option value="Product 2">Product 2</option>
+                        <option value="Product 3">Product 3</option>
+                        <option value="Product 4">Product 4</option>
+                    </select>
                     <div className={styles.label}>TOPIC:</div>
                     <input
                         type="text"

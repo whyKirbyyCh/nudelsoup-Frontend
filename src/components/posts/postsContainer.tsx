@@ -7,8 +7,8 @@ interface PostsContainerProps {
     site: string;
     title: string;
     text: string;
-    onDelete: (id: number) => void;
-    onSave: (id: number, newTitle: string, newText: string) => void;
+    onDelete?: (id: number) => void;
+    onSave?: (id: number, newTitle: string, newText: string) => void;
 }
 
 const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave}) => {
@@ -29,7 +29,9 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
     };
 
     const handleSaveClick = () => {
-        onSave(id, editedTitle, editedText);
+        if (onSave) {
+            onSave(id, editedTitle, editedText);
+        }
         setIsEditing(false);
     };
 
@@ -40,7 +42,9 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
     };
 
     const handleDeleteClick = () => {
-        onDelete(id);
+        if (onDelete) {
+            onDelete(id);
+        }
     };
 
     return (
@@ -71,14 +75,16 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
             </div>
             <div className={styles.postsContainerButtons}>
                 {isEditing ? (
-                    <>
-                        <PageButtonSmall label="SAVE" onClick={handleSaveClick} />
-                        <PageButtonSmall label="CANCEL" onClick={handleCancelClick} />
-                    </>
+                    onSave && (
+                        <>
+                            <PageButtonSmall label="SAVE" onClick={handleSaveClick} />
+                            <PageButtonSmall label="CANCEL" onClick={handleCancelClick} />
+                        </>
+                    )
                 ) : (
                     <>
-                        <PageButtonSmall label="EDIT" onClick={handleEditClick} />
-                        <PageButtonSmall label="DELETE" onClick={handleDeleteClick} />
+                        {onSave && <PageButtonSmall label="EDIT" onClick={handleEditClick} />}
+                        {onDelete && <PageButtonSmall label="DELETE" onClick={handleDeleteClick} />}
                     </>
                 )}
             </div>

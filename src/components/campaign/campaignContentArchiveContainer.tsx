@@ -43,20 +43,6 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
         },
     ]);
 
-    const handleDelete = (id: number) => {
-        setPosts(posts.filter((post) => post.id !== id));
-    };
-
-    const handleSave = (id: number, newTitle: string, newText: string) => {
-        setPosts(
-            posts.map((post) =>
-                post.id === id
-                    ? { ...post, title: newTitle, text: newText }
-                    : post
-            )
-        );
-    };
-
     return (
         <div className={styles.campaignContentArchiveContainer}>
             <div className={styles.campaignContentContainerTitle}>
@@ -78,8 +64,6 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                         site={post.site}
                         title={post.title}
                         text={post.text}
-                        onDelete={handleDelete}
-                        onSave={handleSave}
                     />
                 ))}
             </div>
