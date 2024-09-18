@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const routeGroups = {
     protected: ["/account-overview", "/account-creation"],
     payingCustomer: ["/account-overview", "/account-creation"],
-    agreed: ["/hallo"],
+    agreed: ["/hello"],
     verified: ["/verified-only-content"],
     setupDone: ["/dashboard"],
 };
