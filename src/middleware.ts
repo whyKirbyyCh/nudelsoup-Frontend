@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-// TODO: add all routes
-const protectedRoutes = ["/account-overview", "/account-creation"];
-const payingCustomerRoutes = ["/account-overview", "/account-creation"];
-const agreedRoutes = ["/hallo"];
-const verifiedRoutes = ["/verified-only-content"];
-const setupDoneRoutes = ["/dashboard"];
+const routeGroups = {
+    protected: ["/account-overview", "/account-creation"],
+    payingCustomer: ["/account-overview", "/account-creation"],
+    agreed: ["/hallo"],
+    verified: ["/verified-only-content"],
+    setupDone: ["/dashboard"],
+};
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? "THESECRETEKEYTHATSHALLNOTBEKNOWN");
 
@@ -23,36 +24,18 @@ export async function middleware(request: NextRequest) {
     }
 
     const authToken = request.cookies.get("authToken")?.value;
+    const path = request.nextUrl.pathname;
 
-    const isProtectedRoute = protectedRoutes.some(route =>
-        request.nextUrl.pathname.startsWith(route)
-    );
-
-    const isPayingCustomerRoute = payingCustomerRoutes.some(route =>
-        request.nextUrl.pathname.startsWith(route)
-    );
-
-    const isAgreedRoute = agreedRoutes.some(route =>
-        request.nextUrl.pathname.startsWith(route)
-    );
-
-    const isVerifiedRoute = verifiedRoutes.some(route =>
-        request.nextUrl.pathname.startsWith(route)
-    );
-
-    const isSetupDoneRoute = setupDoneRoutes.some(route =>
-        request.nextUrl.pathname.startsWith(route)
-    );
-
-    console.log("Requested Path:", request.nextUrl.pathname);
-    console.log("Is Protected Route:", isProtectedRoute);
-    console.log("Is Paying Customer Route:", isPayingCustomerRoute);
-    console.log("Is Agreed Route:", isAgreedRoute);
-    console.log("Is Verified Route:", isVerifiedRoute);
-    console.log("Is Setup Done Route:", isSetupDoneRoute);
+    console.log("Requested Path:", path);
     console.log("Auth Token Present:", !!authToken);
 
-    if ((isProtectedRoute || isPayingCustomerRoute || isAgreedRoute || isVerifiedRoute || isSetupDoneRoute) && !authToken) {
+    const isRouteInGroup = (group: string[]): boolean => group.some(route => path.startsWith(route));
+
+    const needsAuth = ["protected", "payingCustomer", "agreed", "verified", "setupDone"].some(group =>
+        isRouteInGroup(routeGroups[group as keyof typeof routeGroups])
+    );
+
+    if (needsAuth && !authToken) {
         console.log("Redirecting to /login due to missing authToken");
         return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -62,19 +45,19 @@ export async function middleware(request: NextRequest) {
             const { payload } = await jwtVerify(authToken, JWT_SECRET);
             const decoded = payload as unknown as JwtPayload;
 
-            if (isPayingCustomerRoute && !decoded.isPayingCustomer) {
+            if (isRouteInGroup(routeGroups.payingCustomer) && !decoded.isPayingCustomer) {
                 return NextResponse.redirect(new URL("/pricing", request.url));
             }
 
-            if (isAgreedRoute && !decoded.isAgreed) {
+            if (isRouteInGroup(routeGroups.agreed) && !decoded.isAgreed) {
                 return NextResponse.redirect(new URL("/terms-conditions", request.url));
             }
 
-            if (isVerifiedRoute && !decoded.isVerified) {
+            if (isRouteInGroup(routeGroups.verified) && !decoded.isVerified) {
                 return NextResponse.redirect(new URL("/verify-account", request.url));
             }
 
-            if (isSetupDoneRoute && !decoded.isSetupDone) {
+            if (isRouteInGroup(routeGroups.setupDone) && !decoded.isSetupDone) {
                 return NextResponse.redirect(new URL("/complete-setup", request.url));
             }
 
@@ -87,7 +70,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// TODO: add all routes paying and protected
 export const config = {
     matcher: [
         "/hello",
