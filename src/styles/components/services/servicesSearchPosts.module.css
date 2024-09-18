@@ -29,8 +29,15 @@
     background: var(--background-color);
     max-height: 3vw;
     height: 3vw;
+    cursor: pointer;
 }
 
 .searchInputButton:hover {
-    background: var();
+    background: var(--text-color);
+    color: var(--background-color);
+}
+
+.searchInputButton:active {
+    background: var(--background-color);
+    color: var(--text-color);
 }

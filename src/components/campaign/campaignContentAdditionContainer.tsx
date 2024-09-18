@@ -151,6 +151,12 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         }
     };
 
+    const onReset = () => {
+        resetContent()
+        setHasContentBeenCreated(false)
+        setHasRedditBeenSelected(false)
+    }
+
     return (
         <div className={styles.campaignContentAdditionContainer}>
             <div className={styles.campaignContentAdditionTitle}>
@@ -234,6 +240,7 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                             goal={goal}
                             selectedServices={selectedServices}
                             selectedSubReddits={selectedSubReddits}
+                            onReset={onReset}
                         />
                     </div>
                 }

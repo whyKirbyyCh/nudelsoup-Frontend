@@ -9,6 +9,10 @@ const ServicesSearchPosts = () => {
         setSearchTerm(event.target.value);
     };
 
+    const handleSearchClick = () => {
+        console.log("Search term:", searchTerm);
+    };
+
     return (
         <div className={styles.searchContainer}>
             <input
@@ -20,6 +24,7 @@ const ServicesSearchPosts = () => {
             />
             <button
                 className={styles.searchInputButton}
+                onClick={handleSearchClick}
             >
                 SEARCH
             </button>

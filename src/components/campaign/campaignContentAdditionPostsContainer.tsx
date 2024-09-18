@@ -10,6 +10,7 @@ interface CampaignContentAdditionPostsContainerProps {
     goal: string;
     selectedServices: number[];
     selectedSubReddits: number[];
+    onReset: () => void;
 }
 
 interface Post {
@@ -19,7 +20,7 @@ interface Post {
     text: string;
 }
 
-const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits }) => {
+const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits, onReset }) => {
     const [posts, setPosts] = useState<Post[]>([
         {
             id: 1,
@@ -94,7 +95,7 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
             { !showPostTOS && (
                 <div className={styles.campaignContentAdditionPostsContainerButton}>
                     <PageButton label={"PUBLISH"} onClick={handleShowPostTOS} />
-                    <PageButton label={"RESET"} />
+                    <PageButton label={"RESET"} onClick={onReset} />
                 </div>
             )}
             {showPostTOS && (
