@@ -52,7 +52,7 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
 
     const handleNavigate = () => {
         console.log("navigate to post", id);
-        router.push(`/post/${id}`);
+        router.push(`/post?id=${id}`);
     }
 
     const handleNoNavigation = () => {
