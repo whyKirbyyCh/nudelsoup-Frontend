@@ -39,14 +39,14 @@ const PostOverviewContainer: React.FC<PostOverviewContainerProps> = ({ postId })
                     </div>
                     <div className={styles.valueBox}>
                         <div className={styles.valueLabel}>TEXT:</div>
-                        <div className={styles.valueInput}>some text</div>
+                        <div className={styles.valueInputText}>some text</div>
                     </div>
                     <div className={styles.valueBox}>
                         <div className={styles.valueLabel}>DATE:</div>
                         <div className={styles.valueInput}>some date</div>
                     </div>
                     <div className={styles.postOverviewButtons}>
-                        <PageButton label={"GO TO PAGE"} onClick={handleNavigate}/>
+                        <PageButton label={"VISIT POST"} onClick={handleNavigate}/>
                         <PageButton label={"DELETE POST"} onClick={handleDelete}/>
                     </div>
                 </div>
