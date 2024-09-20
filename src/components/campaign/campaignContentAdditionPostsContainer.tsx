@@ -4,6 +4,7 @@ import PostsContainer from "@/components/posts/postsContainer";
 import PageButton from "@/components/page/pageButton";
 import PopupPublishTOS from "@/components/popup/popupPublishTOS";
 import PostAdditionButton from "@/components/posts/postAdditionButton";
+import PostsAdditionPopup from "@/components/posts/postsAdditionPopup";
 
 interface CampaignContentAdditionPostsContainerProps {
     campaignId: string;
@@ -49,6 +50,7 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
         },
     ]);
     const [showPostTOS, setShowPostTOS] = useState(false);
+    const [showAddPostMenu, setShowAddPostMenu] = useState(false);
 
     const handleDelete = (id: number) => {
         setPosts(posts.filter((post) => post.id !== id));
@@ -78,6 +80,7 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
 
     const handleAddPost = () => {
         console.log("add post");
+        setShowAddPostMenu(true);
     };
 
     return (
@@ -108,6 +111,14 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
             {showPostTOS && (
                 <div className={styles.campaignContentAdditionPostsContainerPopup}>
                     <PopupPublishTOS onAgree={onAgree} onDisagree={onDisagree} />
+                </div>
+            )}
+            {showAddPostMenu && (
+                <div className={styles.campaignContentAdditionPostsContainerPopup}>
+                    <PostsAdditionPopup
+                        onClose={() => setShowAddPostMenu(false)}
+                        onAddPost={(post) => setPosts([...posts, post])}
+                    />
                 </div>
             )}
         </div>
