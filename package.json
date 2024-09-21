@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.5.0",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.6.0",
     "dotenv": "^16.4.5",
@@ -16,10 +18,11 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongodb": "^6.8.1",
-    "next": "14.2.7",
+    "next": "^14.2.13",
     "next-auth": "^4.24.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "stripe": "^16.12.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
