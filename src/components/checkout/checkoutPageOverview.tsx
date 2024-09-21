@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 import ConvertToSubCurrency from "@/lib/convertToSubCurrency";
 import styles from "../../styles/components/checkout/checkoutPageOverview.module.css"
+import PageButton from "@/components/page/pageButton";
 
 const CheckoutPageOverview = ({ amount }: { amount: number }) => {
     const stripe = useStripe();
@@ -11,10 +12,8 @@ const CheckoutPageOverview = ({ amount }: { amount: number }) => {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [clientSecret, setClientSecret] = useState("");
     const [loading, setLoading] = useState(false);
-    const [name, setName] = useState<string>(""); // Name state
-    const [consent, setConsent] = useState<boolean>(false); // Consent checkbox state
-    const [nameError, setNameError] = useState<string | null>(null); // Error handling for name
-    const [consentError, setConsentError] = useState<string | null>(null); // Error handling for consent
+    const [consent, setConsent] = useState<boolean>(false);
+    const [consentError, setConsentError] = useState<string | null>(null);
 
     useEffect(() => {
         fetch('/api/payment/createPaymentIntent', {
@@ -41,16 +40,7 @@ const CheckoutPageOverview = ({ amount }: { amount: number }) => {
         event.preventDefault();
         setLoading(true);
 
-        // Clear previous errors
-        setNameError(null);
         setConsentError(null);
-
-        // Validate customer name and consent
-        if (name.trim() === "") {
-            setNameError("Please provide your name.");
-            setLoading(false);
-            return;
-        }
 
         if (!consent) {
             setConsentError("You must agree to the terms and conditions.");
@@ -91,20 +81,12 @@ const CheckoutPageOverview = ({ amount }: { amount: number }) => {
         <div>
             {!isNotStripeReady && (
                 <form onSubmit={handleSubmit} className={styles.checkoutPageOverviewForm}>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="customer-name">Name</label>
-                        <input
-                            type="text"
-                            id="customer-name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Enter your name"
-                            className={styles.formInput}
-                        />
-                        {nameError && <div className={styles.error}>{nameError}</div>}
-                    </div>
 
-                    {/* Consent Checkbox */}
+                    {clientSecret && <PaymentElement/>}
+
+                    {errorMessage && <div className={styles.error}>{errorMessage}</div>}
+
+
                     <div className={styles.formGroup}>
                         <label className={styles.consentLabel}>
                             <input
@@ -116,17 +98,9 @@ const CheckoutPageOverview = ({ amount }: { amount: number }) => {
                         </label>
                         {consentError && <div className={styles.error}>{consentError}</div>}
                     </div>
-
-                    {clientSecret && <PaymentElement />}
-
-                    {errorMessage && <div className={styles.error}>{errorMessage}</div>}
-
-                    <button
-                        disabled={!stripe || loading}
-                        className={styles.checkoutPageOverviewPaymentButton}
-                    >
-                        {!loading ? `Pay $${amount}` : "Processing..."}
-                    </button>
+                    <div className={styles.checkoutPageOverviewPaymentButton}>
+                        <PageButton label={!loading ? `PAY $${amount}` : "PROCESSING..."}/>
+                    </div>
                 </form>
             )}
             {isNotStripeReady && (

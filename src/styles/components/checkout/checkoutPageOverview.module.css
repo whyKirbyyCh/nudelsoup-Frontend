@@ -1,0 +1,13 @@
+.checkoutPageOverviewPaymentButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.error{
+    color: var(--error-color);
+    text-align: center;
+    margin: 1em;
+    font-size: var(--page-font-size);
+}
