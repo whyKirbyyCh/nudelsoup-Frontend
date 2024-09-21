@@ -18,9 +18,10 @@ interface HeaderProps {
     navOptions: NavOption[];
     fontSizeVariant?: "small" | "large";
     showButtons?: boolean;
+    disableNavigation?: boolean;  // Optional prop to disable navigation
 }
 
-const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSizeVariant = "small", showButtons = true,}) => {
+const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSizeVariant = "small", showButtons = true, disableNavigation = false}) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [seesDifferentNav, setSeesDifferentNav] = useState(false);
@@ -61,40 +62,42 @@ const Header: React.FC<HeaderProps> = ({iconSize = "large", navOptions, fontSize
                     <HeaderIcon size={iconSize} />
                 </Link>
             </div>
-            <nav className={styles.nav}>
-                <ul className={`${styles.navList} ${menuOpen ? styles.open : ""}`}>
-                    {displayedNavOptions.map((item) => (
-                        <li key={item.id} className={styles.navItem}>
-                            <Link href={item.href} className={styles.navLink}>
-                                {item.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-                {showButtons && (
-                    <ul className={styles.navButtons}>
-                        {isAuthenticated ? (
-                            <>
-                                <HeaderPicture />
-                            </>
-                        ) : (
-                            <>
-                                <li className={`${styles.navButton} ${styles.demoButton}`}>
-                                    <HeaderButton label="TRY DEMO" href="/demo" />
-                                </li>
-                                <li className={styles.navButton}>
-                                    <HeaderButton label="LOG IN" href="/login" />
-                                </li>
-                            </>
-                        )}
+            {!disableNavigation && (
+                <nav className={styles.nav}>
+                    <ul className={`${styles.navList} ${menuOpen ? styles.open : ""}`}>
+                        {displayedNavOptions.map((item) => (
+                            <li key={item.id} className={styles.navItem}>
+                                <Link href={item.href} className={styles.navLink}>
+                                    {item.label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                )}
-                <button className={styles.hamburger} onClick={toggleMenu}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </nav>
+                    {showButtons && (
+                        <ul className={styles.navButtons}>
+                            {isAuthenticated ? (
+                                <>
+                                    <HeaderPicture />
+                                </>
+                            ) : (
+                                <>
+                                    <li className={`${styles.navButton} ${styles.demoButton}`}>
+                                        <HeaderButton label="TRY DEMO" href="/demo" />
+                                    </li>
+                                    <li className={styles.navButton}>
+                                        <HeaderButton label="LOG IN" href="/login" />
+                                    </li>
+                                </>
+                            )}
+                        </ul>
+                    )}
+                    <button className={styles.hamburger} onClick={toggleMenu}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </nav>
+            )}
         </header>
     );
 };

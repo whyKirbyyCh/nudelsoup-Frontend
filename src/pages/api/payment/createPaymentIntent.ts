@@ -1,5 +1,3 @@
-// pages/api/payment/createPaymentIntent.ts
-
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
@@ -26,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ error: "Missing amount in request body" });
         }
 
-        // Create a PaymentIntent with the specified amount and currency
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
             currency: "usd",
@@ -35,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
         });
 
-        // Return the client secret for the PaymentIntent
         res.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
         console.error("Error creating PaymentIntent:", error);
