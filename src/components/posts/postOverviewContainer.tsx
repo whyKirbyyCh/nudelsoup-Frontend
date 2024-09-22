@@ -26,6 +26,12 @@ const PostOverviewContainer: React.FC<PostOverviewContainerProps> = ({ postId })
                 >
                     DETAILS / ACTIONS
                 </button>
+                <button
+                    className={`${styles.tab} ${activeTab === "ANALYTICS" ? styles.active : ""}`}
+                    onClick={() => setActiveTab("ANALYTICS")}
+                >
+                    ANALYTICS
+                </button>
             </div>
             {activeTab === "DETAILS / ACTIONS" &&
                 <div className={styles.postOverviewDetails}>
@@ -51,6 +57,12 @@ const PostOverviewContainer: React.FC<PostOverviewContainerProps> = ({ postId })
                     </div>
                 </div>
             }
+            {activeTab === "ANALYTICS" &&
+                  <div className={styles.postOverviewDetails}>
+                      Hi
+                  </div>
+              }
+
         </div>
     );
 };
