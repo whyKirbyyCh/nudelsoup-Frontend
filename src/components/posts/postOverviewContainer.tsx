@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/posts/postOverviewContainer.module.css"
 import PageButton from "@/components/page/pageButton";
+import AnalyticsOverviewContainerPosts from "../analytics/analyticsOverviewContainerPosts.tsx"
 
 interface PostOverviewContainerProps{
     postId: number;
@@ -59,7 +60,7 @@ const PostOverviewContainer: React.FC<PostOverviewContainerProps> = ({ postId })
             }
             {activeTab === "ANALYTICS" &&
                   <div className={styles.postOverviewDetails}>
-                      Hi
+                      <AnalyticsOverviewContainerPosts postId={1} />
                   </div>
               }
 
