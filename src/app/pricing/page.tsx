@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -25,6 +25,29 @@ export default function Page() {
     ];
     const [selectedOption, setSelectedOption] = useState(-1);
     const [errorMessage, setErrorMessage] = useState("");
+    const [isYearlySelected, setIsYearlySelected] = useState(false)
+
+    useEffect(() => {
+        const updateAuthCookie = async () => {
+            try {
+                const response = await fetch("/api/cookies/updateAuthCookie", {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    console.error("Failed to update auth cookie");
+                } else {
+                    const data = await response.json();
+                    console.log(data.message);
+                }
+            } catch (error) {
+                console.error("Error updating auth cookie:", error);
+            }
+        };
+
+        updateAuthCookie();
+    }, []);
 
     const selectOption1 = () => {
         setSelectedOption(1);
@@ -50,50 +73,55 @@ export default function Page() {
         if (selectedOption === -1) {
             setErrorMessage("Please select one of the options before proceeding to checkout");
         } else {
-            makePaymentRequest().then();
+            makePaymentRequest(selectedOption).then();
         }
     };
 
     //TODO: make it that user has to create account before moving to checkout if ot logged in
-    const makePaymentRequest = async () => {
+    const makePaymentRequest = async (option: number) => {
         console.log("Payment request sent");
 
         try {
             const token = getCookie("authToken");
+
             if (!token) {
                 setErrorMessage("User is not authenticated. Please log in.");
-                return;
+                router.push("/login")
+                return
             }
 
             const decodedToken = jwt.decode(token) as JwtPayload | null;
 
             if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
                 setErrorMessage("Invalid token or missing userId");
+                router.push("/login")
+                return
+            }
+
+            if (decodedToken.isPayingCustomer){
+                setErrorMessage("Account already as an active subscription. Please go to Setting to change or cancel your plan.")
                 return;
             }
 
-            const userId = decodedToken.userId as string;
-            const response = await fetch("/api/userPayed", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ userId: userId, isPayingCustomer: true }),
-            });
-
-            if (!response.ok) {
-                if (response.headers.get("content-type")?.includes("application/json")) {
-                    const errorData = await response.json();
-                    setErrorMessage(errorData.message || "There was an error with your payment!");
-                } else {
-                    setErrorMessage("There was an error with your payment!");
+            if(isYearlySelected){
+                if (option === 1){
+                    router.push("https://buy.stripe.com/test_9AQ3fS6hL4dW1qM149")
+                }else if (option === 2){
+                    router.push("https://buy.stripe.com/test_9AQdUwdKdaCk8TedQS")
+                }else if(option === 3){
+                    router.push("https://buy.stripe.com/test_3cs17K0XrbGo1qM145")
                 }
-                return;
+            }else{
+                if (option === 1){
+                    router.push("https://buy.stripe.com/test_dR62bOgWpbGoglG6ou")
+                }else if (option === 2){
+                    router.push("https://buy.stripe.com/test_eVa7w8bC5cKsfhC9AD")
+                }else if (option === 3){
+                    router.push("https://buy.stripe.com/test_6oEbMo49DbGo7PadQQ")
+                }
             }
-
-            router.push("/account-setup");
         } catch (error) {
-            console.error("Error updating payment status:", error);
+            console.error("Error during payment request:", error);
             setErrorMessage("There was an error with your payment!");
         }
     };
