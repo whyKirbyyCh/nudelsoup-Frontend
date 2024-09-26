@@ -3,11 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { loadStripe } from "@stripe/stripe-js"; // Importing loadStripe to initialize Stripe on client
 
 import styles from "./pricingPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import PagePricingBox from "@/components/page/pagePricingBox";
+
+
+const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
+
+if (!stripePublicKey) {
+    throw new Error("Stripe public key is not set in environment variables");
+}
+
+const stripePromise = loadStripe(stripePublicKey);
 
 const getCookie = (name: string): string | undefined => {
     const value = `; ${document.cookie}`;
@@ -25,7 +35,8 @@ export default function Page() {
     ];
     const [selectedOption, setSelectedOption] = useState(-1);
     const [errorMessage, setErrorMessage] = useState("");
-    const [isYearlySelected, setIsYearlySelected] = useState(false)
+    const [isYearlySelected, setIsYearlySelected] = useState(false);
+    const [customerEmail, setCustomerEmail] = useState("text@example.com");
 
     useEffect(() => {
         const updateAuthCookie = async () => {
@@ -77,7 +88,6 @@ export default function Page() {
         }
     };
 
-    //TODO: make it that user has to create account before moving to checkout if ot logged in
     const makePaymentRequest = async (option: number) => {
         console.log("Payment request sent");
 
@@ -86,38 +96,67 @@ export default function Page() {
 
             if (!token) {
                 setErrorMessage("User is not authenticated. Please log in.");
-                router.push("/login")
-                return
+                router.push("/login");
+                return;
             }
 
             const decodedToken = jwt.decode(token) as JwtPayload | null;
 
             if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
                 setErrorMessage("Invalid token or missing userId");
-                router.push("/login")
-                return
-            }
-
-            if (decodedToken.isPayingCustomer){
-                setErrorMessage("Account already as an active subscription. Please go to Setting to change or cancel your plan.")
+                router.push("/login");
                 return;
             }
 
-            if(isYearlySelected){
-                if (option === 1){
-                    router.push("https://buy.stripe.com/test_9AQ3fS6hL4dW1qM149")
-                }else if (option === 2){
-                    router.push("https://buy.stripe.com/test_9AQdUwdKdaCk8TedQS")
-                }else if(option === 3){
-                    router.push("https://buy.stripe.com/test_3cs17K0XrbGo1qM145")
-                }
-            }else{
-                if (option === 1){
-                    router.push("https://buy.stripe.com/test_dR62bOgWpbGoglG6ou")
-                }else if (option === 2){
-                    router.push("https://buy.stripe.com/test_eVa7w8bC5cKsfhC9AD")
-                }else if (option === 3){
-                    router.push("https://buy.stripe.com/test_6oEbMo49DbGo7PadQQ")
+            if (decodedToken.isPayingCustomer) {
+                setErrorMessage(
+                    "Account already has an active subscription. Please go to Settings to change or cancel your plan."
+                );
+                //return;
+            }
+
+            let priceId;
+            if (isYearlySelected) {
+                if (option === 1) priceId = "price_1Q2QBj08drlwCs6aDl3flY9N";
+                else if (option === 2) priceId = "price_1Q2Q9O08drlwCs6aHJFwQMKc";
+                else if (option === 3) priceId = "price_1Q1UEn08drlwCs6aFmwjFxJI";
+            } else {
+                if (option === 1) priceId = "price_1Q1TW908drlwCs6ax12Ghvy6";
+                else if (option === 2) priceId = "price_1Q1TWT08drlwCs6aGgJQRbuk";
+                else if (option === 3) priceId = "price_1Q1TWi08drlwCs6aJEvcKVCK";
+            }
+
+            if (!priceId) {
+                setErrorMessage("Invalid pricing option selected");
+                return;
+            }
+
+            // Call the server-side API to create a Stripe checkout session
+            const response = await fetch("/api/stripeCheckoutSession", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    priceId,
+                    email: customerEmail,
+                }),
+            });
+
+            if (!response.ok) {
+                setErrorMessage("Failed to create checkout session");
+                return;
+            }
+
+            const { sessionId } = await response.json();
+
+            // Use the Stripe.js to redirect to Stripe Checkout with the sessionId
+            const stripe = await stripePromise;
+            if (stripe) {
+                const { error } = await stripe.redirectToCheckout({ sessionId });
+                if (error) {
+                    console.error("Stripe Checkout error:", error);
+                    setErrorMessage("There was an error redirecting to Stripe!");
                 }
             }
         } catch (error) {

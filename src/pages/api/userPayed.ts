@@ -30,40 +30,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     try {
         const { db } = await connectToDatabase();
 
-        const result = await db.collection('users').updateOne(
-            { _id: new ObjectId(userId) },
-            { $set: { isPayingCustomer } }
-        );
-
-        if (result.matchedCount === 0) {
+        const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+        if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const updatedUser = await db.collection('users').findOne({ _id: new ObjectId(userId) });
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found after update' });
-        }
+        // Set token expiration based on subscription end date
+        const tokenExpiration = user.subscriptionEndDate
+            ? Math.floor(new Date(user.subscriptionEndDate).getTime() / 1000) // Unix timestamp
+            : Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60; // Default to 14 days if no subscription
 
         const payload = {
-            userId: updatedUser._id,
-            username: updatedUser.username,
-            isAdmin: updatedUser.isAdmin,
-            isPayingCustomer: updatedUser.isPayingCustomer,
-            isVerified: updatedUser.isVerified,
-            isAgreed: updatedUser.isAgreed,
-            isSetupDone: updatedUser.isSetupDone,
-            email: updatedUser.email,
-            createdAt: updatedUser.createdAt,
+            userId: user._id,
+            username: user.username,
+            isAdmin: user.isAdmin,
+            isPayingCustomer: user.isPayingCustomer,
+            subscriptionEndDate: user.subscriptionEndDate, // Include in the JWT
         };
 
-        const newToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '14d' });
+        const newToken = jwt.sign(payload, JWT_SECRET, { expiresIn: tokenExpiration });
 
         res.setHeader(
             'Set-Cookie',
             serialize('authToken', newToken, {
                 httpOnly: false,
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 14 * 24 * 60 * 60,
+                maxAge: tokenExpiration - Math.floor(Date.now() / 1000), // Set cookie to expire when the token does
                 path: '/',
                 sameSite: 'strict',
             })
