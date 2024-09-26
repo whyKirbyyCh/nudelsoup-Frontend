@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 
 export const config = {
     api: {
-        bodyParser: false, // Required for raw body handling
+        bodyParser: false,
     },
 };
 
@@ -44,91 +44,166 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { db } = await connectToDatabase();
 
         switch (event.type) {
-            case "checkout.session.completed":
-                const session = event.data.object;
+            case "checkout.session.completed": {
+                const session = event.data.object as Stripe.Checkout.Session;
 
-                // Ensure the session contains a subscription
-                if (!session.subscription) {
+                const subscriptionId = session.subscription as string;
+                if (!subscriptionId) {
                     console.error("No subscription found in the session.");
                     return res.status(400).json({ error: "No subscription found in the session." });
                 }
 
-                const subscriptionId = session.subscription as string;
-
-                // Retrieve subscription details from Stripe
                 const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
-                // Retrieve the customer details using the customer ID from the subscription
                 const customer = await stripe.customers.retrieve(subscription.customer as string);
 
-                // Type guard to check if the customer is a regular Customer or a DeletedCustomer
                 if (customer.deleted) {
                     console.error("Customer has been deleted.");
                     return res.status(400).json({ error: "Customer has been deleted." });
                 }
 
-                // Ensure the customer object has the email
                 const customerEmail = (customer as Stripe.Customer).email;
                 if (!customerEmail) {
                     console.error("Customer email not found.");
                     return res.status(400).json({ error: "Customer email not found." });
                 }
 
-                // Determine the subscription plan type based on price ID or interval
                 const priceId = subscription.items.data[0].price.id;
-                const interval = subscription.items.data[0].price.recurring?.interval; // monthly or yearly
-
-                // Calculate the subscription end date based on the interval
+                const interval = subscription.items.data[0].price.recurring?.interval;
                 const startDate = new Date(subscription.current_period_start * 1000);
-                const endDate = new Date(subscription.current_period_end * 1000); // Same logic for both monthly and yearly
+                const endDate = new Date(subscription.current_period_end * 1000);
 
-                // Update user in the database
                 const result = await db.collection('users').updateOne(
                     { email: customerEmail },
                     {
                         $set: {
-                            isPayingCustomer: true,
                             subscriptionStartDate: startDate,
                             subscriptionEndDate: endDate,
-                            priceId, // Save the price ID for future reference
+                            priceId,
                         },
                     }
                 );
 
                 console.log(`User ${customerEmail} subscription updated with ${interval} plan.`);
+                console.log(`Matched count: ${result.matchedCount}, Modified count: ${result.modifiedCount}`);
                 break;
+            }
 
-            case "customer.subscription.deleted":
-                const canceledSubscription = event.data.object;
+            case "customer.subscription.created": {
+                const subscription = event.data.object as Stripe.Subscription;
 
-                // Retrieve customer details from the canceled subscription
-                const canceledCustomer = await stripe.customers.retrieve(canceledSubscription.customer as string);
+                const customer = await stripe.customers.retrieve(subscription.customer as string);
 
-                // Type guard to check if the customer is a regular Customer or a DeletedCustomer
-                if (canceledCustomer.deleted) {
+                if (customer.deleted) {
                     console.error("Customer has been deleted.");
                     return res.status(400).json({ error: "Customer has been deleted." });
                 }
 
-                const canceledCustomerEmail = (canceledCustomer as Stripe.Customer).email;
-                if (!canceledCustomerEmail) {
+                const customerEmail = (customer as Stripe.Customer).email;
+                if (!customerEmail) {
+                    console.error("Customer email not found.");
+                    return res.status(400).json({ error: "Customer email not found." });
+                }
+
+                const priceId = subscription.items.data[0].price.id;
+                const interval = subscription.items.data[0].price.recurring?.interval;
+                const startDate = new Date(subscription.current_period_start * 1000);
+                const endDate = new Date(subscription.current_period_end * 1000);
+
+                await db.collection('users').updateOne(
+                    { email: customerEmail },
+                    {
+                        $set: {
+                            subscriptionStartDate: startDate,
+                            subscriptionEndDate: endDate,
+                            priceId,
+                        },
+                    }
+                );
+
+                console.log(`User ${customerEmail} subscription created with ${interval} plan.`);
+                break;
+            }
+
+            case "customer.subscription.updated": {
+                const subscription = event.data.object as Stripe.Subscription;
+                const previousAttributes = event.data.previous_attributes;
+
+                const customer = await stripe.customers.retrieve(subscription.customer as string);
+                if (customer.deleted) {
+                    console.error("Customer has been deleted.");
+                    return res.status(400).json({ error: "Customer has been deleted." });
+                }
+
+                const customerEmail = (customer as Stripe.Customer).email;
+                if (!customerEmail) {
+                    console.error("Customer email not found.");
+                    return res.status(400).json({ error: "Customer email not found." });
+                }
+
+                console.log("Subscription updated.");
+
+                if (previousAttributes) {
+                    console.log("Changes detected in subscription:");
+                    (Object.keys(previousAttributes) as Array<keyof Stripe.Subscription>).forEach((key) => {
+                        const oldValue = previousAttributes[key];
+                        const newValue = subscription[key];
+
+                        console.log(`- ${String(key)}: changed from ${oldValue} to ${newValue}`);
+                    });
+                } else {
+                    console.log("No changes detected in subscription.");
+                }
+
+                const priceId = subscription.items.data[0].price.id;
+                const interval = subscription.items.data[0].price.recurring?.interval;
+                const startDate = new Date(subscription.current_period_start * 1000);
+                const endDate = new Date(subscription.current_period_end * 1000);
+
+                const result = await db.collection('users').updateOne(
+                    { email: customerEmail },
+                    {
+                        $set: {
+                            subscriptionStartDate: startDate,
+                            subscriptionEndDate: endDate,
+                            priceId,
+                        },
+                    }
+                );
+
+                console.log(`User ${customerEmail} subscription updated with ${interval} plan.`);
+                console.log(`Matched count: ${result.matchedCount}, Modified count: ${result.modifiedCount}`);
+                break;
+            }
+
+            case "customer.subscription.deleted": {
+                const subscription = event.data.object as Stripe.Subscription;
+                const customer = await stripe.customers.retrieve(subscription.customer as string);
+
+                if (customer.deleted) {
+                    console.error("Customer has been deleted.");
+                    return res.status(400).json({ error: "Customer has been deleted." });
+                }
+
+                const customerEmail = (customer as Stripe.Customer).email;
+                if (!customerEmail) {
                     console.error("Customer email not found for canceled subscription.");
                     return res.status(400).json({ error: "Customer email not found for canceled subscription." });
                 }
 
-                // When a subscription is canceled, update the user record accordingly
                 await db.collection('users').updateOne(
-                    { email: canceledCustomerEmail },
+                    { email: customerEmail },
                     {
                         $set: {
                             isPayingCustomer: false,
-                            subscriptionEndDate: null, // Cancel access immediately
+                            subscriptionEndDate: null,
+                            subscriptionStartDate: null,
                         },
                     }
                 );
-                console.log(`Subscription canceled for user: ${canceledCustomerEmail}`);
+                console.log(`Subscription canceled for user: ${customerEmail}`);
                 break;
-
+            }
             default:
                 console.warn(`Unhandled event type: ${event.type}`);
         }

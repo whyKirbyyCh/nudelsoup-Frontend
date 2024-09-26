@@ -19,18 +19,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        // Create a Stripe Checkout Session with pre-filled customer email
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price: priceId, // Price ID based on selected plan
+                    price: priceId,
                     quantity: 1,
                 },
             ],
             mode: 'subscription',
-            customer_email: email, // Prefill the customer's email
-            success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+            customer_email: email,
+            success_url: `${req.headers.origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${req.headers.origin}/cancel`,
         });
 

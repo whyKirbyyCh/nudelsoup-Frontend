@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { loadStripe } from "@stripe/stripe-js"; // Importing loadStripe to initialize Stripe on client
+import { loadStripe } from "@stripe/stripe-js";
 
 import styles from "./pricingPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import PagePricingBox from "@/components/page/pagePricingBox";
-
 
 const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 
@@ -36,7 +35,6 @@ export default function Page() {
     const [selectedOption, setSelectedOption] = useState(-1);
     const [errorMessage, setErrorMessage] = useState("");
     const [isYearlySelected, setIsYearlySelected] = useState(false);
-    const [customerEmail, setCustomerEmail] = useState("text@example.com");
 
     useEffect(() => {
         const updateAuthCookie = async () => {
@@ -88,6 +86,21 @@ export default function Page() {
         }
     };
 
+    const getCustomerEmail = async (userId: string) => {
+        try {
+            const response = await fetch(`/api/userDetails/userEmailById?userId=${userId}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch customer email");
+            }
+            const data = await response.json();
+            return data.email;
+        } catch (error) {
+            console.error("Error fetching customer email:", error);
+            setErrorMessage("There was an error retrieving customer email.");
+            return null;
+        }
+    };
+
     const makePaymentRequest = async (option: number) => {
         console.log("Payment request sent");
 
@@ -112,7 +125,12 @@ export default function Page() {
                 setErrorMessage(
                     "Account already has an active subscription. Please go to Settings to change or cancel your plan."
                 );
-                //return;
+                return;
+            }
+
+            const customerEmail = await getCustomerEmail(decodedToken.userId);
+            if (!customerEmail) {
+                return;
             }
 
             let priceId;
@@ -131,7 +149,6 @@ export default function Page() {
                 return;
             }
 
-            // Call the server-side API to create a Stripe checkout session
             const response = await fetch("/api/stripeCheckoutSession", {
                 method: "POST",
                 headers: {
@@ -150,7 +167,6 @@ export default function Page() {
 
             const { sessionId } = await response.json();
 
-            // Use the Stripe.js to redirect to Stripe Checkout with the sessionId
             const stripe = await stripePromise;
             if (stripe) {
                 const { error } = await stripe.redirectToCheckout({ sessionId });
