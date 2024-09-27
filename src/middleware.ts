@@ -3,10 +3,10 @@ import { jwtVerify } from "jose";
 
 const routeGroups = {
     protected: ["/account-overview", "/account-creation"],
-    payingCustomer: ["/account-overview", "/account-creation"],
-    agreed: ["/hello"],
-    verified: ["/verified-only-content"],
-    setupDone: ["/dashboard"],
+    payingCustomer: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post"],
+    agreed: ["/account-completion"],
+    verified: [""],
+    setupDone: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post"],
 };
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? "THESECRETEKEYTHATSHALLNOTBEKNOWN");
@@ -72,13 +72,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        "/hello",
         "/account-overview",
-        "/another-protected-route",
-        "/premium-content",
-        "/exclusive-deals",
-        "/terms-conditions",
-        "/verified-only-content",
-        "/dashboard",
+        "/account-creation",
+        "/product-overview",
+        "/campaign-overview",
+        "/product",
+        "/campaign",
+        "/post",
+        "/account-completion",
     ],
 };
