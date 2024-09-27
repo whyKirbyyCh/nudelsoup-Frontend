@@ -2,7 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET is not set in environment variables');
+}
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
@@ -34,13 +38,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             return res.status(401).json({ message: 'Token has expired' });
         }
 
-        jwt.verify(token, JWT_SECRET, { ignoreExpiration: true });
+        jwt.verify(token, JWT_SECRET!, { ignoreExpiration: true });
 
         const remainingTime = exp - currentTime;
 
         const { iat, nbf, jti, exp: _, ...newPayload } = decodedToken;
 
-        const newToken = jwt.sign(newPayload, JWT_SECRET, { expiresIn: remainingTime });
+        const newToken = jwt.sign(newPayload, JWT_SECRET!, { expiresIn: remainingTime });
 
         res.setHeader(
             'Set-Cookie',

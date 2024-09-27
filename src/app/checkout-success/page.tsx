@@ -1,67 +1,79 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import jwt, { JwtPayload } from "jsonwebtoken";
-
-const getCookie = (name: string): string | undefined => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(";").shift();
-    return undefined;
-};
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
+    const [email, setEmail] = useState("");
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
-        const updatePaymentStatus = async () => {
+        const checkSessionAndFetchData = async () => {
+            const sessionId = searchParams?.get("session_id") ?? "";
+
+            if (!sessionId || sessionId === "") {
+                router.push("/pricing");
+                return;
+            }
+
             try {
-                const token = getCookie("authToken");
-                if (!token) {
-                    setErrorMessage("User is not authenticated. Please log in.");
+                const response = await fetch(`/api/userDetails/userEmailByCheckoutSession?sessionId=${sessionId}`);
+
+                if (!response.ok) {
+                    setErrorMessage("Failed to retrieve session data.");
+                    console.log(response)
                     return;
                 }
 
-                const decodedToken = jwt.decode(token) as JwtPayload | null;
+                const sessionData = await response.json();
 
-                if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
-                    setErrorMessage("Invalid token or missing userId");
+                if (sessionData.email) {
+                    setEmail(sessionData.email);
+                    if (sessionData.email) {
+                        setEmail(sessionData.email);
+
+                        await fetch("/api/userPayed", {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ userEmail: sessionData.email, isPayingCustomer: true }),
+                        });
+                    } else {
+                        setErrorMessage("No email found in session data.");
+                    }
+                } else {
+                    setErrorMessage("No email found in session data.");
+                }
+
+                if (!email) {
+                    setErrorMessage("No email found to send in the request.");
                     return;
                 }
 
-                const userId = decodedToken.userId as string;
-                const response = await fetch("/api/userPayed", {
+                await fetch("/api/userPayed", {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ userId: userId, isPayingCustomer: true }),
+                    body: JSON.stringify({ userEmail: email, isPayingCustomer: true }),
                 });
 
-                if (!response.ok) {
-                    if (response.headers.get("content-type")?.includes("application/json")) {
-                        const errorData = await response.json();
-                        setErrorMessage(errorData.message || "There was an error with your payment!");
-                    } else {
-                        setErrorMessage("There was an error with your payment!");
-                    }
-                    return;
-                }
-
             } catch (error) {
-                console.error("Error updating payment status:", error);
-                setErrorMessage("There was an error with your payment!");
+                console.error("Error fetching session details:", error);
+                setErrorMessage("There was an error with your payment.");
             }
         };
 
-        updatePaymentStatus();
-    }, [router]);
+        checkSessionAndFetchData().then();
+    }, [router, searchParams]);
 
     return (
         <div>
             <h1>Payment Success</h1>
+            {email ? <p>Thank you, {email}, for your payment!</p> : null}
             {errorMessage && <p>{errorMessage}</p>}
         </div>
     );

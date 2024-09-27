@@ -1,14 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/db';
-import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
-// TODO: Move this to .env
 const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
 
 interface UpdatePayingStatusRequest {
-    userId: string;
+    userEmail: string;
     isPayingCustomer: boolean;
 }
 
@@ -21,45 +19,76 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { userId, isPayingCustomer }: UpdatePayingStatusRequest = req.body;
+    const { userEmail, isPayingCustomer }: UpdatePayingStatusRequest = req.body;
 
-    if (!userId || !isPayingCustomer) {
-        return res.status(400).json({ message: 'User ID and isPayingCustomer status are required' });
+    if (!userEmail) {
+        return res.status(400).json({ message: 'User email and isPayingCustomer status are required' });
     }
 
     try {
         const { db } = await connectToDatabase();
 
-        const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
-        if (!user) {
+        const normalizedEmail = userEmail.trim().toLowerCase();
+
+        const result = await db.collection('users').findOneAndUpdate(
+            { email: normalizedEmail },
+            { $set: { isPayingCustomer } },
+            { returnDocument: 'after' }
+        );
+
+        if (result === null || result.value === null) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Set token expiration based on subscription end date
-        const tokenExpiration = user.subscriptionEndDate
-            ? Math.floor(new Date(user.subscriptionEndDate).getTime() / 1000) // Unix timestamp
-            : Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60; // Default to 14 days if no subscription
+        if (!result.subscriptionEndDate) {
+            return res.status(400).json({ message: 'Subscription end date is required' });
+        }
 
+        if (!result.subscriptionStartDate) {
+            return res.status(400).json({ message: 'Subscription start date is required' });
+        }
+
+        const tokenExpiration = Math.floor(new Date(result.subscriptionEndDate).getTime() / 1000);
+
+        console.log('Token expiration time:', tokenExpiration);
+
+        // Create JWT token
         const payload = {
-            userId: user._id,
-            username: user.username,
-            isAdmin: user.isAdmin,
-            isPayingCustomer: user.isPayingCustomer,
-            subscriptionEndDate: user.subscriptionEndDate, // Include in the JWT
+            userId: result._id,
+            username: result.username,
+            isAdmin: result.isAdmin,
+            isPayingCustomer: result.isPayingCustomer,
+            subscriptionEndDate: result.subscriptionEndDate,
         };
 
-        const newToken = jwt.sign(payload, JWT_SECRET, { expiresIn: tokenExpiration });
+        console.log('JWT Payload:', payload);
 
-        res.setHeader(
-            'Set-Cookie',
-            serialize('authToken', newToken, {
-                httpOnly: false,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: tokenExpiration - Math.floor(Date.now() / 1000), // Set cookie to expire when the token does
-                path: '/',
-                sameSite: 'strict',
-            })
-        );
+        let newToken;
+        try {
+            newToken = jwt.sign(payload, JWT_SECRET, { expiresIn: tokenExpiration });
+            console.log('JWT Token created:', newToken);
+        } catch (error) {
+            console.error('Error creating JWT token:', error);
+            return res.status(500).json({ message: 'Error creating token' });
+        }
+
+        // Set the new JWT token in the cookies
+        try {
+            res.setHeader(
+                'Set-Cookie',
+                serialize('authToken', newToken, {
+                    httpOnly: false,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: tokenExpiration - Math.floor(Date.now() / 1000),
+                    path: '/',
+                    sameSite: 'strict',
+                })
+            );
+            console.log('Cookie set successfully');
+        } catch (error) {
+            console.error('Error setting cookie:', error);
+            return res.status(500).json({ message: 'Error setting cookie' });
+        }
 
         return res.status(200).json({ message: 'User payment status updated successfully' });
     } catch (error) {
