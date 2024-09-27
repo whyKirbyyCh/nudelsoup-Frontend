@@ -48,11 +48,6 @@ export default function Page() {
                     setErrorMessage("No email found in session data.");
                 }
 
-                if (!email) {
-                    setErrorMessage("No email found to send in the request.");
-                    return;
-                }
-
                 await fetch("/api/userPayed", {
                     method: "PUT",
                     headers: {
@@ -72,9 +67,6 @@ export default function Page() {
 
     return (
         <div>
-            <h1>Payment Success</h1>
-            {email ? <p>Thank you, {email}, for your payment!</p> : null}
-            {errorMessage && <p>{errorMessage}</p>}
         </div>
     );
 }
