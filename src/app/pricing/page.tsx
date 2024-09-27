@@ -172,7 +172,7 @@ export default function Page() {
                 const { error } = await stripe.redirectToCheckout({ sessionId });
                 if (error) {
                     console.error("Stripe Checkout error:", error);
-                    setErrorMessage("There was an error redirecting to Stripe!");
+                    setErrorMessage("Please refresh the page!");
                 }
             }
         } catch (error) {

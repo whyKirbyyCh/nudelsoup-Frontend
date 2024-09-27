@@ -5,8 +5,8 @@ const routeGroups = {
     protected: ["/account-overview", "/account-creation"],
     payingCustomer: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post"],
     agreed: ["/account-completion"],
-    verified: [""],
-    setupDone: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post"],
+    verified: [],
+    setupDone: [],
 };
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET ?? "THESECRETEKEYTHATSHALLNOTBEKNOWN");
