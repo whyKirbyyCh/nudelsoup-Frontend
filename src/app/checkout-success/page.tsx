@@ -48,14 +48,6 @@ export default function Page() {
                     setErrorMessage("No email found in session data.");
                 }
 
-                await fetch("/api/userPayed", {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ userEmail: email, isPayingCustomer: true }),
-                });
-
             } catch (error) {
                 console.error("Error fetching session details:", error);
                 setErrorMessage("There was an error with your payment.");
