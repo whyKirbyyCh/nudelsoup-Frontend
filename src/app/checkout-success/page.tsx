@@ -2,12 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Header from "@/components/header/header"
+import PageTitle from "@/components/page/pageTitle";
+import styles from "./checout-sucessPage.module.css"
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    const payingCustomerNavOptions = [
+        { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },
+        { id: 2, label: 'PRODUCTS', href: '/product-overview' },
+        { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
+        { id: 4, label: 'ANALYTICS', href: '/analytics' },
+    ]
 
     const sessionId = searchParams?.get("session_id") ?? "";
 
@@ -69,7 +79,19 @@ export default function Page() {
     }, [router, sessionId]);
 
     return (
-        <div>
+        <div className={styles.checkoutPage}>
+            <div className={styles.checkoutPageHeader}>
+                <Header navOptions={payingCustomerNavOptions} fontSizeVariant={"large"} showButtons={true}
+                        disableNavigation={false} iconSize={"large"}/>
+            </div>
+            <div className={styles.checkoutPageTitle}>
+                <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4}/>
+            </div>
+            <img
+                src="/checkout-sucess.svg"
+                alt="Not Found"
+                className={styles.checkoutPageSVG}
+            />
             {errorMessage && <p>{errorMessage}</p>}
         </div>
     );

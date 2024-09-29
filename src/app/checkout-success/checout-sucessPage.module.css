@@ -1,0 +1,32 @@
+.checkoutPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--accent-color);
+    overflow: hidden;
+}
+
+.checkoutPageHeader{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.checkoutPageTitle{
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.checkoutPageSVG {
+    width: 75%;
+    height: 75%;
+}
