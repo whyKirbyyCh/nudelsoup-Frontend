@@ -6,6 +6,7 @@ import Header from "@/components/header/header"
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
 
+// TODO: add the html mail
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState("");
