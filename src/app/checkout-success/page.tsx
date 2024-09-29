@@ -41,6 +41,10 @@ export default function Page() {
                             },
                             body: JSON.stringify({ userEmail: sessionData.email, isPayingCustomer: true }),
                         });
+
+                        setTimeout(() => {
+                            router.push("/account-setup");
+                        }, 7000);
                     } else {
                         setErrorMessage("No email found in session data.");
                     }
@@ -55,6 +59,7 @@ export default function Page() {
         };
 
         checkSessionAndFetchData().then();
+
     }, [router, searchParams]);
 
     return (
