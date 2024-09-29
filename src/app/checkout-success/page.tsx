@@ -9,11 +9,11 @@ export default function Page() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
+    const sessionId = searchParams?.get("session_id") ?? "";
+
     useEffect(() => {
         const checkSessionAndFetchData = async () => {
-            const sessionId = searchParams?.get("session_id") ?? "";
-
-            if (!sessionId || sessionId === "") {
+            if (!sessionId) {
                 router.push("/pricing");
                 return;
             }
@@ -23,7 +23,7 @@ export default function Page() {
 
                 if (!response.ok) {
                     setErrorMessage("Failed to retrieve session data.");
-                    console.log(response)
+                    console.log(response);
                     return;
                 }
 
@@ -31,23 +31,30 @@ export default function Page() {
 
                 if (sessionData.email) {
                     setEmail(sessionData.email);
-                    if (sessionData.email) {
-                        setEmail(sessionData.email);
 
-                        await fetch("/api/userPayed", {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({ userEmail: sessionData.email, isPayingCustomer: true }),
-                        });
+                    await fetch("/api/userPayed", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ userEmail: sessionData.email, isPayingCustomer: true }),
+                    });
 
-                        setTimeout(() => {
-                            router.push("/account-setup");
-                        }, 7000);
-                    } else {
-                        setErrorMessage("No email found in session data.");
-                    }
+                    await fetch("/api/email/sendEmail", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            to: email,
+                            subject: "Hello World!",
+                            html: "<div>Hi</div>",
+                        }),
+                    });
+
+                    setTimeout(() => {
+                        router.push("/account-setup");
+                    }, 7000);
                 } else {
                     setErrorMessage("No email found in session data.");
                 }
@@ -58,12 +65,13 @@ export default function Page() {
             }
         };
 
-        checkSessionAndFetchData().then();
-
-    }, [router, searchParams]);
+        checkSessionAndFetchData();
+    }, [router, sessionId]);
 
     return (
         <div>
+            {errorMessage && <p>{errorMessage}</p>}
         </div>
     );
 }
+
