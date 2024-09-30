@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             serialize('authToken', token, {
                 httpOnly: false, //TODO: For development, httpOnly should be true in production
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 14 * 24 * 60 * 60, // 14 days token validity
+                maxAge: 14 * 24 * 60 * 60,
                 path: '/',
                 sameSite: 'strict',
             })

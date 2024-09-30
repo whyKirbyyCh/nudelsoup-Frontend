@@ -1,13 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "../../styles/components/account/accountCreationContainer.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
+import AccountCreationOrganisationContainer from "@/components/account/accountCreationOrganisationContainer";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return undefined;
+};
 
 const AccountCreationContainer = () => {
     const router = useRouter();
     const [selectedOption, setSelectedOption] = useState(0);
+    const [userId, setUserId] = useState(-1);
+
+    useEffect(() => {
+        const token = getCookie("authToken");
+        if (token) {
+            try {
+                const decoded = jwt.decode(token) as JwtPayload;
+                if (decoded && decoded.userId) {
+                    setUserId(decoded.userId);
+                }
+            } catch (err) {
+                console.error("Error decoding JWT:", err);
+            }
+        }
+    }, []);
 
     const selectOptionNext = () => {
         setSelectedOption((selectedOption + 1) % 6);
@@ -79,13 +103,15 @@ const AccountCreationContainer = () => {
                 </div>
                 <div className={styles.accountCreationCategoryButtons}>
                     <PageButton label={"BACK"} onClick={selectOptionBack} />
-                    <PageButton label={"EXIT"} onClick={saveAndExit} />
+                    <PageButton label={"SAVE"} onClick={saveAndExit} />
                     <PageButton label={"NEXT"} onClick={selectOptionNext} />
                 </div>
             </div>
             <div className={styles.accountCreationRightside}>
                 { selectedOption === 0 && "1"}
-                { selectedOption === 1 && "2"}
+                { selectedOption === 1 &&
+                    <AccountCreationOrganisationContainer userId={userId} onSubmit={selectOptionNext} />
+                }
                 { selectedOption === 2 && "3"}
                 { selectedOption === 3 && "4"}
                 { selectedOption === 4 && "5"}
