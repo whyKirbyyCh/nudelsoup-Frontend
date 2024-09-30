@@ -9,6 +9,7 @@ import styles from "./pricingPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import PagePricingBox from "@/components/page/pagePricingBox";
+import PagePricingSchemaSwap from "@/components/page/pagePricingSchemaSwap";
 
 const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 
@@ -85,6 +86,10 @@ export default function Page() {
             makePaymentRequest(selectedOption).then();
         }
     };
+
+    const schemaChange = () => {
+        setIsYearlySelected(!isYearlySelected)
+    }
 
     const getCustomerEmail = async (userId: string) => {
         try {
@@ -191,26 +196,33 @@ export default function Page() {
             />
             <div className={styles.pricingContentWrapper}>
                 <div className={styles.pricingContentTitle}>
-                    <PageTitle title={"CHOOSE YOUR MEAL SIZE*"} size={4} />
+                    <PageTitle title={"CHOOSE YOUR MEAL SIZE*"} size={4}/>
+                    <div className={styles.pricingBoxSubtitle}>*if you are still hungry you can always order more</div>
                 </div>
+                <div className={styles.pricingSwapContainer}>
+                    <PagePricingSchemaSwap selectorFunction={schemaChange}/>
+                </div>
+
                 <div className={styles.pricingContent}>
-                    <PagePricingBox
-                        title1={"DINNER FOR ONE"}
-                        text1={"This is text"}
-                        title2={"FAMILY SIZED MEAL"}
-                        text2={"This is text"}
-                        title3={"DELUXE PARTY BUFFET"}
-                        text3={"This is text"}
-                        buttonText1={"SELECT"}
-                        buttonText2={"SELECT"}
-                        buttonText3={"SELECT"}
-                        onClick1={selectOption1}
-                        onClick2={selectOption2}
-                        onClick3={selectOption3}
-                        isButtonDisabled={selectedOption === -1}
-                        onCheckoutError={handleCheckoutError}
-                        onCheckoutSuccess={handleCheckout}
-                    />
+                    {!isYearlySelected &&
+                        <PagePricingBox
+                            title1={"DINNER FOR ONE"}
+                            text1={"This is text"}
+                            title2={"FAMILY SIZED MEAL"}
+                            text2={"This is text"}
+                            title3={"DELUXE PARTY BUFFET"}
+                            text3={"This is text"}
+                            buttonText1={"SELECT"}
+                            buttonText2={"SELECT"}
+                            buttonText3={"SELECT"}
+                            onClick1={selectOption1}
+                            onClick2={selectOption2}
+                            onClick3={selectOption3}
+                            isButtonDisabled={selectedOption === -1}
+                            onCheckoutError={handleCheckoutError}
+                            onCheckoutSuccess={handleCheckout}
+                        />
+                    }
                     {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
                     {selectedOption === 1 && <div className={styles.decorativeCircle}></div>}
                     {selectedOption === 2 && <div className={styles.decorativeCircle2}></div>}

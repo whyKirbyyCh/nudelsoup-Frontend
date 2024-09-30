@@ -65,9 +65,6 @@ const PagePricingBox: React.FC<PagePricingBoxProps> = ({title1, text1, onClick1,
     return (
         <div className={styles.pricingBox}>
             <div className={styles.pricingBoxContent}>
-                <div>
-                    <div className={styles.pricingBoxSubtitle}>*if you are still hungry you can always order more</div>
-                </div>
                 {moreInfo === -1 &&
                 <div className={styles.pricingBoxContainer}>
                     <PagePriceOptionBox title={title1} text={text1} buttonText1={buttonText1} onClick1={onClick1} buttonText2={"MORE INFO"} onClick2={moreInfo1} priceOption={1}/>
