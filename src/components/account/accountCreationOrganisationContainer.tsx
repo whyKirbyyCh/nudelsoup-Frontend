@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/account/accountCreationOrganisationContainer.module.css";
 import PageButton from "@/components/page/pageButton";
 
@@ -21,7 +21,9 @@ interface OrganisationDetails {
     additionalFields?: { [key: string]: string };
 }
 
-const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisationContainerProps> = ({ userId, onSubmit }) => {
+const AccountCreationOrganisationContainer: React.FC<
+    AccountCreationOrganisationContainerProps
+> = ({ userId, onSubmit }) => {
     const [companyDetails, setOrganisationDetails] = useState<OrganisationDetails>({
         userId: userId.toString(),
         additionalFields: {},
@@ -30,6 +32,55 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
     const [isAddingDetail, setIsAddingDetail] = useState(false);
     const [newDetailLabel, setNewDetailLabel] = useState("");
     const [newDetailValue, setNewDetailValue] = useState("");
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch organisation details on component mount
+    useEffect(() => {
+        const fetchOrganisationDetails = async () => {
+            try {
+                const response = await fetch(
+                    `/api/userDetails/userOrganisationByUserId?userId=${userId}`,
+                    {
+                        method: "GET",
+                    }
+                );
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    const organisationData: OrganisationDetails = {
+                        userId: result.organisation.userId,
+                        companyName: result.organisation.organisationName,
+                        companyDescription: result.organisation.organisationDescription,
+                        companyGoal: result.organisation.organisationGoal,
+                        country: result.organisation.country,
+                        website: result.organisation.website,
+                        email: result.organisation.email,
+                        numberOfPeople: result.organisation.numberOfPeople,
+                        industry: result.organisation.industry,
+                        age: result.organisation.age,
+                        additionalFields: result.organisation.additionalFields || {},
+                    };
+                    setOrganisationDetails(organisationData);
+                } else if (response.status === 404) {
+                    // No organisation found; keep the default state
+                    console.log("No organisation found for the provided user ID");
+                } else {
+                    console.error("Error fetching organisation details:", result.message);
+                    setError(result.message);
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+                setError("Network error occurred while fetching organisation details.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchOrganisationDetails().then();
+    }, [userId]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,6 +92,16 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
                 name === "numberOfPeople" || name === "age"
                     ? parseInt(value)
                     : value,
+        }));
+    };
+
+    const handleAdditionalFieldChange = (key: string, value: string) => {
+        setOrganisationDetails((prevDetails) => ({
+            ...prevDetails,
+            additionalFields: {
+                ...prevDetails.additionalFields,
+                [key]: value,
+            },
         }));
     };
 
@@ -92,26 +153,40 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
         };
 
         try {
-            const response = await fetch('/api/userDetails/userSetOrganisationDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData),
-            });
+            const response = await fetch(
+                "/api/userDetails/userSetOrganisationDetails",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                }
+            );
 
             const result = await response.json();
 
             if (response.ok) {
-                console.log('Organisation registered successfully:', result.organisationId);
+                console.log(
+                    "Organisation registered successfully:",
+                    result.organisationId
+                );
             } else {
-                console.error('Server error:', result.message);
+                console.error("Server error:", result.message);
             }
         } catch (error) {
-            console.error('Network error:', error);
+            console.error("Network error:", error);
         }
         onSubmit();
     };
+
+    if (loading) {
+        return <div className={styles.loading}>Loading organisation details...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.error}>Error: {error}</div>;
+    }
 
     return (
         <div className={styles.companyInfoContainer}>
@@ -137,7 +212,6 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
                 </div>
             </div>
 
-            {/* Standard Form Fields */}
             <div className={styles.formGroup}>
                 <label htmlFor="companyName" className={styles.label}>
                     NAME:
@@ -273,7 +347,6 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
                 />
             </div>
 
-            {/* Display existing additionalFields */}
             {companyDetails.additionalFields &&
                 Object.entries(companyDetails.additionalFields).map(
                     ([key, value], index) => (
@@ -281,8 +354,9 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
                             <label className={styles.label}>{key.toUpperCase()}:</label>
                             <input
                                 type="text"
+                                name={key}
                                 value={value}
-                                readOnly
+                                onChange={(e) => handleAdditionalFieldChange(key, e.target.value)}
                                 className={styles.valueInput}
                             />
                         </div>
@@ -322,16 +396,16 @@ const AccountCreationOrganisationContainer: React.FC<AccountCreationOrganisation
                         </div>
                     </div>
                     <div className={styles.formGroupButtonsDetail}>
-                        <PageButton label={"SAVE"} onClick={saveNewDetail}/>
-                        <PageButton label={"CANCEL"} onClick={cancelNewDetail}/>
+                        <PageButton label={"SAVE"} onClick={saveNewDetail} />
+                        <PageButton label={"CANCEL"} onClick={cancelNewDetail} />
                     </div>
                 </>
             )}
 
             <div className={styles.formGroupButtons}>
-                <PageButton label={"SUBMIT"} onClick={handleSubmit}/>
+                <PageButton label={"SUBMIT"} onClick={handleSubmit} />
                 {!isAddingDetail && (
-                    <PageButton label={"ADD DETAIL"} onClick={addDetail}/>
+                    <PageButton label={"ADD DETAIL"} onClick={addDetail} />
                 )}
                 <PageButton label={"CLEAR"} onClick={clearDetails} />
             </div>
