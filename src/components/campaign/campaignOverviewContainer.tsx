@@ -52,7 +52,7 @@ const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ 
     };
 
     return (
-        <div className={styles.campaignOverviewContainer} onClick={goToCampaign}>
+        <div className={styles.campaignOverviewContainer} onClick={goToCampaign} role={"button"}>
             <div className={styles.campaignOverviewIconBackground}>
                 <img
                     src={svgLink}

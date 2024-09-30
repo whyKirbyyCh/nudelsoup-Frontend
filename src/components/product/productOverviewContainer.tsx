@@ -42,7 +42,7 @@ const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svg
     };
 
     return (
-        <div className={styles.productOverviewContainer} onClick={goToProduct}>
+        <div className={styles.productOverviewContainer} onClick={goToProduct} role={"button"}>
             <div className={styles.productOverviewIconBackground}>
                 <img
                     src={svgLink}

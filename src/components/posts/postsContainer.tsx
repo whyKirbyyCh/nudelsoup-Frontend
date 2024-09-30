@@ -60,7 +60,7 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
     }
 
     return (
-        <div className={`${styles.postsContainer} ${allowNavigation ? styles.clickable : ""}`} onClick={allowNavigation ? handleNavigate : handleNoNavigation}>
+        <div className={`${styles.postsContainer} ${allowNavigation ? styles.clickable : ""}`} onClick={allowNavigation ? handleNavigate : handleNoNavigation} role={"button"}>
             <div className={styles.postsContainerSite}>{site}</div>
             <div className={styles.postsContainerTitle}>
                 {isEditing ? (

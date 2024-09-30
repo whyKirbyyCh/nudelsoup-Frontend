@@ -10,7 +10,7 @@ interface PostAdditionButtonProps {
 
 const PostAdditionButton: React.FC<PostAdditionButtonProps> = ({ onClick }) => {
     return (
-        <div className={styles.postAdditionButton} onClick={onClick}>
+        <div className={styles.postAdditionButton} onClick={onClick} role={"button"}>
             <img
                 src={"/add-product.svg"}
                 alt={"add post"}
