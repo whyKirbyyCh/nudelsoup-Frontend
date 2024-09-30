@@ -95,7 +95,7 @@ export default function Page() {
         try {
             const response = await fetch(`/api/userDetails/userEmailById?userId=${userId}`);
             if (!response.ok) {
-                throw new Error("Failed to fetch customer email");
+                return
             }
             const data = await response.json();
             return data.email;
@@ -221,6 +221,28 @@ export default function Page() {
                             isButtonDisabled={selectedOption === -1}
                             onCheckoutError={handleCheckoutError}
                             onCheckoutSuccess={handleCheckout}
+                        />
+                    }
+                    {isYearlySelected &&
+                        <PagePricingBox
+                            title1={"DINNER FOR ONE"}
+                            text1={"This is yearly text"}
+                            title2={"FAMILY SIZED MEAL"}
+                            text2={"This is yearly text"}
+                            title3={"DELUXE PARTY BUFFET"}
+                            text3={"This is yearly text"}
+                            buttonText1={"SELECT"}
+                            buttonText2={"SELECT"}
+                            buttonText3={"SELECT"}
+                            onClick1={selectOption1}
+                            onClick2={selectOption2}
+                            onClick3={selectOption3}
+                            isButtonDisabled={selectedOption === -1}
+                            onCheckoutError={handleCheckoutError}
+                            onCheckoutSuccess={handleCheckout}
+                            yearly1={true}
+                            yearly2={true}
+                            yearly3={true}
                         />
                     }
                     {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}

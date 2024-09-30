@@ -28,6 +28,9 @@ const PagePriceOptionBox: React.FC<PagePriceOptionBoxProps> = ({ title, text, bu
                     {priceOption === 1 && <PageSVGElement svgSrc={"price-option-one.svg"}/>}
                     {priceOption === 2 && <PageSVGElement svgSrc={"price-option-two.svg"}/>}
                     {priceOption === 3 && <PageSVGElement svgSrc={"price-option-three.svg"}/>}
+                    {priceOption === 4 && <PageSVGElement svgSrc={"price-option-four.svg"}/>}
+                    {priceOption === 5 && <PageSVGElement svgSrc={"price-option-five.svg"}/>}
+                    {priceOption === 6 && <PageSVGElement svgSrc={"price-option-six.svg"}/>}
                 </div>
                 <div className={styles.priceOptionBoxButton}>
                     <PageButton label={buttonText2} onClick={onClick2}/>
