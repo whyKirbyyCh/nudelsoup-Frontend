@@ -125,7 +125,7 @@ export default function Page() {
                 setErrorMessage(
                     "Account already has an active subscription. Please go to Settings to change or cancel your plan."
                 );
-                return;
+                //return;
             }
 
             const customerEmail = await getCustomerEmail(decodedToken.userId);
