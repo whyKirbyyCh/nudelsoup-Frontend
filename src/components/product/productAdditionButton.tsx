@@ -10,7 +10,7 @@ interface ProductAdditionButtonProps {
 
 const ProductAdditionButton: React.FC<ProductAdditionButtonProps> = ({ onClick }) => {
     return (
-        <div className={styles.productAdditionButton} onClick={onClick} role={"button"}>
+        <div className={styles.productAdditionButton} onClick={onClick} role={"button"} tabIndex={0} aria-label={"add product"}>
             <img
                 src={"/add-product.svg"}
                 alt={"add product"}

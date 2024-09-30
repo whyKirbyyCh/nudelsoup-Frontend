@@ -10,7 +10,7 @@ interface CampaignAdditionButtonProps {
 
 const CampaignAdditionButton: React.FC<CampaignAdditionButtonProps> = ({ onClick }) => {
     return (
-        <div className={styles.campaignAdditionButton} onClick={onClick} role={"button"}>
+        <div className={styles.campaignAdditionButton} onClick={onClick} role={"button"} tabIndex={0} aria-label={"add campaign"}>
             <img
                 src={"/add-product.svg"}
                 alt={"add campaign"}
