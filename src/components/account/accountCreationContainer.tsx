@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import AccountCreationOrganisationContainer from "@/components/account/accountCreationOrganisationContainer";
 import AccountCreationAccountContainer from "@/components/account/accountCreationAccountContainer";
 import AccountCreationProductsContainer from "@/components/account/accountCreationProductsContainer";
+import AccountCreationMarketContainer from "@/components/account/accountCreationMarketContainer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -124,7 +125,9 @@ const AccountCreationContainer = () => {
                 { selectedOption === 2 && userId !== -1 &&
                     <AccountCreationProductsContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 3 && "4"}
+                { selectedOption === 3 && userId !== -1 &&
+                    <AccountCreationMarketContainer userId={userId} onSubmit={selectOptionNext} />
+                }
                 { selectedOption === 4 && "5"}
                 { selectedOption === 5 && "6"}
             </div>
