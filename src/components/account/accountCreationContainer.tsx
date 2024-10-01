@@ -6,6 +6,7 @@ import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
 import AccountCreationOrganisationContainer from "@/components/account/accountCreationOrganisationContainer";
 import AccountCreationAccountContainer from "@/components/account/accountCreationAccountContainer";
+import AccountCreationProductsContainer from "@/components/account/accountCreationProductsContainer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -76,7 +77,7 @@ const AccountCreationContainer = () => {
                     role="navigation"
                 >
                     {selectedOption === 2 && <div className={styles.decorativeCircle1}></div>}
-                    <div className={styles.accountCreationCategoryBoxText}>MARKET</div>
+                    <div className={styles.accountCreationCategoryBoxText}>PRODUCTS</div>
                 </div>
                 <div
                     className={styles.accountCreationCategoryBox4}
@@ -84,7 +85,7 @@ const AccountCreationContainer = () => {
                     role="navigation"
                 >
                     {selectedOption === 3 && <div className={styles.decorativeCircle2}></div>}
-                    <div className={styles.accountCreationCategoryBoxText}>PRODUCTS</div>
+                    <div className={styles.accountCreationCategoryBoxText}>MARKETS</div>
                 </div>
                 <div
                     className={styles.accountCreationCategoryBox5}
@@ -120,7 +121,9 @@ const AccountCreationContainer = () => {
                 { selectedOption === 1 && userId !== -1 &&
                     <AccountCreationOrganisationContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 2 && "3"}
+                { selectedOption === 2 && userId !== -1 &&
+                    <AccountCreationProductsContainer userId={userId} onSubmit={selectOptionNext} />
+                }
                 { selectedOption === 3 && "4"}
                 { selectedOption === 4 && "5"}
                 { selectedOption === 5 && "6"}
