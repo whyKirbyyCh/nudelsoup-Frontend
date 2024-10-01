@@ -36,7 +36,6 @@ const AccountCreationOrganisationContainer: React.FC<
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Fetch organisation details on component mount
     useEffect(() => {
         const fetchOrganisationDetails = async () => {
             try {

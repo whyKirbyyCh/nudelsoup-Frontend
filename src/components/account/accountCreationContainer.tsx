@@ -5,6 +5,7 @@ import styles from "../../styles/components/account/accountCreationContainer.mod
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
 import AccountCreationOrganisationContainer from "@/components/account/accountCreationOrganisationContainer";
+import AccountCreationAccountContainer from "@/components/account/accountCreationAccountContainer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -108,8 +109,15 @@ const AccountCreationContainer = () => {
                 </div>
             </div>
             <div className={styles.accountCreationRightside}>
-                { selectedOption === 0 && "1"}
-                { selectedOption === 1 &&
+                {userId === -1 &&
+                    <div className={styles.loading}>
+                        LOADING ACCOUNT CREATION PROCESS
+                    </div>
+                }
+                { selectedOption === 0 && userId !== -1 &&
+                    <AccountCreationAccountContainer userId={userId} onSubmit={selectOptionNext} />
+                }
+                { selectedOption === 1 && userId !== -1 &&
                     <AccountCreationOrganisationContainer userId={userId} onSubmit={selectOptionNext} />
                 }
                 { selectedOption === 2 && "3"}
