@@ -8,6 +8,7 @@ import AccountCreationOrganisationContainer from "@/components/account/accountCr
 import AccountCreationAccountContainer from "@/components/account/accountCreationAccountContainer";
 import AccountCreationProductsContainer from "@/components/account/accountCreationProductsContainer";
 import AccountCreationMarketContainer from "@/components/account/accountCreationMarketContainer";
+import AccountCreationUserSettings from "@/components/account/accountCreationUserSettings";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -128,7 +129,9 @@ const AccountCreationContainer = () => {
                 { selectedOption === 3 && userId !== -1 &&
                     <AccountCreationMarketContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 4 && "5"}
+                { selectedOption === 4 && userId != -1 &&
+                    <AccountCreationUserSettings userId={userId} onSubmit={selectOptionNext} />
+                }
                 { selectedOption === 5 && "6"}
             </div>
         </div>
