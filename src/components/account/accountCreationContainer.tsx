@@ -8,7 +8,7 @@ import AccountCreationOrganisationContainer from "@/components/account/accountCr
 import AccountCreationAccountContainer from "@/components/account/accountCreationAccountContainer";
 import AccountCreationProductsContainer from "@/components/account/accountCreationProductsContainer";
 import AccountCreationMarketContainer from "@/components/account/accountCreationMarketContainer";
-import AccountCreationUserSettings from "@/components/account/accountCreationUserSettings";
+import AccountCreationUserNotificationPreferences from "@/components/account/accountCreationUserNotificationPreferences";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -38,11 +38,11 @@ const AccountCreationContainer = () => {
     }, []);
 
     const selectOptionNext = () => {
-        setSelectedOption((selectedOption + 1) % 6);
+        setSelectedOption((selectedOption + 1) % 5);
     };
 
     const selectOptionBack = () => {
-        setSelectedOption((selectedOption - 1 + 6) % 6);
+        setSelectedOption((selectedOption - 1 + 5) % 5);
     };
 
     const saveAndExit = () => {
@@ -95,14 +95,6 @@ const AccountCreationContainer = () => {
                     role="navigation"
                 >
                     {selectedOption === 4 && <div className={styles.decorativeCircle1}></div>}
-                    <div className={styles.accountCreationCategoryBoxText}>SETTINGS</div>
-                </div>
-                <div
-                    className={styles.accountCreationCategoryBox6}
-                    onClick={() => handleSelectOption(5)}
-                    role="navigation"
-                >
-                    {selectedOption === 5 && <div className={styles.decorativeCircle2}></div>}
                     <div className={styles.accountCreationCategoryBoxText}>NOTIFICATIONS</div>
                 </div>
                 <div className={styles.accountCreationCategoryButtons}>
@@ -130,9 +122,8 @@ const AccountCreationContainer = () => {
                     <AccountCreationMarketContainer userId={userId} onSubmit={selectOptionNext} />
                 }
                 { selectedOption === 4 && userId != -1 &&
-                    <AccountCreationUserSettings userId={userId} onSubmit={selectOptionNext} />
+                    <AccountCreationUserNotificationPreferences userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 5 && "6"}
             </div>
         </div>
     );
