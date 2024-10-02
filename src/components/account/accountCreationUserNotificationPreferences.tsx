@@ -38,7 +38,7 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
                     setProductUpdates(data.notifications.productUpdates);
                 }
             } catch (error: any) {
-                return
+                setError(error)
             } finally {
                 setIsLoading(false);
             }
@@ -56,8 +56,33 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
     }
 
     const handleSubmit = async () => {
+        try {
+            const response = await fetch('/api/userDetails/userSetNotificationPreferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId,
+                    campaignUpdates,
+                    postUpdates,
+                    analyticsUpdates,
+                    dailySummary,
+                    weeklySummary,
+                    newsletter,
+                    productUpdates,
+                }),
+            });
 
-    }
+            if (!response.ok) {
+                return
+            }
+        } catch (error: any) {
+            return
+        } finally {
+            onSubmit();
+        }
+    };
 
     return (
         <div className={styles.userSettingsContainer}>
@@ -81,6 +106,8 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
                         labelRight="ENABLE"
                         defaultState={campaignUpdates}
                         showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
                     />
                     {/*TODO: add things that can configure the threshold of when you will get a email notification*/}
                 </div>
@@ -94,6 +121,8 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
                         labelRight="ENABLE"
                         defaultState={postUpdates}
                         showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
                     />
                 </div>
 
@@ -106,6 +135,8 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
                         labelRight="ENABLE"
                         defaultState={analyticsUpdates}
                         showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
                     />
                     {/*TODO: opportunity to configure the time frame of the analytics summary */}
                 </div>
@@ -119,35 +150,52 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
                         labelRight="ENABLE"
                         defaultState={dailySummary}
                         showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
                     />
                 </div>
 
-                <PagePricingSchemaSwap
-                    selectorFunction={() => setWeeklySummary(!weeklySummary)}
-                    labelLeft="DISABLE"
-                    labelRight="ENABLE"
-                    defaultState={weeklySummary}
-                    showText={false}
-                />
-                <div>Weekly Summary: {weeklySummary ? "Enabled" : "Disabled"}</div>
+                <div className={styles.notficationGroup}>
+                    <div className={styles.notficationGroupTitle}>WEEKLY SUMMARY:</div>
+                    <div className={styles.notficationGroupDescription}>This email will be sent out weekly and will summarize everything that has happened in the last 7 days with regard to your marketing done by nudelsoup.</div>
+                    <PagePricingSchemaSwap
+                        selectorFunction={() => setWeeklySummary(!weeklySummary)}
+                        labelLeft="DISABLE"
+                        labelRight="ENABLE"
+                        defaultState={weeklySummary}
+                        showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
+                    />
+                </div>
 
-                <PagePricingSchemaSwap
-                    selectorFunction={() => setNewsletter(!newsletter)}
-                    labelLeft="DISABLE"
-                    labelRight="ENABLE"
-                    defaultState={newsletter}
-                    showText={false}
-                />
-                <div>Newsletter: {newsletter ? "Enabled" : "Disabled"}</div>
+                <div className={styles.notficationGroup}>
+                    <div className={styles.notficationGroupTitle}>NEWSLETTER:</div>
+                    <div className={styles.notficationGroupDescription}>In our newsletter we highlight articles, resources and other things which we think might be helpful to people using nudelsoup and trying to grow their customer base. It will be based on research we do to grow our product.</div>
+                    <PagePricingSchemaSwap
+                        selectorFunction={() => setNewsletter(!newsletter)}
+                        labelLeft="DISABLE"
+                        labelRight="ENABLE"
+                        defaultState={newsletter}
+                        showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
+                    />
+                </div>
 
-                <PagePricingSchemaSwap
-                    selectorFunction={() => setProductUpdates(!productUpdates)}
-                    labelLeft="DISABLE"
-                    labelRight="ENABLE"
-                    defaultState={productUpdates}
-                    showText={false}
-                />
-                <div>Product Updates: {productUpdates ? "Enabled" : "Disabled"}</div>
+                <div className={styles.notficationGroup}>
+                    <div className={styles.notficationGroupTitle}>PRODUCT UPDATES:</div>
+                    <div className={styles.notficationGroupDescription}>Here you will be informed if we publish new nudelsoup products or update and improve existing ones.</div>
+                    <PagePricingSchemaSwap
+                        selectorFunction={() => setProductUpdates(!productUpdates)}
+                        labelLeft="DISABLE"
+                        labelRight="ENABLE"
+                        defaultState={productUpdates}
+                        showText={false}
+                        labelSize={"1.5em"}
+                        labelWeight={"500"}
+                    />
+                </div>
             </div>
             <div className={styles.formGroupButtons}>
                 <PageButton label={"SUBMIT"} onClick={handleSubmit}/>

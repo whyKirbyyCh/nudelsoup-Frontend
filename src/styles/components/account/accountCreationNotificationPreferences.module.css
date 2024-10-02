@@ -73,8 +73,8 @@
 }
 
 .notficationGroupTitle{
-    font-size: calc(var(--page-font-size) + 0.1vw);
-    font-weight: 600;
+    font-size: calc(var(--page-font-size) + 0.3vw);
+    font-weight: 650;
 }
 
 .notficationGroupDescription{
