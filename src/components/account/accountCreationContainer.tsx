@@ -9,6 +9,7 @@ import AccountCreationAccountContainer from "@/components/account/accountCreatio
 import AccountCreationProductsContainer from "@/components/account/accountCreationProductsContainer";
 import AccountCreationMarketContainer from "@/components/account/accountCreationMarketContainer";
 import AccountCreationUserNotificationPreferences from "@/components/account/accountCreationUserNotificationPreferences";
+import AccountCreationNextStepsContainer from "@/components/account/accountCreationNextStepsContainer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -38,11 +39,11 @@ const AccountCreationContainer = () => {
     }, []);
 
     const selectOptionNext = () => {
-        setSelectedOption((selectedOption + 1) % 5);
+        setSelectedOption((selectedOption + 1) % 6);
     };
 
     const selectOptionBack = () => {
-        setSelectedOption((selectedOption - 1 + 5) % 5);
+        setSelectedOption((selectedOption - 1 + 6) % 6);
     };
 
     const saveAndExit = () => {
@@ -97,10 +98,18 @@ const AccountCreationContainer = () => {
                     {selectedOption === 4 && <div className={styles.decorativeCircle1}></div>}
                     <div className={styles.accountCreationCategoryBoxText}>NOTIFICATIONS</div>
                 </div>
+                <div
+                    className={styles.accountCreationCategoryBox5}
+                    onClick={() => handleSelectOption(5)}
+                    role="navigation"
+                >
+                    {selectedOption === 5 && <div className={styles.decorativeCircle1}></div>}
+                    <div className={styles.accountCreationCategoryBoxText}>NEXT STEPS</div>
+                </div>
                 <div className={styles.accountCreationCategoryButtons}>
-                    <PageButton label={"BACK"} onClick={selectOptionBack} />
-                    <PageButton label={"SAVE"} onClick={saveAndExit} />
-                    <PageButton label={"NEXT"} onClick={selectOptionNext} />
+                    <PageButton label={"BACK"} onClick={selectOptionBack}/>
+                    <PageButton label={"SAVE"} onClick={saveAndExit}/>
+                    <PageButton label={"NEXT"} onClick={selectOptionNext}/>
                 </div>
             </div>
             <div className={styles.accountCreationRightside}>
@@ -109,8 +118,8 @@ const AccountCreationContainer = () => {
                         LOADING ACCOUNT CREATION PROCESS
                     </div>
                 }
-                { selectedOption === 0 && userId !== -1 &&
-                    <AccountCreationAccountContainer userId={userId} onSubmit={selectOptionNext} />
+                {selectedOption === 0 && userId !== -1 &&
+                    <AccountCreationAccountContainer userId={userId} onSubmit={selectOptionNext}/>
                 }
                 { selectedOption === 1 && userId !== -1 &&
                     <AccountCreationOrganisationContainer userId={userId} onSubmit={selectOptionNext} />
@@ -123,6 +132,9 @@ const AccountCreationContainer = () => {
                 }
                 { selectedOption === 4 && userId != -1 &&
                     <AccountCreationUserNotificationPreferences userId={userId} onSubmit={selectOptionNext} />
+                }
+                { selectedOption === 5 && userId != -1 &&
+                    <AccountCreationNextStepsContainer />
                 }
             </div>
         </div>

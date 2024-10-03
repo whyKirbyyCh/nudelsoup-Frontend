@@ -48,7 +48,7 @@ const AccountCreationUserNotificationPreferences: React.FC<AccountCreationUserNo
     }, [userId]);
 
     if (loading) {
-        return <div className={styles.loading}>Account Notification Preferences are being loaded...</div>;
+        return <div className={styles.loading}>Loading account notification preferences</div>;
     }
 
     if (error) {
