@@ -10,6 +10,7 @@ import AccountCreationProductsContainer from "@/components/account/accountCreati
 import AccountCreationMarketContainer from "@/components/account/accountCreationMarketContainer";
 import AccountCreationUserNotificationPreferences from "@/components/account/accountCreationUserNotificationPreferences";
 import AccountCreationNextStepsContainer from "@/components/account/accountCreationNextStepsContainer";
+import AccountCreationSavePopup from "@/components/account/accountCreationSavePopup";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -23,6 +24,7 @@ const AccountCreationContainer = () => {
     const router = useRouter();
     const [selectedOption, setSelectedOption] = useState(0);
     const [userId, setUserId] = useState(-1);
+    const [showSavePopup, setShowSavePopup] = useState(false);
 
     useEffect(() => {
         const token = getCookie("authToken");
@@ -47,12 +49,16 @@ const AccountCreationContainer = () => {
     };
 
     const saveAndExit = () => {
-        // TODO: Add the save to DB logic here
-        router.push("/product-overview");
+        setShowSavePopup(true);
     };
 
     const handleSelectOption = (index : number) => {
         setSelectedOption(index);
+    };
+
+    const onAccept = () => {
+        setShowSavePopup(false);
+        router.push("/product-overview");
     };
 
     return (
@@ -137,6 +143,11 @@ const AccountCreationContainer = () => {
                     <AccountCreationNextStepsContainer />
                 }
             </div>
+            {showSavePopup && (
+                <div className={styles.popupOverlay}>
+                    <AccountCreationSavePopup onClose={() => setShowSavePopup(false)} onAccept={onAccept} />
+                </div>
+            )}
         </div>
     );
 };
