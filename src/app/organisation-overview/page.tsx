@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./organisation-overviewPage.module.css";
 import Header from "@/components/header/header";
+import PageTitle from "@/components/page/pageTitle";
 
 export default function Page() {
     const payingCustomerNavOptions = [
@@ -11,9 +12,14 @@ export default function Page() {
     ];
 
     return (
-        <div className={styles.container}>
+        <div className={styles.organisationOverviewContainer}>
             <div>
                 <Header iconSize="large" navOptions={payingCustomerNavOptions} fontSizeVariant="large" showButtons={true}/>
+            </div>
+            <div>
+                <div className={styles.organisationOverviewPageTitle}>
+                    <PageTitle title="YOUR ORGANISATION" size={4}/>
+                </div>
             </div>
         </div>
     );

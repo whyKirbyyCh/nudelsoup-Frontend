@@ -1,0 +1,12 @@
+.organisationOverviewContainer{
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.organisationOverviewPageTitle{
+    margin-top: 1em;
+}
