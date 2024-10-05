@@ -42,12 +42,17 @@ export default function Page() {
     return (
         <div className={styles.organisationOverviewContainer}>
             <div>
-                <Header iconSize="large" navOptions={payingCustomerNavOptions} fontSizeVariant="large" showButtons={true}/>
+                <Header
+                    iconSize="large"
+                    navOptions={payingCustomerNavOptions}
+                    fontSizeVariant="large"
+                    showButtons={true}
+                />
+            </div>
+            <div className={styles.organisationOverviewPageTitle}>
+                <PageTitle title="YOUR ORGANISATION" size={4}/>
             </div>
             <div className={styles.organisationOverviewContent}>
-                <div className={styles.organisationOverviewPageTitle}>
-                    <PageTitle title="YOUR ORGANISATION" size={4}/>
-                </div>
                 <div>
                     <OrganisationOverviewContainer userId={userId}/>
                 </div>

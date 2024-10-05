@@ -20,6 +20,7 @@ interface OrganisationDetails {
 }
 
 const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps> = ({ userId }) => {
+    const [error, setError] = useState<string | null>(null);
     const [organisationDetails, setOrganisationDetails] = useState<OrganisationDetails>({
         userId,
         organisationName: "",
@@ -35,12 +36,19 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
     });
 
     useEffect(() => {
+        if (
+            !userId ||
+            userId.trim() === "" ||
+            userId === "undefined" ||
+            userId === "null"
+        ) {
+            return;
+        }
+
         let isMounted = true;
 
         const getOrganisationDetails = async () => {
             try {
-                console.log("Fetching organisation details for userId:", userId);
-
                 const response = await fetch(
                     `/api/userDetails/userOrganisationByUserId?userId=${userId}`,
                     {
@@ -48,28 +56,33 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                     }
                 );
 
-                console.log(response);
-
                 if (isMounted && response.ok) {
                     const data = await response.json();
-
-                    console.log("API response data:", data);
-
                     const organisationData = data.organisation;
-
-                    console.log("Organisation data:", organisationData);
-
-                    setOrganisationDetails((prevDetails) => ({
-                        ...prevDetails,
-                        ...organisationData,
-                    }));
+                    
+                    setOrganisationDetails({
+                        userId: organisationData.userId,
+                        organisationName: organisationData.organisationName || "",
+                        organisationDescription: organisationData.organisationDescription || "",
+                        organisationGoal: organisationData.organisationGoal || "",
+                        country: organisationData.country || "",
+                        website: organisationData.website || "",
+                        email: organisationData.email || "",
+                        numberOfPeople: organisationData.numberOfPeople ?? -1,
+                        industry: organisationData.industry || "",
+                        age: organisationData.age ?? -1,
+                        additionalFields: organisationData.additionalFields || {},
+                    });
                 } else if (isMounted && response.status === 404) {
                     console.error("Organisation details not found, setting to default values.");
                 } else if (isMounted) {
-                    console.error(`Error fetching organisation details: ${response.statusText}`);
+                    const errorData = await response.json();
+                    console.error(`Error fetching organisation details: ${errorData.message}`);
+                    setError(errorData.message);
                 }
             } catch (error) {
                 console.error("Error fetching organisation details:", error);
+                setError("An error occurred while fetching organisation details.");
             }
         };
 
@@ -97,9 +110,9 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                 {organisationDetails.additionalFields && Object.keys(organisationDetails.additionalFields).length > 0 ? (
                     <ul>
                         {Object.entries(organisationDetails.additionalFields).map(([key, value]) => (
-                            <li key={key}>
+                            <div key={key}>
                                 <strong>{key}:</strong> {value}
-                            </li>
+                            </div>
                         ))}
                     </ul>
                 ) : (
