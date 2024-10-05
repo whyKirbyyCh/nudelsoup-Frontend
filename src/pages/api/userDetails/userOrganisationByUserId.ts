@@ -30,6 +30,8 @@ export default async function handler(
 
     const { userId } = req.query;
 
+    console.log("Fetching organisation details for userId:", userId);
+
     if (!userId || typeof userId !== 'string') {
         return res
             .status(400)

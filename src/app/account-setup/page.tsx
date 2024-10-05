@@ -98,7 +98,7 @@ export default function Page() {
     return (
         <div>
             <div className={styles.header}>
-                <Header iconSize={"large"} navOptions={payingCustomerNavOptions} fontSizeVariant={"large"}/>
+                <Header iconSize={"large"} navOptions={payingCustomerNavOptions} fontSizeVariant={"large"} disableNavigation={true}/>
             </div>
             <div className={styles.accountCreationContent}>
                 <PageTitle title={"SETUP YOUR ACCOUNT"}  size={4}/>

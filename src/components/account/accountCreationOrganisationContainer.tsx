@@ -64,7 +64,6 @@ const AccountCreationOrganisationContainer: React.FC<
                     };
                     setOrganisationDetails(organisationData);
                 } else if (response.status === 404) {
-                    // No organisation found; keep the default state
                     console.log("No organisation found for the provided user ID");
                 } else {
                     console.error("Error fetching organisation details:", result.message);
