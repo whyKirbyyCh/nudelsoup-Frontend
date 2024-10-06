@@ -10,6 +10,18 @@
     margin: 2em auto;
 }
 
+
+.organisationOverviewContent::after{
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
 .organisationOverviewPageTitle{
     display: flex;
     justify-content: center;

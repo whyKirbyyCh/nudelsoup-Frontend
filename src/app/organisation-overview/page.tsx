@@ -53,9 +53,7 @@ export default function Page() {
                 <PageTitle title="YOUR ORGANISATION" size={4}/>
             </div>
             <div className={styles.organisationOverviewContent}>
-                <div>
-                    <OrganisationOverviewContainer userId={userId}/>
-                </div>
+                <OrganisationOverviewContainer userId={userId}/>
             </div>
         </div>
     );

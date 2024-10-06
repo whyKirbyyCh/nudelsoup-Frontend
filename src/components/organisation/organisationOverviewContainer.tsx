@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/components/organisation/organisationOverviewContainer.module.css";
+import PageButton from "@/components/page/pageButton";
 
 interface OrganisationOverviewContainerProps {
     userId: string;
@@ -19,8 +20,16 @@ interface OrganisationDetails {
     additionalFields?: { [key: string]: string };
 }
 
+interface Detail {
+    label: string;
+    value: string;
+}
+
 const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps> = ({ userId }) => {
-    const [error, setError] = useState<string | null>(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [isAddingDetail, setIsAddingDetail] = useState(false);
+    const [newDetailLabel, setNewDetailLabel] = useState("");
+    const [newDetailValue, setNewDetailValue] = useState("");
     const [organisationDetails, setOrganisationDetails] = useState<OrganisationDetails>({
         userId,
         organisationName: "",
@@ -32,16 +41,14 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
         numberOfPeople: -1,
         industry: "",
         age: -1,
-        additionalFields: {}
+        additionalFields: {},
     });
 
+    const [details, setDetails] = useState<Detail[]>([]);
+    const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
+
     useEffect(() => {
-        if (
-            !userId ||
-            userId.trim() === "" ||
-            userId === "undefined" ||
-            userId === "null"
-        ) {
+        if (!userId || userId.trim() === "" || userId === "undefined" || userId === "null") {
             return;
         }
 
@@ -59,8 +66,8 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                 if (isMounted && response.ok) {
                     const data = await response.json();
                     const organisationData = data.organisation;
-                    
-                    setOrganisationDetails({
+
+                    const fetchedOrganisationDetails: OrganisationDetails = {
                         userId: organisationData.userId,
                         organisationName: organisationData.organisationName || "",
                         organisationDescription: organisationData.organisationDescription || "",
@@ -72,17 +79,53 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                         industry: organisationData.industry || "",
                         age: organisationData.age ?? -1,
                         additionalFields: organisationData.additionalFields || {},
-                    });
+                    };
+
+                    setOrganisationDetails(fetchedOrganisationDetails);
+
+                    const initialDetails: Detail[] = [
+                        { label: "DESCRIPTION", value: fetchedOrganisationDetails.organisationDescription || "" },
+                        { label: "GOAL", value: fetchedOrganisationDetails.organisationGoal || "" },
+                        { label: "COUNTRY", value: fetchedOrganisationDetails.country || "" },
+                        { label: "WEBSITE", value: fetchedOrganisationDetails.website || "" },
+                        { label: "EMAIL", value: fetchedOrganisationDetails.email || "" },
+                        {
+                            label: "NUMBER OF PEOPLE",
+                            value:
+                                fetchedOrganisationDetails.numberOfPeople !== undefined &&
+                                fetchedOrganisationDetails.numberOfPeople >= 0
+                                    ? fetchedOrganisationDetails.numberOfPeople.toString()
+                                    : "",
+                        },
+                        { label: "INDUSTRY", value: fetchedOrganisationDetails.industry || "" },
+                        {
+                            label: "AGE",
+                            value:
+                                fetchedOrganisationDetails.age !== undefined &&
+                                fetchedOrganisationDetails.age >= 0
+                                    ? fetchedOrganisationDetails.age.toString()
+                                    : "",
+                        },
+                    ];
+
+                    if (fetchedOrganisationDetails.additionalFields) {
+                        Object.entries(fetchedOrganisationDetails.additionalFields).forEach(
+                            ([key, value]) => {
+                                initialDetails.push({ label: key, value });
+                            }
+                        );
+                    }
+
+                    setDetails(initialDetails);
                 } else if (isMounted && response.status === 404) {
-                    console.error("Organisation details not found, setting to default values.");
+                    console.error(
+                        "Organisation details not found, setting to default values."
+                    );
                 } else if (isMounted) {
-                    const errorData = await response.json();
-                    console.error(`Error fetching organisation details: ${errorData.message}`);
-                    setError(errorData.message);
+                    return
                 }
             } catch (error) {
-                console.error("Error fetching organisation details:", error);
-                setError("An error occurred while fetching organisation details.");
+                return
             }
         };
 
@@ -93,30 +136,161 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
         };
     }, [userId]);
 
+    const toggleEditMode = () => {
+        setIsEditMode(true);
+        setEditedDetails(JSON.parse(JSON.stringify(details)));
+    };
+
+    const toggleSave = async () => {
+        setDetails(editedDetails);
+        setIsEditMode(false);
+        setIsAddingDetail(false);
+
+        const updatedOrganisationDetails = { ...organisationDetails };
+        editedDetails.forEach((detail) => {
+            switch (detail.label) {
+                case "DESCRIPTION":
+                    updatedOrganisationDetails.organisationDescription = detail.value;
+                    break;
+                case "GOAL":
+                    updatedOrganisationDetails.organisationGoal = detail.value;
+                    break;
+                case "COUNTRY":
+                    updatedOrganisationDetails.country = detail.value;
+                    break;
+                case "WEBSITE":
+                    updatedOrganisationDetails.website = detail.value;
+                    break;
+                case "EMAIL":
+                    updatedOrganisationDetails.email = detail.value;
+                    break;
+                case "NUMBER OF PEOPLE":
+                    updatedOrganisationDetails.numberOfPeople = parseInt(detail.value) || -1;
+                    break;
+                case "INDUSTRY":
+                    updatedOrganisationDetails.industry = detail.value;
+                    break;
+                case "AGE":
+                    updatedOrganisationDetails.age = parseInt(detail.value) || -1;
+                    break;
+                default:
+                    if (!updatedOrganisationDetails.additionalFields) {
+                        updatedOrganisationDetails.additionalFields = {};
+                    }
+                    updatedOrganisationDetails.additionalFields[detail.label] = detail.value;
+                    break;
+            }
+        });
+        setOrganisationDetails(updatedOrganisationDetails);
+
+        try {
+            const response = await fetch('/api/userDetails/userSetOrganisationDetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedOrganisationDetails),
+            });
+
+            if (response.ok) {
+                return
+            } else {
+                return
+            }
+        } catch (error) {
+            return
+        }
+    };
+
+    const toggleCancel = () => {
+        setIsEditMode(false);
+        setIsAddingDetail(false);
+        setEditedDetails([]);
+    };
+
+    const addDetail = () => {
+        setIsAddingDetail(true);
+    };
+
+    const saveNewDetail = () => {
+        if (newDetailLabel && newDetailValue) {
+            setEditedDetails([
+                ...editedDetails,
+                { label: newDetailLabel, value: newDetailValue },
+            ]);
+            setNewDetailLabel("");
+            setNewDetailValue("");
+            setIsAddingDetail(false);
+        }
+    };
+
+    const cancelNewDetail = () => {
+        setNewDetailLabel("");
+        setNewDetailValue("");
+        setIsAddingDetail(false);
+    };
+
+    const handleDetailChange = (index: number, newValue: string) => {
+        const updatedDetails = [...editedDetails];
+        updatedDetails[index].value = newValue;
+        setEditedDetails(updatedDetails);
+    };
+
+    const displayedDetails = isEditMode ? editedDetails : details;
+
     return (
         <div className={styles.organisationOverviewContainer}>
-            <h1>{userId}</h1>
-            <h2>Name: {organisationDetails.organisationName}</h2>
-            <p>Description: {organisationDetails.organisationDescription}</p>
-            <p><strong>Goal:</strong> {organisationDetails.organisationGoal}</p>
-            <p><strong>Country:</strong> {organisationDetails.country}</p>
-            <p><strong>Website:</strong> {organisationDetails.website}</p>
-            <p><strong>Email:</strong> {organisationDetails.email}</p>
-            <p><strong>Number of People:</strong> {organisationDetails.numberOfPeople}</p>
-            <p><strong>Industry:</strong> {organisationDetails.industry}</p>
-            <p><strong>Age:</strong> {organisationDetails.age}</p>
-            <div>
-                <h3>Additional Fields</h3>
-                {organisationDetails.additionalFields && Object.keys(organisationDetails.additionalFields).length > 0 ? (
-                    <ul>
-                        {Object.entries(organisationDetails.additionalFields).map(([key, value]) => (
-                            <div key={key}>
-                                <strong>{key}:</strong> {value}
-                            </div>
-                        ))}
-                    </ul>
+            <div className={styles.organisationName}>
+                {organisationDetails.organisationName}
+            </div>
+            {displayedDetails.map((detail, index) => (
+                <div key={index} className={styles.organisationDetail}>
+                    <div className={styles.label}>{detail.label}:</div>
+                    {isEditMode ? (
+                        <input
+                            type="text"
+                            value={detail.value}
+                            onChange={(e) => handleDetailChange(index, e.target.value)}
+                            className={styles.valueInput}
+                        />
+                    ) : (
+                        <div className={styles.value}>{detail.value}</div>
+                    )}
+                </div>
+            ))}
+            {isEditMode && isAddingDetail && (
+                <div className={styles.newDetailForm}>
+                    <div className={styles.newDetailFormInput}>
+                        <input
+                            type="text"
+                            placeholder="Label"
+                            value={newDetailLabel}
+                            onChange={(e) => setNewDetailLabel(e.target.value)}
+                            className={styles.newDetailInput}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Value"
+                            value={newDetailValue}
+                            onChange={(e) => setNewDetailValue(e.target.value)}
+                            className={styles.newDetailInput}
+                        />
+                    </div>
+                    <div className={styles.newDetailButtons}>
+                        <PageButton label="Save" onClick={saveNewDetail} />
+                        <PageButton label="Cancel" onClick={cancelNewDetail} />
+                    </div>
+                </div>
+            )}
+            <div className={styles.buttonsContainer}>
+                {isEditMode ? (
+                    <>
+                        <PageButton label="SAVE" onClick={toggleSave} />
+                        <PageButton label="ADD DETAIL" onClick={addDetail} />
+                        <PageButton label="CANCEL" onClick={toggleCancel} />
+                    </>
                 ) : (
-                    <p>No additional fields available</p>
+                    <PageButton label="EDIT" onClick={toggleEditMode} />
                 )}
             </div>
         </div>
