@@ -50,7 +50,7 @@ export default async function handler(
 
         if (productId && typeof productId === 'string') {
             const updatedProduct = await db.collection('products').findOneAndUpdate(
-                { _id: new ObjectId(productId), userId }, // Ensure the product belongs to the user
+                { _id: new ObjectId(productId), userId },
                 {
                     $set: {
                         productTitle,

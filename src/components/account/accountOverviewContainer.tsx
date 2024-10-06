@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/components/account/accountOverviewContainer.module.css";
 import PageButton from "@/components/page/pageButton";
+import { useRouter } from "next/navigation";
+import AccountDeletionPopup from "@/components/account/accountDeletionPopup";
 
 interface AccountOverviewContainerProps {
     userId: string;
@@ -32,7 +34,7 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
     const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
     const [errorMessageEmail, setErrorMessageEmail] = useState<string>("");
     const [errorMessageUsername, setErrorMessageUsername] = useState<string>("");
-
+    const router = useRouter();
     const [currentPassword, setCurrentPassword] = useState<string>("");
     const [newPassword, setNewPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -40,6 +42,8 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
     const [passwordSuccess, setPasswordSuccess] = useState<string>("");
     const [cancelSubscriptionError, setCancelSubscriptionError] = useState<string>("");
     const [cancelSubscriptionSuccess, setCancelSubscriptionSuccess] = useState<string>("");
+    const [showDeleteAccountPopup , setShowDeleteAccountPopup] = useState<boolean>(false);
+    const [popupError, setPopupError] = useState<string>("");
 
     useEffect(() => {
         if (
@@ -310,7 +314,7 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                 setCancelSubscriptionSuccess("Subscription canceled successfully.");
                 const data = await response.json();
 
-                const email = data.email;
+                const email = data.email
 
                 try {
                     await fetch("/api/email/sendEmail", {
@@ -337,6 +341,79 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
     }
 
     const displayedDetails = isEditMode ? editedDetails : details;
+
+    const onDeleteAccount = () => {
+        setShowDeleteAccountPopup(true)
+    }
+
+    const onAccept = async (userPW: string) => {
+        try {
+            await handleCancelSubscription()
+        }  catch (error) {
+            return
+        }
+
+        try {
+            const payload = {
+                userId: userId,
+                password: userPW
+            }
+
+            const response = await fetch(`/api/userDetails/userDeleteByUserId`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                setShowDeleteAccountPopup(false);
+
+                const data = await response.json();
+
+                const email = data.email
+
+                try {
+                    await fetch("/api/email/sendEmail", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "goodbye@nudelsoup.com",
+                            to: email,
+                            subject: "Your Nudelsoup account has been deleted",
+                            html: "<div>Thank you for your trust!</div>",
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.error.statusCode === 422) {
+
+                    }
+                } catch (error) {
+                    setPopupError("Failed to send email. Please contact support: support@nudelsoup.com if you need a verification for the deletion of your account");
+                }
+                document.cookie = "authToken=; Max-Age=0; path=/;";
+                router.push("/");
+            } else if (response.status === 401) {
+                setPopupError("Invalid password. Please try again.");
+                return
+            } else {
+                setPopupError("There was an error. Please try again later or contact support: support@nudelsoup.com");
+                return
+            }
+        } catch (error) {
+            setPopupError("There was an error. Please try again later or contact support: support@nudelsoup.com");
+            return
+        }
+    }
+
+    const onCancel = () => {
+        setShowDeleteAccountPopup(false)
+    }
 
     return (
         <div className={styles.accountOverviewContainer}>
@@ -473,7 +550,24 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                     </div>
                     <div className={styles.changePasswordContainer}>
                         <div className={styles.actionTitle}>DELETE YOUR ACCOUNT</div>
+                        <div className={styles.infoText}>
+                            By deleting your account, you will be terminating your subscription and access to your account
+                            permanently. All the data associated with your account will be deleted and cannot be recovered.
+                            This deletion is irreversible and is done according to the strict Swiss privacy laws.
+                            <br/><br/>
+                            We want to thank you for your time and for using nudelsoup. If you have any feedback,
+                            suggestions or questions, please contact support: support@nudelsoup.com
+                            <br/><br/>
+                            We will take your feedback into consideration to improve nudelsoup and make it a better
+                            experience for everyone. - nudelsoup dev team
+                        </div>
+                        <PageButton label="DELETE ACCOUNT" onClick={onDeleteAccount}/>
                     </div>
+                </div>
+            )}
+            {showDeleteAccountPopup && (
+                <div className={styles.popupOverlay}>
+                    <AccountDeletionPopup onAccept={onAccept} onCancel={onCancel} errorMessage={popupError} setErrorMessage={setPopupError}/>
                 </div>
             )}
         </div>
