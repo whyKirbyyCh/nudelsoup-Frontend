@@ -68,7 +68,7 @@ export default function Page() {
                 />
             </div>
             <div className={styles.campaignOverviewTitle}>
-                <PageTitle title={"CAMPAIGNS"} />
+                <PageTitle title={"YOUR CAMPAIGNS"} />
             </div>
             <div className={styles.campaignOverviewContent}>
                 {showAddCampaignMenu && (
