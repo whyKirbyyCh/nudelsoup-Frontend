@@ -38,6 +38,8 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
     const [passwordSuccess, setPasswordSuccess] = useState<string>("");
+    const [cancelSubscriptionError, setCancelSubscriptionError] = useState<string>("");
+    const [cancelSubscriptionSuccess, setCancelSubscriptionSuccess] = useState<string>("");
 
     useEffect(() => {
         if (
@@ -290,6 +292,50 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
         setPasswordError("");
     };
 
+    const handleCancelSubscription = async () => {
+        try {
+            const payload = {
+                userId: userId,
+            }
+
+            const response = await fetch(`/api/subscription/subscriptionCancel`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                setCancelSubscriptionSuccess("Subscription canceled successfully.");
+                const data = await response.json();
+
+                const email = data.email;
+
+                try {
+                    await fetch("/api/email/sendEmail", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "goodbye@nudelsoup.com",
+                            to: email,
+                            subject: "Your Nudelsoup subscription has been canceled",
+                            html: "<div>Thank you for your trust!</div>",
+                        }),
+                    });
+                } catch (error) {
+                    setCancelSubscriptionError("Failed to send email. Please contact support: support@nudelsoup.com if you need a bill");
+                }
+            } else {
+                setCancelSubscriptionError("Failed to cancel subscription. Please try again or contact support: support@nudelsoup.com");
+            }
+        } catch (error) {
+
+        }
+    }
+
     const displayedDetails = isEditMode ? editedDetails : details;
 
     return (
@@ -364,7 +410,8 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                                 type="password"
                                 placeholder="Current Password"
                                 value={currentPassword}
-                                onChange={(e) => handlePasswordInputChange(setCurrentPassword, e.target.value)}                                className={styles.valueInput}
+                                onChange={(e) => handlePasswordInputChange(setCurrentPassword, e.target.value)}
+                                className={styles.valueInput}
                             />
                         </div>
                         <div className={styles.accountDetail}>
@@ -397,6 +444,35 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                     </div>
                     <div className={styles.changePasswordContainer}>
                         <div className={styles.actionTitle}>CANCEL YOUR SUBSCRIPTION</div>
+                        <div className={styles.infoText}>
+                            Once you cancel your subscription, you will be able to access your account and use nudelsoup
+                            until the end of your current subscription.
+                            <br/><br/>
+                            After the end of your subscription, your data will be saved but you will no longer be able
+                            to access your account. If you decide to subscribe again, you will have access to everything
+                            as before.
+                            <br/><br/>
+                            You can, as long as you are subscribed, export all the data your account has access to,
+                            under the analytics tab.
+                            <br/><br/>
+                            If you have any feedback, suggestions or questions, please contact support:
+                            support@nudelsoup.com
+                            <br/><br/>
+                            Thank you for using nudelsoup. - nudelsoup dev team
+                        </div>
+                        {cancelSubscriptionError && (
+                            <div className={styles.errorMessage}>{cancelSubscriptionError}</div>
+                        )}
+                        {cancelSubscriptionSuccess && (
+                            <div className={styles.successMessage}>{cancelSubscriptionSuccess}</div>
+                        )}
+                        <PageButton label="CANCEL SUBSCRIPTION" onClick={handleCancelSubscription}/>
+                    </div>
+                    <div className={styles.changePasswordContainer}>
+                        <div className={styles.actionTitle}>CHANGE YOUR SUBSCRIPTION</div>
+                    </div>
+                    <div className={styles.changePasswordContainer}>
+                        <div className={styles.actionTitle}>DELETE YOUR ACCOUNT</div>
                     </div>
                 </div>
             )}

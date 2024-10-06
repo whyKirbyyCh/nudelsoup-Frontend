@@ -61,6 +61,7 @@ export default function Page() {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
+                            from: "hello@nudelsoup.com",
                             to: sessionData.email,
                             subject: "Welcome to Our Service!",
                             html: "<div>Thank you for your purchase!</div>",

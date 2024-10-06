@@ -9,11 +9,13 @@ const resend = new Resend(process.env.RESEND_SECRET);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        const { to, subject, html } = req.body;
+        const { from, to, subject, html } = req.body;
+
+        const fromEmail = from || "hello@nudelsoup.com";
 
         try {
             const response = await resend.emails.send({
-                from: "hello@nudelsoup.com",
+                from: fromEmail,
                 to,
                 subject,
                 html,
