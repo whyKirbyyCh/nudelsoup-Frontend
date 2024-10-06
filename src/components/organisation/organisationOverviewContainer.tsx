@@ -28,7 +28,7 @@ interface Detail {
 const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps> = ({ userId }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [isAddingDetail, setIsAddingDetail] = useState(false);
-    const [newDetailLabel, setNewDetailLabel] = useState("");
+    const [newLabel, setNewLabel] = useState("");
     const [newDetailValue, setNewDetailValue] = useState("");
     const [organisationDetails, setOrganisationDetails] = useState<OrganisationDetails>({
         userId,
@@ -206,7 +206,7 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
         }
     };
 
-    const toggleCancel = () => {
+    const cancelEdit = () => {
         setIsEditMode(false);
         setIsAddingDetail(false);
         setEditedDetails([]);
@@ -217,19 +217,19 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
     };
 
     const saveNewDetail = () => {
-        if (newDetailLabel && newDetailValue) {
+        if (newLabel && newDetailValue) {
             setEditedDetails([
                 ...editedDetails,
-                { label: newDetailLabel, value: newDetailValue },
+                { label: newLabel, value: newDetailValue },
             ]);
-            setNewDetailLabel("");
+            setNewLabel("");
             setNewDetailValue("");
             setIsAddingDetail(false);
         }
     };
 
     const cancelNewDetail = () => {
-        setNewDetailLabel("");
+        setNewLabel("");
         setNewDetailValue("");
         setIsAddingDetail(false);
     };
@@ -268,8 +268,8 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                         <input
                             type="text"
                             placeholder="Label"
-                            value={newDetailLabel}
-                            onChange={(e) => setNewDetailLabel(e.target.value)}
+                            value={newLabel}
+                            onChange={(e) => setNewLabel(e.target.value)}
                             className={styles.newDetailInput}
                         />
                         <input
@@ -291,7 +291,7 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                     <>
                         <PageButton label="SAVE" onClick={toggleSave} />
                         <PageButton label="ADD DETAIL" onClick={addDetail} />
-                        <PageButton label="CANCEL" onClick={toggleCancel} />
+                        <PageButton label="CANCEL" onClick={cancelEdit} />
                     </>
                 ) : (
                     <PageButton label="EDIT" onClick={toggleEditMode} />
