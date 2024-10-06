@@ -84,6 +84,7 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
                     setOrganisationDetails(fetchedOrganisationDetails);
 
                     const initialDetails: Detail[] = [
+                        { label: "NAME", value: fetchedOrganisationDetails.organisationName || "" },
                         { label: "DESCRIPTION", value: fetchedOrganisationDetails.organisationDescription || "" },
                         { label: "GOAL", value: fetchedOrganisationDetails.organisationGoal || "" },
                         { label: "COUNTRY", value: fetchedOrganisationDetails.country || "" },
@@ -149,6 +150,9 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
         const updatedOrganisationDetails = { ...organisationDetails };
         editedDetails.forEach((detail) => {
             switch (detail.label) {
+                case "NAME":
+                    updatedOrganisationDetails.organisationName = detail.value;
+                    break;
                 case "DESCRIPTION":
                     updatedOrganisationDetails.organisationDescription = detail.value;
                     break;
