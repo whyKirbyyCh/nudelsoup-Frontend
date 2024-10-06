@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../../styles/components/organisation/organisationOverviewContainer.module.css";
 import PageButton from "@/components/page/pageButton";
 
+//TODO: add a way to delete additonal fields
 interface OrganisationOverviewContainerProps {
     userId: string;
 }
