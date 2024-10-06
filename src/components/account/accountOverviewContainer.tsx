@@ -26,12 +26,18 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
     const [accountDetails, setAccountDetails] = useState<AccountDetails>({
         userId: userId.toString(),
     });
-
+    const [activeTab, setActiveTab] = useState("DETAILS");
     const [details, setDetails] = useState<Detail[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
     const [errorMessageEmail, setErrorMessageEmail] = useState<string>("");
     const [errorMessageUsername, setErrorMessageUsername] = useState<string>("");
+
+    const [currentPassword, setCurrentPassword] = useState<string>("");
+    const [newPassword, setNewPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<string>("");
+    const [passwordSuccess, setPasswordSuccess] = useState<string>("");
 
     useEffect(() => {
         if (
@@ -173,9 +179,6 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                 return;
             }
 
-            const updatedUsername = editedDetails.find(detail => detail.label === 'USERNAME')?.value || '';
-            const updatedEmail = editedDetails.find(detail => detail.label === 'EMAIL')?.value || '';
-
             setAccountDetails(prevDetails => ({
                 ...prevDetails,
                 username: updatedUsername,
@@ -226,47 +229,174 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
         setEditedDetails(updatedDetails);
     };
 
+    const handlePasswordChange = async () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            setPasswordError("All fields are required.");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError("Passwords do not match.");
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            setPasswordError("Password must be at least 8 characters long.");
+            return;
+        }
+
+        if (newPassword.length > 20) {
+            setPasswordError("Password must be less than 20 characters long.");
+            return;
+        }
+
+        const hasNumber = /\d/.test(newPassword);
+        if (!hasNumber) {
+            setPasswordError("Password must contain at least one number.");
+            return;
+        }
+
+        try {
+            const payload = {
+                userId: userId,
+                currentPassword: currentPassword,
+                newPassword: newPassword,
+            };
+
+            const response = await fetch(`/api/userDetails/changePassword`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                setPasswordError("");
+                setPasswordSuccess("Password changed successfully.");
+                setCurrentPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+            } else {
+                setPasswordError("Failed to change password. Please try again.");
+            }
+        } catch (error) {
+            setPasswordError("An error occurred. Please try again.");
+        }
+    };
+
+    const handlePasswordInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, value: string) => {
+        setter(value);
+        setPasswordError("");
+    };
+
     const displayedDetails = isEditMode ? editedDetails : details;
 
     return (
         <div className={styles.accountOverviewContainer}>
-            <div className={styles.accountName}>{accountDetails.username}</div>
-            {displayedDetails.map((detail, index) => (
-                <div key={index} className={styles.accountDetail}>
-                    <div className={styles.label}>{detail.label}:</div>
-                    {isEditMode && (detail.label === "USERNAME" || detail.label === "EMAIL") ? (
-                        <>
-                            <div className={styles.inputContainer}>
-                                <input
-                                    type="text"
-                                    value={detail.value}
-                                    onChange={(e) => handleDetailChange(index, e.target.value)}
-                                    className={styles.valueInput}
-                                />
-                                {detail.label === "USERNAME" && errorMessageUsername && (
-                                    <div className={styles.errorMessage}>{errorMessageUsername}</div>
-                                )}
-                                {detail.label === "EMAIL" && errorMessageEmail && (
-                                    <div className={styles.errorMessage}>{errorMessageEmail}</div>
-                                )}
-                            </div>
-                        </>
-                    ) : (
-                        <div className={styles.value}>{detail.value}</div>
-                    )}
-                </div>
-            ))}
-
-            <div className={styles.buttonsContainer}>
-                {isEditMode ? (
-                    <>
-                        <PageButton label="SAVE" onClick={toggleSave} />
-                        <PageButton label="CANCEL" onClick={toggleCancel} />
-                    </>
-                ) : (
-                    <PageButton label="EDIT" onClick={toggleEditMode} />
-                )}
+            <div className={styles.tabs}>
+                <button
+                    className={`${styles.tab} ${activeTab === "DETAILS" ? styles.active : ""}`}
+                    onClick={() => setActiveTab("DETAILS")}
+                >
+                    DETAILS
+                </button>
+                <button
+                    className={`${styles.tab} ${activeTab === "ACTIONS" ? styles.active : ""}`}
+                    onClick={() => setActiveTab("ACTIONS")}
+                >
+                    ACTIONS
+                </button>
             </div>
+
+            {activeTab === "DETAILS" && (
+                <div className={styles.tabContent}>
+                    <div className={styles.accountName}>{accountDetails.username} DETAILS</div>
+                    {displayedDetails.map((detail, index) => (
+                        <div
+                            key={index}
+                            className={`${styles.accountDetail} ${((detail.label === "USERNAME" && errorMessageUsername) || (detail.label === "EMAIL" && errorMessageEmail)) ? styles.alignStart : ""}`}
+                        >
+                            <div className={styles.label}>{detail.label}:</div>
+                            {isEditMode && (detail.label === "USERNAME" || detail.label === "EMAIL") ? (
+                                <>
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="text"
+                                            value={detail.value}
+                                            onChange={(e) => handleDetailChange(index, e.target.value)}
+                                            className={styles.valueInput}
+                                        />
+                                        {detail.label === "USERNAME" && errorMessageUsername && (
+                                            <div className={styles.errorMessage}>{errorMessageUsername}</div>
+                                        )}
+                                        {detail.label === "EMAIL" && errorMessageEmail && (
+                                            <div className={styles.errorMessage}>{errorMessageEmail}</div>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                <div className={styles.value}>{detail.value}</div>
+                            )}
+                        </div>
+                    ))}
+
+                    <div className={styles.buttonsContainer}>
+                        {isEditMode ? (
+                            <>
+                                <PageButton label="SAVE" onClick={toggleSave}/>
+                                <PageButton label="CANCEL" onClick={toggleCancel}/>
+                            </>
+                        ) : (
+                            <PageButton label="EDIT" onClick={toggleEditMode}/>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {activeTab === "ACTIONS" && (
+                <div className={styles.tabContent}>
+                    <div className={styles.changePasswordContainer}>
+                        <div className={styles.actionTitle}>CHANGE YOUR PASSWORD</div>
+                        <div className={styles.accountDetail}>
+                            <div className={styles.label}>CURRENT:</div>
+                            <input
+                                type="password"
+                                placeholder="Current Password"
+                                value={currentPassword}
+                                onChange={(e) => handlePasswordInputChange(setCurrentPassword, e.target.value)}                                className={styles.valueInput}
+                            />
+                        </div>
+                        <div className={styles.accountDetail}>
+                            <div className={styles.label}>NEW:</div>
+                            <input
+                                type="password"
+                                placeholder="New Password"
+                                value={newPassword}
+                                onChange={(e) => handlePasswordInputChange(setNewPassword, e.target.value)}
+                                className={styles.valueInput}
+                            />
+                        </div>
+                        <div className={styles.accountDetail}>
+                            <div className={styles.label}>REPEAT:</div>
+                            <input
+                                type="password"
+                                placeholder="Confirm New Password"
+                                value={confirmPassword}
+                                onChange={(e) => handlePasswordInputChange(setConfirmPassword, e.target.value)}
+                                className={styles.valueInput}
+                            />
+                        </div>
+                        {passwordError && (
+                            <div className={styles.errorMessage}>{passwordError}</div>
+                        )}
+                        {passwordSuccess && (
+                            <div className={styles.successMessage}>{passwordSuccess}</div>
+                        )}
+                        <PageButton label="CHANGE PASSWORD" onClick={handlePasswordChange}/>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
