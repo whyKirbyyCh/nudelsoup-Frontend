@@ -4,8 +4,11 @@ import { ObjectId } from 'mongodb';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
-// TODO: Move this to .env
-const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
+if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not set in environment variables");
+}
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 interface UpdatePayingStatusRequest {
     userId: string;

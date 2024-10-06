@@ -3,7 +3,11 @@ import { connectToDatabase } from '@/lib/db';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
+if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not set in environment variables");
+}
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 interface UpdatePayingStatusRequest {
     userEmail: string;
