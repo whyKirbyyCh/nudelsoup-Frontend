@@ -259,12 +259,12 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
         try {
             const payload = {
                 userId: userId,
-                currentPassword: currentPassword,
+                oldPassword: currentPassword,
                 newPassword: newPassword,
             };
 
-            const response = await fetch(`/api/userDetails/changePassword`, {
-                method: "POST",
+            const response = await fetch(`/api/userDetails/userChangePassword`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -394,6 +394,9 @@ const AccountOverviewContainer: React.FC<AccountOverviewContainerProps> = ({user
                             <div className={styles.successMessage}>{passwordSuccess}</div>
                         )}
                         <PageButton label="CHANGE PASSWORD" onClick={handlePasswordChange}/>
+                    </div>
+                    <div className={styles.changePasswordContainer}>
+                        <div className={styles.actionTitle}>CANCEL YOUR SUBSCRIPTION</div>
                     </div>
                 </div>
             )}
