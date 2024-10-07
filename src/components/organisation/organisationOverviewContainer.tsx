@@ -120,11 +120,66 @@ const OrganisationOverviewContainer: React.FC<OrganisationOverviewContainerProps
 
                     setDetails(initialDetails);
                 } else if (isMounted && response.status === 404) {
-                    console.error(
-                        "Organisation details not found, setting to default values."
-                    );
+                    const fetchedOrganisationDetails: OrganisationDetails = {
+                        userId: userId,
+                        organisationName: "Default Organisation Name",
+                        organisationDescription: "",
+                        organisationGoal: "",
+                        country: "",
+                        website: "",
+                        email: "",
+                        numberOfPeople: 0,
+                        industry: "",
+                        age: 0,
+                        additionalFields: {},
+                    };
+
+                    setOrganisationDetails(fetchedOrganisationDetails);
+
+                    const defaultDetails: Detail[] = [
+                        { label: "NAME", value: "No company name has been set" },
+                        { label: "DESCRIPTION", value: "No company description has been set" },
+                        { label: "GOAL", value: "No organisation goal has been set" },
+                        { label: "COUNTRY", value: "No organisation country has been set" },
+                        { label: "WEBSITE", value: "No company website has been set" },
+                        { label: "EMAIL", value: "No company email has been set" },
+                        { label: "NUMBER OF PEOPLE", value: "0" },
+                        { label: "INDUSTRY", value: "No industry has been set" },
+                        { label: "AGE", value: "0" },
+                    ];
+
+                    setDetails(defaultDetails);
+
                 } else if (isMounted) {
-                    return
+                    const fetchedOrganisationDetails: OrganisationDetails = {
+                        userId: userId,
+                        organisationName: "Default Organisation Name",
+                        organisationDescription: "",
+                        organisationGoal: "",
+                        country: "",
+                        website: "",
+                        email: "",
+                        numberOfPeople: 0,
+                        industry: "",
+                        age: 0,
+                        additionalFields: {},
+                    };
+
+                    setOrganisationDetails(fetchedOrganisationDetails);
+
+                    const defaultDetails: Detail[] = [
+                        { label: "NAME", value: "No company name has been set" },
+                        { label: "DESCRIPTION", value: "No company description has been set" },
+                        { label: "GOAL", value: "No organisation goal has been set" },
+                        { label: "COUNTRY", value: "No organisation country has been set" },
+                        { label: "WEBSITE", value: "No company website has been set" },
+                        { label: "EMAIL", value: "No company email has been set" },
+                        { label: "NUMBER OF PEOPLE", value: "0" },
+                        { label: "INDUSTRY", value: "No industry has been set" },
+                        { label: "AGE", value: "0" },
+                    ];
+
+                    setDetails(defaultDetails);
                 }
             } catch (error) {
                 return

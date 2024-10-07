@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const routeGroups = {
-    protected: ["/account-overview", "/account-creation"],
-    payingCustomer: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post"],
-    agreed: ["/account-completion"],
+    protected: ["/account-overview", "/account-creation", "/account-setup"],
+    payingCustomer: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
+    agreed: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
     verified: [],
-    setupDone: [],
+    setupDone: ["/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
 };
 
 if (!process.env.JWT_SECRET) {
@@ -62,7 +62,7 @@ export async function middleware(request: NextRequest) {
             }
 
             if (isRouteInGroup(routeGroups.setupDone) && !decoded.isSetupDone) {
-                return NextResponse.redirect(new URL("/complete-setup", request.url));
+                return NextResponse.redirect(new URL("/account-setup", request.url));
             }
 
         } catch (error) {
@@ -84,5 +84,6 @@ export const config = {
         "/campaign",
         "/post",
         "/account-completion",
+        "/organisation-overview",
     ],
 };

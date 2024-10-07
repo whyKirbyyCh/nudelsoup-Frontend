@@ -56,8 +56,34 @@ const AccountCreationContainer = () => {
         setSelectedOption(index);
     };
 
-    const onAccept = () => {
+    const onAccept = async () => {
         setShowSavePopup(false);
+
+        const payload = {
+            userId: userId,
+            isSetupDone: true
+        }
+
+        try{
+            const response = await fetch("/api/userSetupDone", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                console.error("Failed to save setup done status");
+                return
+            }
+        }catch (error) {
+            console.error("Error saving setup done status:", error);
+            return
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         router.push("/product-overview");
     };
 

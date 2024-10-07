@@ -234,7 +234,7 @@ const AccountCreationMarketContainer: React.FC<AccountCreationMarketContainerPro
     }
 
     if (error) {
-        return <div className={styles.error}>Error: {error}</div>;
+        return <div className={styles.error}>You have not registered any products...</div>;
     }
 
     return (
