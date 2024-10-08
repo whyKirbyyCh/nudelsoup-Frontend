@@ -15,6 +15,7 @@ const getCookie = (name: string): string | undefined => {
     return undefined;
 };
 
+//TODO: add a tab with all the social media account etc. Where new ones can be generated etc. or deleted
 export default function Page() {
     const [userId, setUserId] = React.useState<string>("");
     const router = useRouter();
