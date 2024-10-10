@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./product-overviewPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import ProductOverviewPageContainer from "@/components/product/productOverviewPageContainer";
 import ProductAdditionPopup from "@/components/product/productAdditionPopup";
+import jwt, {JwtPayload} from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
 interface Product {
     title: string;
@@ -14,14 +16,59 @@ interface Product {
     id: number;
 }
 
+const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return undefined;
+};
+
 export default function Page() {
     const [showAddProductMenu, setShowAddProductMenu] = React.useState(false);
-    const [products, setProducts] = React.useState<Product[]>([
-        { title: "Product 1", svgSrc: 0, description: "This is product 1", id: 1 },
-        { title: "Product 2", svgSrc: 0, description: "This is product 2", id: 2 },
-        { title: "Product 3", svgSrc: 0, description: "This is product 3", id: 3 },
-        { title: "Product 4", svgSrc: 0, description: "This is product 4", id: 4 },
-    ]);
+    const [userId, setUserId] = React.useState<string>("-1");
+    const [products, setProducts] = React.useState<Product[]>([]); // Initialize with an empty array
+    const router = useRouter();
+
+    useEffect(() => {
+        const token = getCookie("authToken");
+        if (!token) {
+            router.push("/login");
+        } else {
+            const decodedToken = jwt.decode(token) as JwtPayload | null;
+            if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
+                router.push("/login");
+            } else {
+                setUserId(decodedToken.userId as string);
+            }
+        }
+
+        const getProducts = async () => {
+            if (userId === "-1") return;
+
+            try {
+                const response = await fetch(`/api/productDetails/productDetailsOverviewPage?userId=${userId}`);
+                if (!response.ok) {
+                    console.error("Failed to fetch products");
+                    return;
+                }
+
+                const data = await response.json();
+                const fetchedProducts = data.products.map((product: any, index: number) => ({
+                    title: product.productTitle,
+                    svgSrc: product.productIcon,
+                    description: product.productDescription,
+                    id: index + 1,
+                }));
+
+                setProducts(fetchedProducts);
+            } catch (error) {
+                console.error("Error fetching products: ", error);
+            }
+        };
+
+        getProducts().then();
+
+    }, [userId]);
 
     const payingCustomerNavOptions = [
         { id: 1, label: "ORGANISATION", href: "/organisation-overview" },

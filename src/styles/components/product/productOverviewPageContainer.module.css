@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5vw;
-    margin-top: 3em;
     z-index: 5;
+    margin: 3em;
 }
 
