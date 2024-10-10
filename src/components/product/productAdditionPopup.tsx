@@ -13,9 +13,10 @@ interface Product {
 interface ProductAdditionPopupProps {
     onClose: () => void;
     onAddProduct: (newProduct: Product) => void;
+    userId: string
 }
 
-const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, onAddProduct }) => {
+const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, onAddProduct, userId }) => {
     const [title, setTitle] = React.useState("");
     const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
     const [description, setDescription] = React.useState("");
@@ -24,6 +25,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
     const [productMarket, setProductMarket] = React.useState("");
     const [productLink, setProductLink] = React.useState("");
     const router = useRouter();
+    const [hasBeenSubmitted, setHasBeenSubmitted] = React.useState(false);
 
     const isFormValid = title !== "" && svgSrc !== null && description !== "" && productMarket !== "" && productLink !== "";
 
@@ -38,30 +40,58 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
         { id: 7, href: "productIcons/video-project-icon.svg" },
     ];
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         if (!isFormValid || svgSrc === null) {
             return;
         }
 
-        const hashTitle = (title: string) => {
-            let hash = 0;
-            for (let i = 0; i < title.length; i++) {
-                hash = hash * 31 + title.charCodeAt(i);
-                hash = hash & hash;
-            }
-            return Math.abs(hash);
+        if (hasBeenSubmitted) {
+            return;
+        }
+
+        const newProductForBackend = {
+            userId,
+            productTitle: title,
+            productIcon: svgSrc,
+            productBusinessModel: businessModel,
+            productType,
+            productLink,
+            productMarket,
+            productDescription: description,
+            additionalFields: {},
         };
 
-        const newProductId = hashTitle(title) + Date.now();
+        try {
+            const response = await fetch('/api/productDetails/productSetNewProduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newProductForBackend),
+            });
 
-        onAddProduct({
-            id: newProductId,
-            title,
-            svgSrc,
-            description,
-        });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Product added successfully:', data);
+
+                const newProductForFrontend = {
+                    id: data.productId || Date.now(),
+                    title,
+                    svgSrc,
+                    description,
+                };
+
+                onAddProduct(newProductForFrontend);
+            } else {
+                console.error('Failed to add product');
+            }
+        } catch (error) {
+            console.error('Error adding product:', error);
+        }
+        setHasBeenSubmitted(true)
         onClose();
-        // TODO: add the save to db etc here
     };
 
     const directToCustom = () => {

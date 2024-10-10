@@ -5,7 +5,7 @@ import styles from "../../styles/components/pageButton.module.css";
 interface PageButtonProps {
     label: string;
     href?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; // Adjust to pass event
 }
 
 const PageButton: React.FC<PageButtonProps> = ({ label, href, onClick }) => {

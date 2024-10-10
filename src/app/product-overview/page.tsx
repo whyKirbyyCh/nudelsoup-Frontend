@@ -101,6 +101,7 @@ export default function Page() {
                         <ProductAdditionPopup
                             onClose={() => setShowAddProductMenu(false)}
                             onAddProduct={(newProduct: Product) => setProducts([...products, newProduct])}
+                            userId={userId}
                         />
                     </div>
                 )}
