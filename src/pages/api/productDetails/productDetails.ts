@@ -10,6 +10,7 @@ interface Product {
     productBusinessModel: string;
     productType: string;
     productMarket: string;
+    additionalFields: object;
 }
 
 interface ResponseData {
@@ -43,7 +44,8 @@ export default async function handler(
                     productIcon: 1,
                     productBusinessModel: 1,
                     productType: 1,
-                    productMarket: 1
+                    productMarket: 1,
+                    additionalFields: 1
                 }
             });
 
@@ -60,7 +62,8 @@ export default async function handler(
                 productIcon: product.productIcon,
                 productBusinessModel: product.productBusinessModel,
                 productType: product.productType,
-                productMarket: product.productMarket
+                productMarket: product.productMarket,
+                additionalFields: product.additionalFields
             }
         });
     } catch (error) {

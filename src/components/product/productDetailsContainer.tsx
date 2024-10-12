@@ -28,7 +28,10 @@ const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = ({ produ
                 const response = await fetch(`/api/productDetails/productDetails?productId=${productId}`);
                 if (!response.ok) {
                     setError("An error occurred while fetching product details");
+                    setIsLoading(false);
+                    return;
                 }
+
                 const data = await response.json();
 
                 const fetchedDetails: Detail[] = [
@@ -39,6 +42,14 @@ const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = ({ produ
                     { label: "MARKET", value: data.product.productMarket },
                     { label: "DESCRIPTION", value: data.product.productDescription },
                 ];
+
+                if (data.product.additionalFields) {
+                    const additionalDetails = Object.entries(data.product.additionalFields).map(([key, value]) => ({
+                        label: key.toUpperCase(),
+                        value: value as string,
+                    }));
+                    fetchedDetails.push(...additionalDetails);
+                }
 
                 setDetails(fetchedDetails);
                 setIsLoading(false);
@@ -57,11 +68,45 @@ const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = ({ produ
         setEditedDetails(JSON.parse(JSON.stringify(details)));
     };
 
-    const toggleSave = () => {
-        setDetails(editedDetails);
-        setIsEditMode(false);
-        setIsAddingDetail(false);
+    const toggleSave = async () => {
+        try {
+            const updatedProduct = {
+                productTitle: editedDetails.find((detail) => detail.label === "PRODUCT TITLE")?.value || "",
+                productIcon: editedDetails.find((detail) => detail.label === "PRODUCT ICON")?.value || 1,
+                productBusinessModel: editedDetails.find((detail) => detail.label === "BUSINESS MODEL")?.value || "",
+                productType: editedDetails.find((detail) => detail.label === "PRODUCT TYPE")?.value || "",
+                productMarket: editedDetails.find((detail) => detail.label === "MARKET")?.value || "",
+                productDescription: editedDetails.find((detail) => detail.label === "DESCRIPTION")?.value || "",
+                additionalFields: editedDetails.reduce((acc: any, detail) => {
+                    if (!["PRODUCT TITLE", "PRODUCT ICON", "BUSINESS MODEL", "PRODUCT TYPE", "MARKET", "DESCRIPTION"].includes(detail.label)) {
+                        acc[detail.label] = detail.value;
+                    }
+                    return acc;
+                }, {})
+            };
+
+            const response = await fetch(`/api/productDetails/productDetailsUpdate?productId=${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProduct),
+            });
+
+            if (!response.ok) {
+                setError("An error occurred while saving product details");
+                return
+            }
+
+            setDetails(editedDetails);
+            setIsEditMode(false);
+            setIsAddingDetail(false);
+        } catch (error) {
+            console.error(error);
+            setError("An error occurred while saving product details");
+        }
     };
+
 
     const toggleCancel = () => {
         setIsEditMode(false);
