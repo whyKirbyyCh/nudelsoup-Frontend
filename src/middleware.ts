@@ -54,7 +54,7 @@ export async function middleware(request: NextRequest) {
             }
 
             if (isRouteInGroup(routeGroups.agreed) && !decoded.isAgreed) {
-                return NextResponse.redirect(new URL("/terms-conditions", request.url));
+                return NextResponse.redirect(new URL("/account-setup", request.url));
             }
 
             if (isRouteInGroup(routeGroups.verified) && !decoded.isVerified) {

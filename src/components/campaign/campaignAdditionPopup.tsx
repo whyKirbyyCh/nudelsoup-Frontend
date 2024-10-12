@@ -4,6 +4,9 @@ import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
 
 interface Campaign {
+    userId: string;
+    productId: string;
+    productTitle: string;
     campaignId: string;
     title: string;
     targetAudience: string;
@@ -12,25 +15,23 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
-    productTitle?: string;
+    additionalFields?: Record<string, any>;
 }
 
 interface CampaignAdditionPopupProps {
     onClose: () => void;
     onAddCampaign: (newCampaign: Campaign) => void;
+    userId: string;
 }
 
-const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
-                                                                         onClose,
-                                                                         onAddCampaign,
-                                                                     }) => {
+const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, onAddCampaign, userId}) => {
     const [title, setTitle] = React.useState("");
     const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
     const [targetAudience, setTargetAudience] = React.useState("");
     const [campaignType, setCampaignType] = React.useState("select");
     const [campaignGoal, setCampaignGoal] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
-    const [productTitle, setProductTitle] = React.useState(""); // Corrected input for productTitle
+    const [productTitle, setProductTitle] = React.useState("");
     const router = useRouter();
 
     const isFormValid =
@@ -53,7 +54,7 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
         { id: 7, href: "campaignIcons/video-project-icon.svg" },
     ];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!isFormValid || svgSrc === null) {
             return;
         }
@@ -69,7 +70,10 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
 
         const newCampaignId = `${hashTitle(title)}${Date.now().toString()}`;
 
-        onAddCampaign({
+        const newCampaign: Campaign = {
+            userId: userId,
+            productId: "1",
+            productTitle,
             campaignId: newCampaignId,
             title,
             svgSrc,
@@ -78,10 +82,31 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({
             campaignGoal,
             startDate,
             stillActive: true,
-            productTitle, // Ensuring productTitle is included
-        });
-        onClose();
+        };
+
+        try {
+            const response = await fetch('/api/campaignDetails/campaignSetNewCampaign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newCampaign),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Campaign added:', data);
+                onAddCampaign(newCampaign);
+                onClose();
+            } else {
+                const errorData = await response.json();
+                console.error('Error adding campaign:', errorData.message);
+            }
+        } catch (error) {
+            console.error('Error adding campaign:', error);
+        }
     };
+
 
     const directToCustom = () => {
         router.push("/campaign-creation");

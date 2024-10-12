@@ -4,6 +4,8 @@ import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
 
 interface Campaign {
+    userId: string;
+    productId: string;
     campaignId: string;
     title: string;
     targetAudience: string;
@@ -68,6 +70,8 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
         const newCampaignId = `${hashTitle(title)}${Date.now().toString()}`;
 
         onAddCampaign({
+            userId: "123",
+            productId: "123",
             campaignId: newCampaignId,
             title,
             svgSrc,

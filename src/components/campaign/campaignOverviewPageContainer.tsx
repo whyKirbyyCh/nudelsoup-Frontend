@@ -6,6 +6,9 @@ import CampaignOverviewContainer from "@/components/campaign/campaignOverviewCon
 import CampaignAdditionButton from "@/components/campaign/campaignAdditionButton";
 
 interface Campaign {
+    userId: string;
+    productId: string;
+    productTitle: string;
     campaignId: string;
     title: string;
     targetAudience: string;
@@ -14,7 +17,7 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
-    productTitle?: string;
+    additionalFields?: Record<string, any>;
 }
 
 interface CampaignOverviewPageContainerProps {

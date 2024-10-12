@@ -30,6 +30,7 @@ export default function Page() {
 
     const campaigns = [
         {
+
             campaignId: "123456789",
             title: "Campaign 1",
             targetAudience: "Audience A",

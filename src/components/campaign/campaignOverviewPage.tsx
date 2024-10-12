@@ -6,6 +6,8 @@ import CampaignOverviewContainer from "@/components/campaign/campaignOverviewCon
 import CampaignAdditionButton from "@/components/campaign/campaignAdditionButton";
 
 interface Campaign {
+    userId: string;
+    productId: string;
     campaignId: string;
     title: string;
     targetAudience: string;

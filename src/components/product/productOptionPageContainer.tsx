@@ -5,6 +5,8 @@ import ProductDetailsContainer from "@/components/product/productDetailsContaine
 import CampaignAdditionPopupInProduct from "@/components/campaign/campaignAdditionPopupInProduct";
 
 interface Campaign {
+    userId: string;
+    productId: string;
     campaignId: string;
     title: string;
     targetAudience: string;
