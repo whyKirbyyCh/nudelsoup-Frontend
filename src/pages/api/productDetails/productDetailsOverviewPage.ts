@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/db';
-import { ObjectId } from 'mongodb';
 
 interface Product {
-    productId: ObjectId;
+    productId: string;
     productTitle: string;
     productDescription: string;
     productIcon: number;

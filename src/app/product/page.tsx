@@ -30,7 +30,8 @@ export default function Page() {
 
     const campaigns = [
         {
-
+            userId: "123456789",
+            productId: "123456789",
             campaignId: "123456789",
             title: "Campaign 1",
             targetAudience: "Audience A",
@@ -39,27 +40,7 @@ export default function Page() {
             startDate: "01.02.2003",
             stillActive: true,
             svgSrc: 1
-        },
-        {
-            campaignId: "987654321",
-            title: "Campaign 2",
-            targetAudience: "Audience B",
-            campaignType: "Type Y",
-            campaignGoal: "Goal 2",
-            startDate: "05.06.2007",
-            stillActive: false,
-            svgSrc: 1
-        },
-        {
-            campaignId: "987654322",
-            title: "Campaign 3",
-            targetAudience: "Audience C",
-            campaignType: "Type Z",
-            campaignGoal: "Goal 1",
-            startDate: "05.06.2007",
-            stillActive: false,
-            svgSrc: 1
-        },
+        }
     ];
 
     return (

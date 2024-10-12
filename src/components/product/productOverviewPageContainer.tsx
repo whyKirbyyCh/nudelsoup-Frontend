@@ -9,7 +9,7 @@ interface Product {
     title: string;
     svgSrc: number;
     description: string;
-    id: number;
+    id: string;
 }
 
 interface ProductOverviewPageContainerProps {

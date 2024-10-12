@@ -7,6 +7,7 @@ import CampaignAdditionPopupInProduct from "@/components/campaign/campaignAdditi
 interface Campaign {
     userId: string;
     productId: string;
+    productTitle: string;
     campaignId: string;
     title: string;
     targetAudience: string;
@@ -15,6 +16,7 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
+    additionalFields?: Record<string, any>;
 }
 
 interface ProductOptionPageContainerProps {

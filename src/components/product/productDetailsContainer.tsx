@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/product/productDetailsContainer.module.css";
 import PageButton from "@/components/page/pageButton";
 
@@ -11,40 +11,62 @@ interface Detail {
     value: string;
 }
 
-const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = () => {
+const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = ({ productId }) => {
     const [isEditMode, setIsEditMode] = useState(false);
-    const initialDetails: Detail[] = [
-        { label: "PRODUCT TITLE", value: "product title" },
-        { label: "PRODUCT ICON", value: "product icon" },
-        { label: "BUSINESS MODEL", value: "product business model" },
-        { label: "PRODUCT TYPE", value: "product type" },
-        { label: "MARKET", value: "product market" },
-        { label: "DESCRIPTION", value: "product description" },
-    ];
-    const [details, setDetails] = useState<Detail[]>(initialDetails);
+    const [details, setDetails] = useState<Detail[]>([]);
     const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
-
     const [isAddingDetail, setIsAddingDetail] = useState(false);
     const [newDetailLabel, setNewDetailLabel] = useState("");
     const [newDetailValue, setNewDetailValue] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetch(`/api/productDetails/productDetails?productId=${productId}`);
+                if (!response.ok) {
+                    setError("An error occurred while fetching product details");
+                }
+                const data = await response.json();
+
+                const fetchedDetails: Detail[] = [
+                    { label: "PRODUCT TITLE", value: data.product.productTitle },
+                    { label: "PRODUCT ICON", value: data.product.productIcon },
+                    { label: "BUSINESS MODEL", value: data.product.productBusinessModel },
+                    { label: "PRODUCT TYPE", value: data.product.productType },
+                    { label: "MARKET", value: data.product.productMarket },
+                    { label: "DESCRIPTION", value: data.product.productDescription },
+                ];
+
+                setDetails(fetchedDetails);
+                setIsLoading(false);
+            } catch (error: any) {
+                console.error(error);
+                setError("An error occurred while fetching product details");
+                setIsLoading(false);
+            }
+        };
+
+        fetchProductDetails().then();
+    }, [productId]);
 
     const toggleEditMode = () => {
         setIsEditMode(true);
-        // Deep copy of details to editedDetails
         setEditedDetails(JSON.parse(JSON.stringify(details)));
     };
 
     const toggleSave = () => {
-        setDetails(editedDetails); // Save the edited details
+        setDetails(editedDetails);
         setIsEditMode(false);
         setIsAddingDetail(false);
-        // Implement additional save functionality here if needed
     };
 
     const toggleCancel = () => {
         setIsEditMode(false);
         setIsAddingDetail(false);
-        setEditedDetails([]); // Clear editedDetails
+        setEditedDetails([]);
     };
 
     const addDetail = () => {
@@ -76,6 +98,14 @@ const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = () => {
     };
 
     const displayedDetails = isEditMode ? editedDetails : details;
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.error}>Error: {error}</div>;
+    }
 
     return (
         <div className={styles.productDetailsContainer}>

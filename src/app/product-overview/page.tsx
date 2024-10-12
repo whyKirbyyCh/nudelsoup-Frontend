@@ -13,7 +13,7 @@ interface Product {
     title: string;
     svgSrc: number;
     description: string;
-    id: number;
+    id: string;
 }
 
 const getCookie = (name: string): string | undefined => {
@@ -53,11 +53,11 @@ export default function Page() {
                 }
 
                 const data = await response.json();
-                const fetchedProducts = data.products.map((product: any, index: number) => ({
+                const fetchedProducts = data.products.map((product: any) => ({
                     title: product.productTitle,
                     svgSrc: product.productIcon,
                     description: product.productDescription,
-                    id: index + 1,
+                    id: product.productId,
                 }));
 
                 setProducts(fetchedProducts);

@@ -8,7 +8,7 @@ interface ProductOverviewContainerProps {
     svgSrc: number;
     title: string;
     description: string;
-    id: number;
+    id: string;
 }
 
 const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svgSrc, title, description, id }) => {

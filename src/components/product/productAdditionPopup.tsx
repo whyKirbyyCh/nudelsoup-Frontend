@@ -7,7 +7,7 @@ interface Product {
     title: string;
     svgSrc: number;
     description: string;
-    id: number;
+    id: string;
 }
 
 interface ProductAdditionPopupProps {
@@ -77,7 +77,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
                 console.log('Product added successfully:', data);
 
                 const newProductForFrontend = {
-                    id: data.productId || Date.now(),
+                    id: data.productId,
                     title,
                     svgSrc,
                     description,
