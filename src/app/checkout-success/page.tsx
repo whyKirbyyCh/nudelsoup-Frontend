@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
@@ -10,30 +9,34 @@ import styles from "./checout-sucessPage.module.css"
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [sessionId, setSessionId] = useState<string | null>(null);
     const router = useRouter();
-    const searchParams = useSearchParams();
     const effectRan = useRef(false);
 
     const payingCustomerNavOptions = [
-        { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },
-        { id: 2, label: 'PRODUCTS', href: '/product-overview' },
-        { id: 3, label: 'CAMPAIGNS', href: '/campaign-overview' },
-        { id: 4, label: 'ANALYTICS', href: '/analytics' },
+        { id: 1, label: "ORGANISATION", href: "/organisation-overview" },
+        { id: 2, label: "PRODUCTS", href: "/product-overview" },
+        { id: 3, label: "CAMPAIGNS", href: "/campaign-overview" },
+        { id: 4, label: "ANALYTICS", href: "/analytics" },
     ];
 
-    const sessionId = searchParams?.get("session_id") ?? "";
-
     useEffect(() => {
-        if (effectRan.current) return;
+        // Ensure this only runs on the client side
+        const searchParams = new URLSearchParams(window.location.search);
+        const session_id = searchParams.get("session_id") ?? "";
+
+        if (effectRan.current || !session_id) return;
+
+        setSessionId(session_id);
 
         const checkSessionAndFetchData = async () => {
-            if (!sessionId) {
+            if (!session_id) {
                 router.push("/pricing");
                 return;
             }
 
             try {
-                const response = await fetch(`/api/userDetails/userEmailByCheckoutSession?sessionId=${sessionId}`);
+                const response = await fetch(`/api/userDetails/userEmailByCheckoutSession?sessionId=${session_id}`);
 
                 if (!response.ok) {
                     setErrorMessage("Failed to retrieve session data.");
@@ -75,7 +78,6 @@ export default function Page() {
                 } else {
                     setErrorMessage("No email found in session data.");
                 }
-
             } catch (error) {
                 console.error("Error fetching session details:", error);
                 setErrorMessage("There was an error with your payment.");
@@ -85,31 +87,28 @@ export default function Page() {
         checkSessionAndFetchData().then();
 
         effectRan.current = true; // Mark effect as run
-
-    }, [router, sessionId]);
+    }, [router]);
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className={styles.checkoutPage}>
-                <div className={styles.checkoutPageHeader}>
-                    <Header
-                        navOptions={payingCustomerNavOptions}
-                        fontSizeVariant={"large"}
-                        showButtons={true}
-                        disableNavigation={false}
-                        iconSize={"large"}
-                    />
-                </div>
-                <div className={styles.checkoutPageTitle}>
-                    <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4} />
-                </div>
-                <img
-                    src="/checkout-sucess.svg"
-                    alt="Success"
-                    className={styles.checkoutPageSVG}
+        <div className={styles.checkoutPage}>
+            <div className={styles.checkoutPageHeader}>
+                <Header
+                    navOptions={payingCustomerNavOptions}
+                    fontSizeVariant={"large"}
+                    showButtons={true}
+                    disableNavigation={false}
+                    iconSize={"large"}
                 />
-                {errorMessage && <p>{errorMessage}</p>}
             </div>
-        </Suspense>
+            <div className={styles.checkoutPageTitle}>
+                <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4} />
+            </div>
+            <img
+                src="/checkout-sucess.svg"
+                alt="Success"
+                className={styles.checkoutPageSVG}
+            />
+            {errorMessage && <p>{errorMessage}</p>}
+        </div>
     );
 }
