@@ -3,6 +3,7 @@
 import React, {useState} from "react";
 import styles from "../../styles/components/review/reviewStatisticsContainer.module.css";
 import ReviewStars from "@/components/review/reviewStars";
+import Image from "next/image";
 
 const ReviewStatisticsContainer: React.FC = () => {
     const [verifiedPurchaseAmount, setVerifiedPurchaseAmount] = useState(63)
@@ -17,7 +18,7 @@ const ReviewStatisticsContainer: React.FC = () => {
             </div>
             <div className={styles.reviewStatisticsContainerTop}>
                 <div className={styles.reviewStatisticsContainerTopLeft}>
-                    <img
+                    <Image
                         src={"/average.svg"}
                         alt={"average symbol"}
                         className={styles.averageSymbol}
@@ -33,7 +34,7 @@ const ReviewStatisticsContainer: React.FC = () => {
             </div>
             <div className={styles.reviewStatisticsContainerBottom}>
                 <div className={styles.reviewStatisticsContainerBottomLeft}>
-                    <img
+                    <Image
                         src={"/amount.svg"}
                         alt={"amount symbol"}
                         className={styles.amountSymbol}

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
+import Image from "next/image";
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
@@ -101,7 +102,7 @@ export default function Page() {
             <div className={styles.checkoutPageTitle}>
                 <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4} />
             </div>
-            <img
+            <Image
                 src="/checkout-sucess.svg"
                 alt="Success"
                 className={styles.checkoutPageSVG}
