@@ -26,7 +26,7 @@ export default function Page() {
         } else if (!title || title === "PRODUCT") {
             router.push("/product-overview");
         }
-    }, [id, router]);
+    }, [id, router, title]);
 
     const campaigns = [
         {

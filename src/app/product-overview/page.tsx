@@ -68,7 +68,7 @@ export default function Page() {
 
         getProducts().then();
 
-    }, [userId]);
+    }, [userId, router]);
 
     const payingCustomerNavOptions = [
         { id: 1, label: "ORGANISATION", href: "/organisation-overview" },

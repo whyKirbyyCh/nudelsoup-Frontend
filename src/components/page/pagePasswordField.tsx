@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "../../styles/components/pagePasswordField.module.css";
+import Image from "next/image";
 
 interface PagePasswordFieldProps {
     placeholder?: string;
@@ -32,13 +33,13 @@ const PagePasswordField: React.FC<PagePasswordFieldProps> = ({ placeholder = "En
                 aria-label={passwordVisible ? "Hide password" : "Show password"}
             >
                 {passwordVisible ? (
-                    <img
+                    <Image
                         src="/eye-closed.svg"
                         alt="Hide password"
                         className={styles.icon}
                     />
                 ) : (
-                    <img
+                    <Image
                         src="/eye-open.svg"
                         alt="Show password"
                         className={styles.icon}

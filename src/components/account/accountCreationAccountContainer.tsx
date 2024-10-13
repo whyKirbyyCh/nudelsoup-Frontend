@@ -101,7 +101,7 @@ const AccountCreationAccountContainer: React.FC<AccountCreationAccountContainerP
                 <div className={styles.accountInfoContainerTitle}>ACCOUNT INFORMATION</div>
                 <div className={styles.accountInfoContainerDescription}>
                     Before continuing, please make sure that all the required information is correct. If so click the
-                    "SUBMIT" button.
+                    &quot;SUBMIT&quot; button.
                 </div>
             </div>
             <div className={styles.formGroup}>

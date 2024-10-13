@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../../styles/components/campaign/campaignAdditionPopup.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Campaign {
     userId: string;
@@ -134,7 +135,7 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
                         <label>ICON:</label>
                         <div className={styles.iconGrid}>
                             {campaignIcons.map((icon) => (
-                                <img
+                                <Image
                                     key={icon.id}
                                     src={`/${icon.href}`}
                                     alt={`Icon ${icon.id}`}

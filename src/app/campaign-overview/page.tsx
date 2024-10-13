@@ -57,7 +57,7 @@ export default function Page() {
                 setUserId(decodedToken.userId as string);
             }
         }
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (!userId) return;

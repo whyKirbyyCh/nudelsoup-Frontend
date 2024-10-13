@@ -140,7 +140,7 @@ const PageLoginBox: React.FC = () => {
             </div>
             <div className={styles.loginBoxItemLink}>
                 <Link href={"register"} className={styles.loginLink}>
-                    DON'T HAVE AN ACCOUNT? REGISTER HERE!
+                    DON&apos;T HAVE AN ACCOUNT? REGISTER HERE!
                 </Link>
             </div>
         </div>

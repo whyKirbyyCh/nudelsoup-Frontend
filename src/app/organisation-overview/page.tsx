@@ -38,7 +38,7 @@ export default function Page() {
                 setUserId(decodedToken.userId as string);
             }
         }
-    }, []);
+    }, [router]);
 
     return (
         <div className={styles.organisationOverviewContainer}>

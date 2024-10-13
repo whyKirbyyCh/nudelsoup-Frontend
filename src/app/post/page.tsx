@@ -26,7 +26,7 @@ export default function Page() {
             }, 5000);
             router.back();
         }
-    }, []);
+    }, [router, id]);
 
     return (
         <div className={styles.postContainer}>

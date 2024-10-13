@@ -21,7 +21,7 @@ export default function Page() {
         } else if (!title || title === "CAMPAIGN") {
             router.push("/campaign-overview");
         }
-    }, [id, router]);
+    }, [id, router, title]);
 
     const payingCustomerNavOptions = [
         { id: 1, label: 'ORGANISATION', href: '/organisation-overview' },
