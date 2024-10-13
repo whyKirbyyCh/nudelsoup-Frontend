@@ -2,7 +2,6 @@ import React from "react";
 import styles from "../../styles/components/product/productAdditionPopup.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter} from "next/navigation";
-import Image from "next/image";
 
 interface Product {
     title: string;
@@ -119,7 +118,7 @@ const ProductAdditionPopup: React.FC<ProductAdditionPopupProps> = ({ onClose, on
                         <label>ICON:</label>
                         <div className={styles.iconGrid}>
                             {productIcons.map((icon) => (
-                                <Image
+                                <img
                                     key={icon.id}
                                     src={`/${icon.href}`}
                                     alt={`Icon ${icon.id}`}

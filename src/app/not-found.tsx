@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./not-found.module.css";
 import Header from "@/components/header/header";
-import Image from "next/image";
 
 export default function Page() {
     const router = useRouter();
@@ -29,7 +28,7 @@ export default function Page() {
             <div className={styles.header}>
                 <Header iconSize={"large"} navOptions={navOptions} fontSizeVariant={"large"}/>
             </div>
-            <Image
+            <img
                 src="/not-found.svg"
                 alt="Not Found"
                 className={styles.notFoundImage}

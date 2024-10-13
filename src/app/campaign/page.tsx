@@ -3,11 +3,12 @@
 import React, {useEffect} from "react";
 import styles from "./campaignPage.module.css";
 import {useRouter, useSearchParams} from "next/navigation";
+import { Suspense } from "react";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import CampaignOptionPageContainer from "@/components/campaign/campaignOptionPageContainer";
 
-// should have details, content/message for the posts etc. and analytics and product details tabs
+//TODO: should have details, content/message for the posts etc. and analytics and product details tabs
 
 export default function Page() {
     const searchParams = useSearchParams();
@@ -31,21 +32,23 @@ export default function Page() {
     ];
 
     return (
-        <div className={styles.campaignContainer}>
-            <div className={styles.campaignHeader}>
-                <Header
-                    iconSize="large"
-                    navOptions={payingCustomerNavOptions}
-                    fontSizeVariant="large"
-                    showButtons={true}
-                />
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className={styles.campaignContainer}>
+                <div className={styles.campaignHeader}>
+                    <Header
+                        iconSize="large"
+                        navOptions={payingCustomerNavOptions}
+                        fontSizeVariant="large"
+                        showButtons={true}
+                    />
+                </div>
+                <div className={styles.campaignTitle}>
+                    <PageTitle title={title} size={4}/>
+                </div>
+                <div className={styles.campaignContent}>
+                    <CampaignOptionPageContainer campaignId={id} />
+                </div>
             </div>
-            <div className={styles.campaignTitle}>
-                <PageTitle title={title} size={4}/>
-            </div>
-            <div className={styles.campaignContent}>
-                <CampaignOptionPageContainer campaignId={id} />
-            </div>
-        </div>
+        </Suspense>
     );
 }

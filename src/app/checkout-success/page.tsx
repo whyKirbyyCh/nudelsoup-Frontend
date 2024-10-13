@@ -2,10 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
-import Image from "next/image";
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
@@ -82,32 +82,34 @@ export default function Page() {
             }
         };
 
-        checkSessionAndFetchData();
+        checkSessionAndFetchData().then();
 
         effectRan.current = true; // Mark effect as run
 
     }, [router, sessionId]);
 
     return (
-        <div className={styles.checkoutPage}>
-            <div className={styles.checkoutPageHeader}>
-                <Header
-                    navOptions={payingCustomerNavOptions}
-                    fontSizeVariant={"large"}
-                    showButtons={true}
-                    disableNavigation={false}
-                    iconSize={"large"}
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className={styles.checkoutPage}>
+                <div className={styles.checkoutPageHeader}>
+                    <Header
+                        navOptions={payingCustomerNavOptions}
+                        fontSizeVariant={"large"}
+                        showButtons={true}
+                        disableNavigation={false}
+                        iconSize={"large"}
+                    />
+                </div>
+                <div className={styles.checkoutPageTitle}>
+                    <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4} />
+                </div>
+                <img
+                    src="/checkout-sucess.svg"
+                    alt="Success"
+                    className={styles.checkoutPageSVG}
                 />
+                {errorMessage && <p>{errorMessage}</p>}
             </div>
-            <div className={styles.checkoutPageTitle}>
-                <PageTitle title={"THANK YOU FOR YOUR PURCHASE"} size={4} />
-            </div>
-            <Image
-                src="/checkout-sucess.svg"
-                alt="Success"
-                className={styles.checkoutPageSVG}
-            />
-            {errorMessage && <p>{errorMessage}</p>}
-        </div>
+        </Suspense>
     );
 }

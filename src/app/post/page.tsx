@@ -5,6 +5,7 @@ import styles from "./postPage.module.css";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
 import PostOverviewContainer from "@/components/posts/postOverviewContainer";
 
 export default function Page() {
@@ -29,19 +30,21 @@ export default function Page() {
     }, [router, id]);
 
     return (
-        <div className={styles.postContainer}>
-            <div className={styles.postHeader}>
-                <Header iconSize="large" navOptions={payingCustomerNavOptions} fontSizeVariant="large"
-                        showButtons={true}/>
-            </div>
-            <div className={styles.postPageTitle}>
-                <PageTitle title={"Post Title"} size={4}/>
-            </div>
-            <div className={styles.postContent}>
-                <div className={styles.postMainBody}>
-                    <PostOverviewContainer postId={id}/>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className={styles.postContainer}>
+                <div className={styles.postHeader}>
+                    <Header iconSize="large" navOptions={payingCustomerNavOptions} fontSizeVariant="large"
+                            showButtons={true}/>
+                </div>
+                <div className={styles.postPageTitle}>
+                    <PageTitle title={"Post Title"} size={4}/>
+                </div>
+                <div className={styles.postContent}>
+                    <div className={styles.postMainBody}>
+                        <PostOverviewContainer postId={id}/>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Suspense>
     );
 };

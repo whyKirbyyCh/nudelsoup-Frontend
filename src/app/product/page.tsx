@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
 import styles from "./productPage.module.css";
 import ProductOptionPageContainer from "@/components/product/productOptionPageContainer";
 import Header from "@/components/header/header";
@@ -33,6 +34,7 @@ export default function Page() {
             userId: "123456789",
             productId: "123456789",
             campaignId: "123456789",
+            productTitle: "Product 1",
             title: "Campaign 1",
             targetAudience: "Audience A",
             campaignType: "Type X",
@@ -44,21 +46,23 @@ export default function Page() {
     ];
 
     return (
-        <div className={styles.container}>
-            <div className={styles.productHeader}>
-                <Header
-                    iconSize="large"
-                    navOptions={payingCustomerNavOptions}
-                    fontSizeVariant="large"
-                    showButtons={true}
-                />
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className={styles.container}>
+                <div className={styles.productHeader}>
+                    <Header
+                        iconSize="large"
+                        navOptions={payingCustomerNavOptions}
+                        fontSizeVariant="large"
+                        showButtons={true}
+                    />
+                </div>
+                <div className={styles.productTitle}>
+                    <PageTitle title={title} size={4}/>
+                </div>
+                <div className={styles.productContent}>
+                    <ProductOptionPageContainer productId={id} campaigns={campaigns}/>
+                </div>
             </div>
-            <div className={styles.productTitle}>
-                <PageTitle title={title} size={4}/>
-            </div>
-            <div className={styles.productContent}>
-                <ProductOptionPageContainer productId={id} campaigns={campaigns}/>
-            </div>
-        </div>
+        </Suspense>
     );
 }

@@ -2,7 +2,6 @@
 
 import React from "react";
 import styles from "../../styles/components/posts/postsAdditionButton.module.css";
-import Image from "next/image";
 
 
 interface PostAdditionButtonProps {
@@ -12,7 +11,7 @@ interface PostAdditionButtonProps {
 const PostAdditionButton: React.FC<PostAdditionButtonProps> = ({ onClick }) => {
     return (
         <div className={styles.postAdditionButton} onClick={onClick} role={"button"} tabIndex={0} aria-label={"add post"}>
-            <Image
+            <img
                 src={"/add-product.svg"}
                 alt={"add post"}
                 className={styles.postAdditionIcon}

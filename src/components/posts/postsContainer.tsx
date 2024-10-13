@@ -4,12 +4,12 @@ import PageButtonSmall from "@/components/page/PageButtonSmall";
 import { useRouter } from "next/navigation";
 
 interface PostsContainerProps {
-    id: number;
+    id: string;
     site: string;
     title: string;
     text: string;
-    onDelete?: (id: number) => void;
-    onSave?: (id: number, newTitle: string, newText: string) => void;
+    onDelete?: (id: string) => void;
+    onSave?: (id: string, newTitle: string, newText: string) => void;
     allowNavigation?: boolean;
 }
 

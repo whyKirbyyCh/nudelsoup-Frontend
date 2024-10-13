@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/components/popup/popupTimeBasedRecommendation.module.css";
-import Image from "next/image";
 
 interface PopupTimeBasedRecommendationProps {
     title: string;
@@ -38,7 +37,7 @@ const PopupTimeBasedRecommendation: React.FC<PopupTimeBasedRecommendationProps> 
         >
             {isVisible && (
                 <>
-                    <Image
+                    <img
                         src="/popup-body.svg"
                         alt="Popup Background"
                         className={`${styles.popupImage} ${mirror ? styles.mirrored : ""}`}

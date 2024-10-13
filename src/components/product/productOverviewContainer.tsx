@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import styles from "../../styles/components/product/productOverviewContainer.module.css";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 interface ProductOverviewContainerProps {
     svgSrc: number;
@@ -45,7 +44,7 @@ const ProductOverviewContainer: React.FC<ProductOverviewContainerProps> = ({ svg
     return (
         <div className={styles.productOverviewContainer} onClick={goToProduct} role={"button"} tabIndex={0} aria-label={"go to product"}>
             <div className={styles.productOverviewIconBackground}>
-                <Image
+                <img
                     src={svgLink}
                     alt={title}
                     className={styles.productOverviewIcon}

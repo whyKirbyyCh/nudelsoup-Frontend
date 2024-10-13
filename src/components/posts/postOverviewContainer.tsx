@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/components/posts/postOverviewContainer.module.css"
 import PageButton from "@/components/page/pageButton";
-import AnalyticsOverviewContainerPosts from "../analytics/analyticsOverviewContainerPosts.tsx"
+import AnalyticsOverviewContainerPosts from "../analytics/analyticsOverviewContainerPosts"
 
 interface PostOverviewContainerProps{
     postId: number;

@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import styles from "../../styles/components/campaign/campaignOverviewContainer.module.css";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 interface CampaignOverviewContainerProps {
     campaignId: string;
@@ -55,7 +54,7 @@ const CampaignOverviewContainer : React.FC<CampaignOverviewContainerProps> = ({ 
     return (
         <div className={styles.campaignOverviewContainer} onClick={goToCampaign} role={"button"} tabIndex={0} aria-label={"campaign overview"}>
             <div className={styles.campaignOverviewIconBackground}>
-                <Image
+                <img
                     src={svgLink}
                     alt={title}
                     className={styles.campaignOverviewIcon}

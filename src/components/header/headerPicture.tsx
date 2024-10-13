@@ -3,7 +3,6 @@ import styles from "../../styles/components/headerPicture.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function HeaderPicture() {
     const router = useRouter();
@@ -48,7 +47,7 @@ export default function HeaderPicture() {
 
     return (
         <div className={styles.pictureContainer} ref={dropdownRef}>
-            <Image
+            <img
                 className={styles.picture}
                 src="/header-picture.svg"
                 alt="Header picture"
