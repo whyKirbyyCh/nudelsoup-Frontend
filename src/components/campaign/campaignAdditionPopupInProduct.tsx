@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 interface Campaign {
     userId: string;
     productId: string;
+    productTitle: string;
     campaignId: string;
     title: string;
     targetAudience: string;
@@ -14,7 +15,7 @@ interface Campaign {
     startDate: string;
     stillActive: boolean;
     svgSrc: number;
-    productTitle?: string;
+    additionalFields?: Record<string, any>;
 }
 
 interface CampaignAdditionPopupInProductProps {
@@ -72,6 +73,7 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
         onAddCampaign({
             userId: "123",
             productId: "123",
+            productTitle: "Sample Product",
             campaignId: newCampaignId,
             title,
             svgSrc,
@@ -80,6 +82,7 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
             campaignGoal,
             startDate,
             stillActive: true,
+            additionalFields: {},
         });
         onClose();
     };
