@@ -107,7 +107,6 @@ const ProductDetailsContainer: React.FC<ProductDetailsContainerProps> = ({ produ
         }
     };
 
-
     const toggleCancel = () => {
         setIsEditMode(false);
         setIsAddingDetail(false);
