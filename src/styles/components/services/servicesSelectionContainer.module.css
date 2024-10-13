@@ -1,0 +1,42 @@
+.servicesSelectionContainer {
+    width: 100%;
+    overflow-x: auto;
+    padding: 1em;
+}
+
+.servicesGrid {
+    display: grid;
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+    gap: 10px;
+    width: max-content;
+    cursor: pointer;
+    user-select: none;
+}
+
+.serviceItem {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.serviceItem input {
+    display: none;
+}
+
+.serviceItemLabel::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 0.1em solid var(--text-color);
+    margin-right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+}
+.serviceItem input:checked + .serviceItemLabel::before {
+    background-color: var(--accent-color);
+}

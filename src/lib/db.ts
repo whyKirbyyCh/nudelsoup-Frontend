@@ -16,6 +16,7 @@ const options: MongoClientOptions = {
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
+// eslint-disable-next-line no-var
 declare global {
     var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
@@ -34,13 +35,10 @@ if (process.env.NODE_ENV === 'development') {
 export async function connectToDatabase() {
     try {
         const client = await clientPromise;
-        const db = client.db();
+        const db = client.db('users');
         return { client, db };
     } catch (error) {
         if (error instanceof Error) {
-            console.error('Failed to connect to database:', error.message);
-        } else {
-            console.error('An unexpected error occurred:', error);
         }
         throw new Error('Unable to connect to the database. Please try again later.');
     }

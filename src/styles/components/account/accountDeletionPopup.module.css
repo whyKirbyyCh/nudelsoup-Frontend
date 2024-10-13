@@ -1,0 +1,93 @@
+.accountDeletionPopup{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 60%;
+    height: auto;
+    gap: 1em;
+    border: 0.1em solid var(--text-color);
+    background: var(--background-color);
+    margin-top: 5em;
+    padding: 2em;
+}
+
+.accountDeletionPopup::after{
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}
+
+.accountDeletionPopupButtons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.accountDeletionPopupText{
+    font-size: calc(var(--page-font-size));
+    text-align: center;
+    padding: 1em;
+    user-select: none;
+}
+
+.accountDeletionPopupTitle{
+    font-size: calc(var(--page-font-size) + 0.5vw);
+    font-weight: 600;
+}
+
+.accountDeletionPopupErrorMessage{
+    font-size: calc(var(--page-font-size));
+    color: var(--error-color);
+    text-align: center;
+}
+
+.accountDeletionPopupInput{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 1em;
+}
+
+.accountDeletionPopupInputPW{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2em;
+    margin-bottom: 1em;
+}
+
+.valueInput {
+    width: 30vw;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+.valueInput:focus,
+.newDetailInput:focus {
+    border: 0.1em solid var(--accent-color);
+    outline: none;
+}

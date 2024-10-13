@@ -1,0 +1,95 @@
+.organisationOverviewContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border: 0.1em solid var(--text-color);
+    height: 70vh;
+    background: var(--background-color);
+    box-sizing: border-box;
+    gap: 2em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 1em;
+    padding-bottom: 4em;
+}
+
+.organisationDetail {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    width: 85%;
+}
+
+.label {
+    text-align: right;
+    width: 15%;
+    font-size: var(--page-font-size);
+}
+
+.value {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+    width: 40%;
+}
+
+.valueInput {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+    width: 40%;
+}
+
+.valueInput:focus,
+.newDetailInput:focus {
+    border: 0.1em solid var(--accent-color);
+    outline: none;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.newDetailForm {
+    display: flex;
+    gap: 1em;
+    width: 85%;
+}
+
+.newDetailFormInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.newDetailInput {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    width: 70%;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+.newDetailButtons {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.organisationName{
+    font-size: calc(var(--page-title-font-size) + 0.2vw);
+    margin-top: 0.25em;
+    font-weight: 500;
+}

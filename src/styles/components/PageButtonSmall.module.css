@@ -1,0 +1,41 @@
+.buttonSmallWrapper {
+    position: relative;
+    display: inline-block;
+    z-index: 100;
+}
+
+.buttonSmall {
+    display: inline-block;
+    border: 0.15em solid var(--text-color);
+    padding: 0.15em 0.4em;
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    background: var(--background-color);
+    position: relative;
+    font-size: calc(var(--page-font-size) - 0.3vw);
+}
+
+.buttonSmall:hover {
+    background: var(--text-color);
+    color: var(--background-color);
+}
+
+.buttonSmall:active {
+    animation: pressedEffect 0.5s forwards;
+}
+
+@keyframes pressedEffect {
+    0% {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
+    80% {
+        background: var(--background-color);
+        color: var(--text-color);
+    }
+    100% {
+        background: var(--text-color);
+        color: var(--background-color);
+    }
+}

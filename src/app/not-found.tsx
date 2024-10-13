@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from './not-found.module.css';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import styles from "./not-found.module.css";
 import Header from "@/components/header/header";
 
 export default function Page() {
     const router = useRouter();
 
     const navOptions = [
-        { id: 1, label: 'REVIEWS', href: '/reviews' },
-        { id: 2, label: 'FAQ', href: '/faq' },
-        { id: 3, label: 'PRICING', href: '/pricing' },
-        { id: 4, label: 'CONTACT', href: '/contact' },
+        { id: 1, label: "REVIEWS", href: "/reviews" },
+        { id: 2, label: "FAQ", href: "/faq" },
+        { id: 3, label: "PRICING", href: "/pricing" },
+        { id: 4, label: "CONTACT", href: "/contact" },
     ];
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            router.replace('/');
+            router.replace("/");
         }, 10000);
 
         return () => clearTimeout(timer);

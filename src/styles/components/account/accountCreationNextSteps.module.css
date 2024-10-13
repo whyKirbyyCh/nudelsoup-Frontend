@@ -1,0 +1,33 @@
+.nextStepsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: var(--background-color);
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nextStepsContainerHeader{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    padding: 1em;
+}
+
+.nextStepsContainerTitle{
+    font-size: calc(var(--page-font-size) + 0.6vw);
+    font-weight: 600;
+    padding: 1em;
+}
+
+.nextStepsContainerDescription{
+    font-size: calc(var(--page-font-size) + 0vw);
+    padding-bottom: 1em;
+    max-width: 70%;
+    margin-bottom: 2em;
+}

@@ -1,0 +1,45 @@
+.pictureContainer {
+    position: relative;
+    display: inline-block;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.picture {
+    pointer-events: auto;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.dropdown {
+    position: absolute;
+    right: 0;
+    background: var(--background-color);
+    z-index: 10;
+    border: 0.08em solid var(--text-color);
+    min-width: 20em;
+    text-align: center;
+    padding-top: 1.5em;
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: calc(var(--page-font-size) + 0.2em);
+    font-weight: 400;
+}
+
+.dropdown li {
+    padding-bottom: 1.5em;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    color: var();
+}
+
+.dropdown a {
+    text-decoration: none;
+    color: inherit;
+}

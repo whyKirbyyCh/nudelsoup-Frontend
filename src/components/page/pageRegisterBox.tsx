@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 import styles from "../../styles/components/pageRegisterBox.module.css";
 import PageTextField from "@/components/page/pageTextField";
@@ -20,22 +21,41 @@ const PageRegisterBox: React.FC = () => {
     const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
+    interface JwtPayload {
+        userId: string;
+        username: string;
+        isAdmin: boolean;
+        isPayingCustomer: boolean;
+        exp: number;
+    }
+
+    useEffect(() => {
+        const checkAuthCookie = async () => {
+            const cookie = document.cookie.split("; ").find(row => row.startsWith("authToken="));
+            if (cookie) {
+                const token = cookie.split("=")[1];
+                try {
+                    const decodedToken = jwtDecode<JwtPayload>(token);
+                    if (decodedToken.isPayingCustomer) {
+                        router.push("/account-overview");
+                    } else {
+                        router.push("/pricing");
+                    }
+                } catch (error) {
+                    console.error("Failed to decode token", error);
+                    router.push("/login");
+                }
+            }
+        };
+
+        checkAuthCookie().then();
+    }, [router]);
+
     const handleRegisterClick = async () => {
         setPasswordErrorMessage("");
         setEmailErrorMessage("");
         setUsernameErrorMessage("");
         setApiErrorMessage("");
-
-        useEffect(() => {
-            const checkAuthCookie = async () => {
-                const cookies = document.cookie.split('; ').find(row => row.startsWith('authToken='));
-                if (cookies) {
-                    router.push('/account-overview');
-                }
-            };
-
-            checkAuthCookie().then();
-        }, [router]);
 
         if (!email || email.trim() === "") {
             setEmailErrorMessage("Please enter an email address");
@@ -75,9 +95,8 @@ const PageRegisterBox: React.FC = () => {
         }
 
         const hasNumber = /\d/.test(password);
-        const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>-_]/.test(password);
-        if (!hasNumber || !hasSpecialCharacter) {
-            setPasswordErrorMessage("Password must contain at least one number and one special character");
+        if (!hasNumber) {
+            setPasswordErrorMessage("Password must contain at least one number");
             return;
         }
 
@@ -105,23 +124,39 @@ const PageRegisterBox: React.FC = () => {
             });
 
             if (!response.ok) {
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    const data = await response.json();
-                    console.error("Registration failed:", data.message);
+                if (response.headers.get("content-type")?.includes("application/json")) {
+                    const errorData = await response.json();
+                    switch (response.status) {
+                        case 400:
+                            setApiErrorMessage("Invalid input. Please check your data and try again.");
+                            break;
+                        case 401:
+                            setApiErrorMessage("Unauthorized access. Please log in and try again.");
+                            break;
+                        case 403:
+                            setApiErrorMessage("Forbidden. You do not have permission to perform this action.");
+                            break;
+                        case 409:
+                            setApiErrorMessage("This email or username already exists. Please try a different one.");
+                            break;
+                        case 500:
+                            setApiErrorMessage("Server error. Please try again later.");
+                            break;
+                        default:
+                            setApiErrorMessage(errorData.message || "An unexpected error occurred. Please try again.");
+                    }
                 } else {
-                    const errorText = await response.text();
                     setApiErrorMessage("There was an error registering your account. Please try again.");
                 }
                 return;
             }
 
-            const data = await response.json();
-            router.push("/account-register");
+            router.push("/pricing");
         } catch (error) {
             setApiErrorMessage("There was an error registering your account. Please try again.");
         }
     };
+
 
     return (
         <div className={styles.registerBox}>

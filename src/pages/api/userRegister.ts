@@ -15,7 +15,11 @@ interface ResponseData {
     userId?: string;
 }
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'THESECRETEKEYTHATSHALLNOTBEKNOWN';
+if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not set in environment variables");
+}
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     if (req.method !== 'POST') {
@@ -43,17 +47,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // TODO: Make sure that this is safe, might need to move it to env
+        const isAdmin = email === 'timschmid02@icloud.com';
+
         const result = await db.collection('users').insertOne({
             email,
             username,
             password: hashedPassword,
+            isVerified: false,
+            isPayingCustomer: false,
+            subscriptionStartDate: null,
+            subscriptionEndDate: null,
+            isAgreed: false,
+            isSetupDone: false,
+            isAdmin,
             createdAt: new Date(),
         });
 
         const userId = result.insertedId.toString();
 
         const token = jwt.sign(
-            { userId, username },
+            { userId, username, isAdmin, isPayingCustomer: false },
             JWT_SECRET,
             { expiresIn: '14d' }
         );
@@ -61,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         res.setHeader(
             'Set-Cookie',
             serialize('authToken', token, {
-                httpOnly: false,
+                httpOnly: false, //TODO: For development, httpOnly should be true in production
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 14 * 24 * 60 * 60,
                 path: '/',
@@ -71,7 +85,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         return res.status(201).json({ message: 'User registered successfully', userId });
     } catch (error) {
-        console.error('Error registering user:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: 'Internal server error: ' + error });
     }
 }

@@ -1,0 +1,28 @@
+.reviewWritingContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+    border: 0.1em solid var(--text-color);
+    background: var(--background-color);
+    width: 45vw;
+    height: 25vh;
+    padding-bottom: 2em;
+}
+
+.reviewWritingContainerTitle{
+    font-size: calc(var(--page-title-font-size) - 1.75vw);
+    margin-top: 0.5em;
+}
+
+.reviewWritingContainer::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    right: -0.5em;
+    bottom: -0.5em;
+    background-color: var(--text-color);
+    z-index: -1;
+}

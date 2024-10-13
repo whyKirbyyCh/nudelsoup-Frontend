@@ -11,6 +11,6 @@
     flex: 1;
     border: none;
     outline: none;
-    font-size: calc(var(--page-font-size)- 0.5vw);
+    font-size: calc(var(--page-font-size) - 0.5vw);
     font-family: var(--font-family) sans-serif;
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./faqPage.module.css";
 import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
 import PageTitle from "@/components/page/pageTitle";
 import PageButton from "@/components/page/pageButton";
 import PageSVGElement from "@/components/page/pageSVGElement";

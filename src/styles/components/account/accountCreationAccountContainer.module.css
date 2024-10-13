@@ -1,0 +1,129 @@
+.accountInfoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: var(--background-color);
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.accountInfoContainerHeader{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    padding: 1em;
+}
+
+.accountInfoContainerTitle {
+    font-size: calc(var(--page-font-size) + 0.6vw);
+    font-weight: 600;
+    padding: 1em;
+}
+
+.accountInfoContainerDescription{
+    font-size: calc(var(--page-font-size) + 0vw);
+    padding-bottom: 1em;
+    max-width: 70%;
+}
+
+.value,
+.valueInput,
+.textareaInput,
+.newDetailInput {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    width: 50vw;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+    font-weight: normal;
+    box-sizing: border-box;
+}
+
+.valueInput:focus,
+.textareaInput:focus,
+.newDetailInput:focus {
+    border: 0.1em solid var(--accent-color);
+    outline: none;
+}
+
+.label {
+    text-align: right;
+    width: 15vw;
+    font-size: var(--page-font-size);
+    padding-right: 1em;
+    box-sizing: border-box;
+}
+
+.textareaInput {
+    height: 5em;
+    overflow-y: auto;
+    resize: none;
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.formGroup textarea {
+    flex: 1;
+    padding: 0.75em;
+    margin-top: 0;
+    border: 0.1em solid var(--text-color);
+    outline: none;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+@media (min-width: 768px) {
+    .valueInput,
+    .textareaInput,
+    .newDetailInput {
+        width: 40vw;
+    }
+}
+
+.formGroupButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    width: 100%;
+    padding-bottom: 2em;
+}
+
+.formGroupButtonsDetail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    width: 100%;
+    padding-bottom: 2em;
+}
+
+.checkboxInput {
+    width: 20px;
+    height: 20px;
+    border: 0.125em solid black;
+    background-color: transparent;
+    appearance: none;
+    outline: none;
+}
+
+.checkboxInput:checked {
+    background-color: var(--accent-color);
+    border: 0.125em solid black;
+}
+
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}

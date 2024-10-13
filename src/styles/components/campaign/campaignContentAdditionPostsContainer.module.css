@@ -1,0 +1,32 @@
+.campaignContentAdditionPostsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.campaignContentAdditionPostsContainerTitle {
+    font-size: calc(var(--page-font-size) + 0.5vw);
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.campaignContentAdditionPostsContainerContent {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+    margin-top: 1em;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+.campaignContentAdditionPostsContainerButton {
+    margin-top: 3em;
+    margin-bottom: 1em;
+    display: flex;
+    gap: 2em;
+}

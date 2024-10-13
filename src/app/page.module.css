@@ -81,3 +81,16 @@
     justify-content: center;
     padding-bottom: 4em;
 }
+
+.pricingPopup {
+    position: absolute;
+    top: 5.5%;
+    left: 59.5%;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.productOverviewPopup{
+    z-index: 100;
+}

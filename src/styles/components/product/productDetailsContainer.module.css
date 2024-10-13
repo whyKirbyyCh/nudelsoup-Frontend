@@ -1,0 +1,80 @@
+.productDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    margin-top: 3em;
+}
+
+.productDetail {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.label {
+    text-align: right;
+    width: 15vw;
+    font-size: var(--page-font-size);
+}
+
+.value {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    width: 50vw;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+.valueInput:focus,
+.newDetailInput:focus {
+    border: 0.1em solid var(--accent-color);
+    outline: none;
+}
+
+.valueInput {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    width: 50vw;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.newDetailForm {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+}
+
+.newDetailFormInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.newDetailInput {
+    flex: 1;
+    border: 0.1em solid var(--text-color);
+    padding: 0.75em 1em;
+    width: 50vw;
+    font-size: calc(var(--page-font-size) - 0.4vw);
+}
+
+.newDetailButtons{
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 1em;
+}

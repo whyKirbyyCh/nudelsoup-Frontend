@@ -1,0 +1,110 @@
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    text-align: center;
+
+}
+
+.popupContent {
+    background-color: var(--background-color);
+    padding: 2em 2em 2em 2em;
+    border: 0.1em solid var(--text-color);
+    max-width: 50vw;
+    width: 100%;
+    position: relative;
+    align-content: center;
+    text-align: center;
+}
+
+.popupContentTitle {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: calc(var(--page-title-font-size) - 1vw);
+}
+
+.popupContent form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.formGroup label {
+    width: 10vw;
+    margin-bottom: 0;
+    margin-right: 1em;
+    text-align: right;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+    flex: 1;
+    padding: 0.75em;
+    margin-top: 0;
+    border: 0.1em solid var(--text-color);
+    outline: none;
+}
+
+.formGroup textarea {
+    height: 5em;
+    overflow-y: auto;
+    resize: none;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+    gap: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.iconGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5em;
+}
+
+.infoIcon{
+    width: 2vw;
+    height: 2vw;
+    margin-left: 3em;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    object-fit: contain;
+    border: 0.1em solid var(--text-color);
+    transition: border 0.2s;
+    padding: 2em;
+    background: var(--accent-color);
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+
+.selectedIcon {
+    background: var(--header-base-color);
+}
+
+.infoIcon {
+    width: 2vw;
+    height: 2vw;
+}

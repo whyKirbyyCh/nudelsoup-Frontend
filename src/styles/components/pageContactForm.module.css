@@ -51,7 +51,7 @@
 .contactBoxItemName {
     padding-right: 2em;
     width: 10%;
-    font-size: calc(var(--page-font-size)- 0.5vw);
+    font-size: calc(var(--page-font-size) - 0.5vw);
     text-align: end;
 }
 

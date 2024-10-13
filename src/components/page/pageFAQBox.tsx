@@ -14,7 +14,7 @@ const PageFAQBox: React.FC<PageFAQBoxProps> = ({ question, answer }) => {
     const toggleOpen = () => setIsOpen(!isOpen);
 
     return (
-        <div className={`${styles.faqBox} ${isOpen ? styles.open : ''}`} onClick={toggleOpen}>
+        <div className={`${styles.faqBox} ${isOpen ? styles.open : ''}`} onClick={toggleOpen} role={"button"} tabIndex={0} aria-label={"open"}>
             <div className={styles.questionWrapper}>
                 <h3 className={styles.question}>{question}</h3>
                 <span className={styles.toggleIcon}>{isOpen ? '−' : '+'}</span>

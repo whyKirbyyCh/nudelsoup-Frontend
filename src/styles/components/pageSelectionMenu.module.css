@@ -1,0 +1,20 @@
+.pageSelectionMenu {
+    display: inline-block;
+
+}
+
+.dropdown {
+    border: 0.15em solid var(--text-color);
+    outline: none;
+    cursor: pointer;
+    font-size: calc(var(--page-font-size) - 0.3vw);
+    padding: 0.15em 0.4em;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+
+.pageSelectionMenu {
+    display: inline-block;
+}

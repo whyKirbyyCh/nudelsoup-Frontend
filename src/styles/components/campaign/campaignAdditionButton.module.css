@@ -1,0 +1,15 @@
+.campaignAdditionButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: auto;
+    min-height: 22vw;
+    border: 1.5em solid var(--text-color);
+    cursor: pointer;
+}
+
+.campaignAdditionIcon {
+    width: 6.5em;
+    height: 6.5em;
+}

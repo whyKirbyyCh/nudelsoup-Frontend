@@ -1,0 +1,22 @@
+.campaignOverviewPageContainer{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 70vh;
+    background: var(--background-color);
+    overflow-y: scroll;
+    padding-bottom: 2em;
+    box-sizing: border-box;
+    z-index: 5;
+}
+
+.campaigns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5vw;
+    margin-top: 3em;
+    z-index: 5;
+}
+
