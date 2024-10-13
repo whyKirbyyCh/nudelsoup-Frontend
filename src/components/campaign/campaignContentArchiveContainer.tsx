@@ -9,7 +9,7 @@ interface CampaignContentArchiveContainerProps {
 }
 
 interface Post {
-    id: number;
+    id: string;
     site: string;
     title: string;
     text: string;
@@ -18,25 +18,25 @@ interface Post {
 const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId}) => {
     const [posts, setPosts] = useState<Post[]>([
         {
-            id: 1,
+            id: "1",
             site: "Reddit",
             title: "Post 1",
             text: "Content of post 1... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 2,
+            id: "2",
             site: "Twitter",
             title: "Post 2",
             text: "Content of post 2... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 3,
+            id: "3",
             site: "Facebook",
             title: "Post 3",
             text: "Content of post 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 4,
+            id: "4",
             site: "GitHub",
             title: "Post 4",
             text: "Content of post 4... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",

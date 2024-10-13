@@ -16,7 +16,7 @@ interface CampaignContentAdditionPostsContainerProps {
 }
 
 interface Post {
-    id: number;
+    id: string;
     site: string;
     title: string;
     text: string;
@@ -25,25 +25,25 @@ interface Post {
 const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits, onReset }) => {
     const [posts, setPosts] = useState<Post[]>([
         {
-            id: 1,
+            id: "1",
             site: "Reddit",
             title: "Post 1",
             text: "Content of post 1... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 2,
+            id: "2",
             site: "Twitter",
             title: "Post 2",
             text: "Content of post 2... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 3,
+            id: "3",
             site: "Facebook",
             title: "Post 3",
             text: "Content of post 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
         },
         {
-            id: 4,
+            id: "4",
             site: "GitHub",
             title: "Post 4",
             text: "Content of post 4... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
@@ -52,11 +52,11 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
     const [showPostTOS, setShowPostTOS] = useState(false);
     const [showAddPostMenu, setShowAddPostMenu] = useState(false);
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: string) => {
         setPosts(posts.filter((post) => post.id !== id));
     };
 
-    const handleSave = (id: number, newTitle: string, newText: string) => {
+    const handleSave = (id: string, newTitle: string, newText: string) => {
         setPosts(
             posts.map((post) =>
                 post.id === id
