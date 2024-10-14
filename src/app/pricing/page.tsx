@@ -11,8 +11,6 @@ import PageTitle from "@/components/page/pageTitle";
 import PagePricingBox from "@/components/page/pagePricingBox";
 import PagePricingSchemaSwap from "@/components/page/pagePricingSchemaSwap";
 
-//should work now
-
 const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 
 if (!stripePublicKey) {
