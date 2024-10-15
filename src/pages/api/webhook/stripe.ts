@@ -14,11 +14,11 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    //if (req.method !== "POST") {
-    //    res.setHeader("Allow", "POST");
-    //    res.status(405).end("Method Not Allowed");
-    //    return;
-    //}
+    if (req.method !== "POST") {
+        res.setHeader("Allow", "POST");
+        res.status(405).end("Method Not Allowed");
+        return;
+    }
 
     try {
         const rawBody = await buffer(req);
