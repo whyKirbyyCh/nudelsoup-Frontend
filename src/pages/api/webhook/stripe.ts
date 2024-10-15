@@ -37,8 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 process.env.STRIPE_WEBHOOK as string
             );
         } catch (err: any) {
-            console.error(`Webhook signature verification failed: ${err.message}`);
-            return res.status(400).json({ error: "Webhook signature verification failed" });
+            console.error('Error verifying webhook signature:', {
+                rawBody: rawBody.toString(),
+                signature,
+                error: err.message
+            });
+            return res.status(400).json({ error: 'Webhook signature verification failed' });
         }
 
         const { db } = await connectToDatabase();
