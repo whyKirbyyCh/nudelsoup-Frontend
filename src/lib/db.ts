@@ -38,8 +38,8 @@ export async function connectToDatabase() {
         const db = client.db('users');
         return { client, db };
     } catch (error) {
-        if (error instanceof Error) {
-        }
+        console.error(error);
         throw new Error('Unable to connect to the database. Please try again later.');
     }
 }
+
