@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
+import PurchaseConfirmationEmail from "@/components/mail/purchaseConfirmationEmail";
+import ReactDOMServer from 'react-dom/server';
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +23,6 @@ export default function Page() {
     ];
 
     useEffect(() => {
-        // Ensure this only runs on the client side
         const searchParams = new URLSearchParams(window.location.search);
         const session_id = searchParams.get("session_id") ?? "";
 
@@ -58,6 +59,9 @@ export default function Page() {
                     });
 
                     console.log("Email: ", sessionData.email);
+                    const htmlMail = ReactDOMServer.renderToString(
+                        <PurchaseConfirmationEmail name={"Tim"} />
+                    );
 
                     await fetch("/api/email/sendEmail", {
                         method: "POST",
@@ -68,7 +72,7 @@ export default function Page() {
                             from: "hello@nudelsoup.com",
                             to: sessionData.email,
                             subject: "Welcome to Our Service!",
-                            html: "<div>Thank you for your purchase!</div>",
+                            html: htmlMail,
                         }),
                     });
 
