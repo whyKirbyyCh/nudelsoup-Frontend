@@ -6,7 +6,6 @@ import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
 import PurchaseConfirmationEmail from "@/components/mail/purchaseConfirmationEmail";
-import ReactDOMServer from 'react-dom/server';
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
@@ -59,9 +58,7 @@ export default function Page() {
                     });
 
                     console.log("Email: ", sessionData.email);
-                    const htmlMail = ReactDOMServer.renderToString(
-                        <PurchaseConfirmationEmail name={"Tim"} />
-                    );
+                    const htmlMail = PurchaseConfirmationEmail({ name: 'Tim' });
 
                     await fetch("/api/email/sendEmail", {
                         method: "POST",
