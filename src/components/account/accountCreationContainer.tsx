@@ -87,9 +87,15 @@ const AccountCreationContainer = () => {
 
             if (userId !== -1) {
                 console.log("Navigating to product overview...");
-                router.push("/product-overview");
-                router.push("/product-overview");
-                router.push("/product-overview");
+                setTimeout(() => {
+                    try {
+                        console.log("Navigating to product overview...");
+                        router.push("/product-overview");
+                        console.log("Navigation initiated successfully");
+                    } catch (err) {
+                        console.error("Navigation failed", err);
+                    }
+                }, 100);
             }else{
                 router.push("/login");
             }
