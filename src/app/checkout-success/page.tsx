@@ -87,7 +87,7 @@ export default function Page() {
 
         checkSessionAndFetchData().then();
 
-        effectRan.current = true; // Mark effect as run
+        effectRan.current = true;
     }, [router]);
 
     return (
