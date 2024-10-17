@@ -1,4 +1,5 @@
 "use client";
+//
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -87,7 +88,7 @@ export default function Page() {
 
         checkSessionAndFetchData().then();
 
-        effectRan.current = true; // Mark effect as run
+        effectRan.current = true;
     }, [router]);
 
     return (

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const routeGroups = {
-    protected: ["/account-overview", "/account-creation", "/account-setup"],
+    protected: ["/account-overview", "/account-creation", "/account-setup", "/product-overview", "/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
     payingCustomer: ["/product-overview", "/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
     agreed: ["/campaign-overview", "/product", "/campaign", "/post", "/organisation-overview"],
     verified: [],

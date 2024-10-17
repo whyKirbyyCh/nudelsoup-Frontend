@@ -75,6 +75,7 @@ const AccountCreationContainer = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(payload),
             });
 
@@ -83,13 +84,16 @@ const AccountCreationContainer = () => {
                 return;
             }
 
-            // Ensure that everything is resolved before navigating
             console.log("Setup saved, waiting for 1 second before navigating...");
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            router.refresh();
+            setTimeout(() => {
 
-            if (userId !== -1) {
+            }, 1000)
+            router.refresh();
+            setTimeout(() => {
                 router.push("/product-overview");
-            }
+            }, 1000)
+
         } catch (error) {
             console.error("Error saving setup done status:", error);
         }
