@@ -83,10 +83,12 @@ const AccountCreationContainer = () => {
                 return;
             }
 
-            // Ensure that everything is resolved before navigating
             console.log("Setup saved, waiting for 1 second before navigating...");
 
             if (userId !== -1) {
+                console.log("Navigating to product overview...");
+                router.push("/product-overview");
+                router.push("/product-overview");
                 router.push("/product-overview");
             }else{
                 router.push("/login");
