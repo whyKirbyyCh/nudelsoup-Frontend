@@ -85,10 +85,11 @@ const AccountCreationContainer = () => {
 
             // Ensure that everything is resolved before navigating
             console.log("Setup saved, waiting for 1 second before navigating...");
-            await new Promise((resolve) => setTimeout(resolve, 1000));
 
             if (userId !== -1) {
                 router.push("/product-overview");
+            }else{
+                router.push("/login");
             }
         } catch (error) {
             console.error("Error saving setup done status:", error);
