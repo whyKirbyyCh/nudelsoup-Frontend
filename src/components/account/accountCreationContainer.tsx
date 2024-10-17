@@ -59,12 +59,17 @@ const AccountCreationContainer = () => {
     const onAccept = async () => {
         setShowSavePopup(false);
 
+        if (userId === -1) {
+            console.error("User ID not available, cannot proceed.");
+            return;
+        }
+
         const payload = {
             userId: userId,
             isSetupDone: true
-        }
+        };
 
-        try{
+        try {
             const response = await fetch("/api/userSetupDone", {
                 method: "PUT",
                 headers: {
@@ -75,17 +80,24 @@ const AccountCreationContainer = () => {
 
             if (!response.ok) {
                 console.error("Failed to save setup done status");
-                return
+                return;
             }
-        }catch (error) {
+        } catch (error) {
             console.error("Error saving setup done status:", error);
-            return
+            return;
         }
 
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        router.push("/product-overview");
+        console.log("Navigating to product-overview");
+
+        if (userId !== -1) {
+            router.push("/product-overview");
+        } else {
+            console.error("Invalid user ID, navigation aborted");
+        }
     };
+
 
     return (
         <div className={styles.accountCreationContainer}>
