@@ -86,6 +86,10 @@ const AccountCreationContainer = () => {
 
             console.log("Setup saved, waiting for 1 second before navigating...");
 
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
             if (userId !== -1) {
                 console.log("Navigating to product overview...");
                 setTimeout(() => {
