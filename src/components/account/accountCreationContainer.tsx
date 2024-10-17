@@ -66,7 +66,7 @@ const AccountCreationContainer = () => {
 
         const payload = {
             userId: userId,
-            isSetupDone: true
+            isSetupDone: true,
         };
 
         try {
@@ -82,22 +82,18 @@ const AccountCreationContainer = () => {
                 console.error("Failed to save setup done status");
                 return;
             }
+
+            // Ensure that everything is resolved before navigating
+            console.log("Setup saved, waiting for 1 second before navigating...");
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            if (userId !== -1) {
+                router.push("/product-overview");
+            }
         } catch (error) {
             console.error("Error saving setup done status:", error);
-            return;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-
-        console.log("Navigating to product-overview");
-
-        if (userId !== -1) {
-            router.push("/product-overview");
-        } else {
-            console.error("Invalid user ID, navigation aborted");
         }
     };
-
 
     return (
         <div className={styles.accountCreationContainer}>
