@@ -69,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 14 * 24 * 60 * 60,
                 path: '/',
-                sameSite: 'strict',
+                sameSite: 'lax',
             })
         );
 
