@@ -86,19 +86,13 @@ const AccountCreationContainer = () => {
 
             console.log("Setup saved, waiting for 1 second before navigating...");
 
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-
             if (userId !== -1) {
                 console.log("Navigating to product overview...");
                 setTimeout(() => {
                     try {
-                        console.log("Navigating to product overview...");
-                        router.push("/product-overview");
-                        console.log("Navigation initiated successfully");
+                        router.replace("/product-overview");
                     } catch (err) {
-                        console.error("Navigation failed", err);
+                        console.error("Error navigating to product overview:", err);
                     }
                 }, 100);
             }else{
