@@ -9,9 +9,10 @@ import { useRouter } from "next/navigation";
 
 interface CampaignContentContainerProps {
     campaignId: string;
+    userId: string;
 }
 
-const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> = ({ campaignId }) => {
+const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> = ({ campaignId, userId }) => {
     const router = useRouter();
     const [hasContentBeenCreated, setHasContentBeenCreated] = useState(false);
     const [selectedService, setSelectedService] = useState("SELECTION");
@@ -240,6 +241,7 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                 {hasContentBeenCreated &&
                     <div className={styles.campaignContentAdditionPosts}>
                         <CampaignContentAdditionPostsContainer
+                            userId={userId}
                             campaignId={""}
                             topic={topic}
                             goal={goal}
