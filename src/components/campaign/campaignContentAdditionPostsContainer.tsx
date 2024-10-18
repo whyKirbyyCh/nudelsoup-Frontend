@@ -8,6 +8,7 @@ import PostsAdditionPopup from "@/components/posts/postsAdditionPopup";
 
 interface CampaignContentAdditionPostsContainerProps {
     campaignId: string;
+    userId: string;
     topic: string;
     goal: string;
     selectedServices: number[];
@@ -22,7 +23,7 @@ interface Post {
     text: string;
 }
 
-const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, topic, goal, selectedServices, selectedSubReddits, onReset }) => {
+const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ campaignId, userId, topic, goal, selectedServices, selectedSubReddits, onReset }) => {
     const [posts, setPosts] = useState<Post[]>([
         {
             id: "1",
