@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "../../styles/components/campaign/campaignContentArchiveContainer.module.css";
 import PostsContainer from "@/components/posts/postsContainer";
 import ServicesSearchPosts from "@/components/services/servicesSearchPosts";
@@ -6,42 +6,35 @@ import ServicesFilterPosts from "@/components/services/servicesFilterPosts";
 
 interface CampaignContentArchiveContainerProps {
     campaignId: string
+    userId: string
 }
 
 interface Post {
     id: string;
+    campaignId: string;
     site: string;
     title: string;
     text: string;
 }
 
-const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId}) => {
-    const [posts, setPosts] = useState<Post[]>([
-        {
-            id: "1",
-            site: "Reddit",
-            title: "Post 1",
-            text: "Content of post 1... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-        {
-            id: "2",
-            site: "Twitter",
-            title: "Post 2",
-            text: "Content of post 2... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-        {
-            id: "3",
-            site: "Facebook",
-            title: "Post 3",
-            text: "Content of post 3... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-        {
-            id: "4",
-            site: "GitHub",
-            title: "Post 4",
-            text: "Content of post 4... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        },
-    ]);
+const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId, userId}) => {
+    const [posts, setPosts] = useState<Post[]>([]);
+
+    useEffect(() => {
+        console.log("campaignId", campaignId);
+        const fetchPosts = async () => {
+            try{
+                const response = await fetch(`/api/postDetails/postsAllPostsOverview?campaignId=${campaignId}`);
+                const data = await response.json();
+                console.log("data", data);
+                setPosts(data.posts);
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            }
+        };
+
+        fetchPosts().then();
+    }, [campaignId]);
 
     return (
         <div className={styles.campaignContentArchiveContainer}>
@@ -57,9 +50,9 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                 </div>
             </div>
             <div className={styles.campaignArchiveContent}>
-                {posts.map((post) => (
+                {posts.map((post, index) => (
                     <PostsContainer
-                        key={post.id}
+                        key={post.id || index}
                         id={post.id}
                         site={post.site}
                         title={post.title}
