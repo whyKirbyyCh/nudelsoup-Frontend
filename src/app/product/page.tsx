@@ -68,7 +68,7 @@ export default function Page() {
                 <PageTitle title={title} size={4} />
             </div>
             <div className={styles.productContent}>
-                <ProductOptionPageContainer productId={productId} campaigns={campaigns} />
+                <ProductOptionPageContainer productId={productId} />
             </div>
         </div>
     );
