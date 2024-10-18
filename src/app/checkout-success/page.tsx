@@ -1,5 +1,4 @@
 "use client";
-//
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -7,10 +6,19 @@ import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import styles from "./checout-sucessPage.module.css"
 import PurchaseConfirmationEmail from "@/components/mail/purchaseConfirmationEmail";
+import jwt, {JwtPayload} from "jsonwebtoken";
+
+const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return undefined;
+};
 
 export default function Page() {
     const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [sessionId, setSessionId] = useState<string | null>(null);
     const router = useRouter();
     const effectRan = useRef(false);
@@ -58,8 +66,30 @@ export default function Page() {
                         body: JSON.stringify({ userEmail: sessionData.email, isPayingCustomer: true }),
                     });
 
-                    console.log("Email: ", sessionData.email);
-                    const htmlMail = PurchaseConfirmationEmail({ name: 'Tim' });
+                    const token = getCookie("authToken");
+
+                    if (!token) {
+                        setErrorMessage("User is not authenticated. Please log in.");
+                        return;
+                    }
+
+                    const decodedToken = jwt.decode(token) as JwtPayload | null;
+
+                    if (
+                        !decodedToken ||
+                        typeof decodedToken !== "object" ||
+                        !decodedToken.userId || !decodedToken.username
+                    ) {
+                        console.error("Invalid token or missing userId or username");
+                        return;
+                    }
+
+                    if (!decodedToken.username) {
+                        console.error("Missing username in token");
+                        return;
+                    }
+
+                    const htmlMail = PurchaseConfirmationEmail({ name: decodedToken.username });
 
                     await fetch("/api/email/sendEmail", {
                         method: "POST",
@@ -89,7 +119,7 @@ export default function Page() {
         checkSessionAndFetchData().then();
 
         effectRan.current = true;
-    }, [router]);
+    }, [router, username]);
 
     return (
         <div className={styles.checkoutPage}>

@@ -6,11 +6,20 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/header/header";
 import PageTitle from "@/components/page/pageTitle";
 import CampaignOptionPageContainer from "@/components/campaign/campaignOptionPageContainer";
+import jwt, {JwtPayload} from "jsonwebtoken";
+
+const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return undefined;
+};
 
 export default function Page() {
     const router = useRouter();
     const [campaignId, setCampaignId] = useState<string | null>(null);
     const [title, setTitle] = useState<string>("CAMPAIGN");
+    const [userId, setUserId] = useState<string>("");
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -25,6 +34,20 @@ export default function Page() {
             setCampaignId(id);
             setTitle(campaignTitle);
         }
+
+        const token = getCookie("authToken");
+
+        if (!token) {
+            router.push("/login");
+        } else {
+            const decodedToken = jwt.decode(token) as JwtPayload | null;
+            if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
+                router.push("/login");
+            } else {
+                setUserId(decodedToken.userId);
+            }
+        }
+
     }, [router]);
 
     const payingCustomerNavOptions = [
@@ -52,7 +75,7 @@ export default function Page() {
                 <PageTitle title={title} size={4} />
             </div>
             <div className={styles.campaignContent}>
-                <CampaignOptionPageContainer campaignId={campaignId} />
+                <CampaignOptionPageContainer campaignId={campaignId} userId={userId} />
             </div>
         </div>
     );

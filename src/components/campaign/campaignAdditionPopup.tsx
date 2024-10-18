@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/components/campaign/campaignAdditionPopup.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
@@ -18,20 +18,26 @@ interface Campaign {
     additionalFields?: Record<string, any>;
 }
 
+interface Product {
+    productId: string;
+    productTitle: string;
+}
+
 interface CampaignAdditionPopupProps {
     onClose: () => void;
     onAddCampaign: (newCampaign: Campaign) => void;
     userId: string;
 }
 
-const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, onAddCampaign, userId}) => {
+const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({ onClose, onAddCampaign, userId }) => {
     const [title, setTitle] = React.useState("");
     const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
     const [targetAudience, setTargetAudience] = React.useState("");
     const [campaignType, setCampaignType] = React.useState("select");
     const [campaignGoal, setCampaignGoal] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
-    const [productTitle, setProductTitle] = React.useState("");
+    const [selectedProductId, setSelectedProductId] = React.useState<string>("");
+    const [products, setProducts] = React.useState<Product[]>([]);
     const router = useRouter();
 
     const isFormValid =
@@ -41,7 +47,7 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
         campaignType !== "" && campaignType !== "select" &&
         campaignGoal !== "" &&
         startDate !== "" &&
-        productTitle !== "" && productTitle !== "select";
+        selectedProductId !== "";
 
     const campaignIcons = [
         { id: 0, href: "campaignIcons/default-project-icon.svg" },
@@ -53,6 +59,24 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
         { id: 6, href: "campaignIcons/networking-project-icon.svg" },
         { id: 7, href: "campaignIcons/video-project-icon.svg" },
     ];
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`/api/productDetails/productIdAndTitleByUserId?userId=${userId}`);
+                if (!response.ok) {
+                    console.error("Error fetching products:", response.statusText);
+                    return;
+                }
+                const data = await response.json();
+                setProducts(data.products || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts().then();
+    }, [userId]);
 
     const handleSubmit = async () => {
         if (!isFormValid || svgSrc === null) {
@@ -70,10 +94,16 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
 
         const newCampaignId = `${hashTitle(title)}${Date.now().toString()}`;
 
+        const selectedProduct = products.find(product => product.productId === selectedProductId);
+        if (!selectedProduct) {
+            console.error("Selected product not found");
+            return;
+        }
+
         const newCampaign: Campaign = {
             userId: userId,
-            productId: "1",
-            productTitle,
+            productId: selectedProduct.productId,
+            productTitle: selectedProduct.productTitle,
             campaignId: newCampaignId,
             title,
             svgSrc,
@@ -106,7 +136,6 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
             console.error('Error adding campaign:', error);
         }
     };
-
 
     const directToCustom = () => {
         router.push("/campaign-creation");
@@ -149,15 +178,16 @@ const CampaignAdditionPopup: React.FC<CampaignAdditionPopupProps> = ({onClose, o
                     <div className={styles.formGroup}>
                         <label>PRODUCT:</label>
                         <select
-                            value={productTitle}
-                            onChange={(e) => setProductTitle(e.target.value)}
+                            value={selectedProductId}
+                            onChange={(e) => setSelectedProductId(e.target.value)}
                             required
                         >
                             <option value="">Select Product</option>
-                            <option value="Product 1">Product 1</option>
-                            <option value="Product 2">Product 2</option>
-                            <option value="Product 3">Product 3</option>
-                            <option value="Product 4">Product 4</option>
+                            {products.map((product) => (
+                                <option key={product.productId} value={product.productId}>
+                                    {product.productTitle}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className={styles.formGroup}>

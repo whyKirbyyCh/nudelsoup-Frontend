@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/components/product/productOptionPageContainer.module.css";
 import CampaignOverviewPageContainer from "@/components/campaign/campaignOverviewPageContainer";
 import ProductDetailsContainer from "@/components/product/productDetailsContainer";
 import CampaignAdditionPopupInProduct from "@/components/campaign/campaignAdditionPopupInProduct";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
 interface Campaign {
     userId: string;
@@ -21,13 +23,21 @@ interface Campaign {
 
 interface ProductOptionPageContainerProps {
     productId: string;
-    campaigns: Campaign[];
 }
 
-const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({ productId, campaigns }) => {
+const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+    return undefined;
+};
+
+const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({ productId }) => {
     const [activeTab, setActiveTab] = useState("DETAILS");
     const [showAddCampaignMenu, setShowAddCampaignMenu] = useState(false);
-    const [currentCampaigns, setCurrentCampaigns] = useState<Campaign[]>(campaigns); // State to manage campaigns
+    const [currentCampaigns, setCurrentCampaigns] = useState<Campaign[]>([]);
+    const router = useRouter();
+    const [userId, setUserId] = useState<string>("");
 
     const handleAddCampaign = (newCampaign: Campaign) => {
         setCurrentCampaigns([...currentCampaigns, newCampaign]);
@@ -37,6 +47,38 @@ const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({
         setShowAddCampaignMenu(!showAddCampaignMenu);
         console.log("add campaign");
     };
+
+    useEffect(() => {
+        const token = getCookie("authToken");
+
+        if (!token) {
+            router.push("/login");
+        } else {
+            const decodedToken = jwt.decode(token) as JwtPayload | null;
+            if (!decodedToken || typeof decodedToken !== "object" || !decodedToken.userId) {
+                router.push("/login");
+            } else {
+                setUserId(decodedToken.userId as string);
+            }
+        }
+    }, [router]);
+
+    useEffect(() => {
+        const fetchCampaigns = async () => {
+            try {
+                const response = await fetch(`/api/campaignDetails/campaignDetailsProductId?productId=${productId}`);
+                if (!response.ok) {
+                    return;
+                }
+                const data = await response.json();
+                setCurrentCampaigns(data.campaigns || []);
+            } catch (error) {
+                setCurrentCampaigns([]);
+            }
+        };
+
+        fetchCampaigns().then();
+    }, [productId]);
 
     return (
         <div className={styles.productOptionPageContainer}>

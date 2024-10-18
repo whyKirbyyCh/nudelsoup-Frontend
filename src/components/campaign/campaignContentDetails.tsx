@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/components/campaign/campaignContentDetails.module.css";
 import PageButton from "@/components/page/pageButton";
 
 interface CampaignContentDetailsProps {
     campaignId: string;
+    userId: string;
 }
 
 interface Detail {
@@ -13,52 +14,194 @@ interface Detail {
     options?: string[];
 }
 
-const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaignId }) => {
-    const [isEditMode, setIsEditMode] = useState(false);
-    const initialDetails: Detail[] = [
-        { label: "CAMPAIGN TITLE", value: "campaign title" },
-        {
-            label: "PRODUCT",
-            value: "Product 1",
-            type: "selection",
-            options: ["Product 1", "Product 2", "Product 3"],
-        },
-        { label: "TARGET AUDIENCE", value: "campaign target audience" },
-        {
-            label: "CAMPAIGN TYPE",
-            value: "Type 1",
-            type: "selection",
-            options: ["Type 1", "Type 2", "Type 3"],
-        },
-        { label: "CAMPAIGN GOAL", value: "campaign goal" },
-        { label: "START DATE", value: "2023-10-01", type: "date" },
-    ];
-    const [details, setDetails] = useState<Detail[]>(initialDetails);
-    const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
+interface Product {
+    productId: string;
+    productTitle: string;
+    productDescription: string;
+}
 
-    const [isAddingDetail, setIsAddingDetail] = useState(false);
+const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaignId, userId }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [details, setDetails] = useState<Detail[]>([]);
+    const [editedDetails, setEditedDetails] = useState<Detail[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [isAddingDetail, setAddDetail] = useState(false);
     const [newDetailLabel, setNewDetailLabel] = useState("");
     const [newDetailValue, setNewDetailValue] = useState("");
+    const [campaignData, setCampaignData] = useState<any>(null);
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const productResponse = await fetch(`/api/productDetails/productIdAndTitleByUserId?userId=${userId}`);
+                if (!productResponse.ok) {
+                    console.error("Error fetching products:", productResponse.statusText);
+                    return;
+                }
+
+                const productData = await productResponse.json();
+
+                if (!Array.isArray(productData.products)) {
+                    return;
+                }
+
+                setProducts(productData.products as Product[]);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts().then();
+    }, [campaignId, userId]);
+
+    useEffect(() => {
+        const fetchCampaignDetails = async (fetchedProducts: Product[]) => {
+            try {
+                const campaignResponse = await fetch(`/api/campaignDetails/campaignDetailsOverviewPage?campaignId=${campaignId}`);
+                if (!campaignResponse.ok) {
+                    return;
+                }
+                const campaignData = await campaignResponse.json();
+                const campaign = campaignData.campaign;
+
+                if (!campaign) {
+                    console.error("Campaign not found");
+                    return;
+                }
+
+                setCampaignData(campaign);
+
+                const initialDetails: Detail[] = [
+                    { label: "CAMPAIGN TITLE", value: campaign.title },
+                    {
+                        label: "PRODUCT",
+                        value: fetchedProducts.find(product => product.productId === campaign.productId)?.productTitle || "",
+                        type: "selection",
+                        options: fetchedProducts.map((product: Product) => product.productTitle),
+                    },
+                    { label: "TARGET AUDIENCE", value: campaign.targetAudience },
+                    {
+                        label: "CAMPAIGN TYPE",
+                        value: campaign.campaignType,
+                        type: "selection",
+                        options: ["Type 1", "Type 2", "Type 3"],
+                    },
+                    { label: "CAMPAIGN GOAL", value: campaign.campaignGoal },
+                    { label: "START DATE", value: campaign.startDate, type: "date" },
+                    ...Object.entries(campaign.additionalFields || {}).map(([key, value]) => ({
+                        label: key,
+                        value: value as string,
+                    })),
+                ];
+                setDetails(initialDetails);
+            } catch (error) {
+                console.error("Error fetching campaign details:", error);
+            }
+        };
+
+        fetchCampaignDetails(products).then();
+    }, [products]);
 
     const toggleEditMode = () => {
-        setIsEditMode(true);
+        setIsEditing(true);
         setEditedDetails(JSON.parse(JSON.stringify(details)));
     };
 
-    const toggleSave = () => {
+    const toggleSave = async () => {
         setDetails(editedDetails);
-        setIsEditMode(false);
-        setIsAddingDetail(false);
+        setIsEditing(false);
+        setAddDetail(false);
+        
+        const dataToSend: any = {};
+        
+        const additionalFields: { [key: string]: string } = {};
+
+        editedDetails.forEach((detail) => {
+            const { label, value } = detail;
+            switch (label) {
+                case "CAMPAIGN TITLE":
+                    dataToSend.title = value;
+                    break;
+                case "PRODUCT":
+                    dataToSend.productTitle = value;
+                    const product = products.find((p) => p.productTitle === value);
+                    dataToSend.productId = product ? product.productId : "";
+                    break;
+                case "TARGET AUDIENCE":
+                    dataToSend.targetAudience = value;
+                    break;
+                case "CAMPAIGN TYPE":
+                    dataToSend.campaignType = value;
+                    break;
+                case "CAMPAIGN GOAL":
+                    dataToSend.campaignGoal = value;
+                    break;
+                case "START DATE":
+                    dataToSend.startDate = value;
+                    break;
+                default:
+                    additionalFields[label] = value;
+                    break;
+            }
+        });
+        
+        dataToSend.userId = userId;
+        dataToSend.campaignId = campaignId;
+        
+        dataToSend.stillActive = campaignData?.stillActive ?? true;
+        dataToSend.svgSrc = campaignData?.svgSrc ?? "";
+        
+        dataToSend.additionalFields = additionalFields;
+        
+        if (
+            !dataToSend.userId ||
+            !dataToSend.productId ||
+            !dataToSend.productTitle ||
+            !dataToSend.campaignId ||
+            !dataToSend.title ||
+            !dataToSend.targetAudience ||
+            !dataToSend.campaignType ||
+            !dataToSend.campaignGoal ||
+            !dataToSend.startDate ||
+            dataToSend.stillActive == null ||
+            dataToSend.svgSrc == null
+        ) {
+            console.error("All fields are required.");
+            setMessage("All fields are required.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/campaignDetails/campaignUpdateDetails?campaignId=${campaignId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dataToSend),
+            });
+
+            if (!response.ok) {
+                console.error("Failed to update campaign:", response.statusText);
+                setMessage("Failed to update campaign.");
+            } else {
+                console.log("Campaign updated successfully");
+                setMessage("Campaign updated successfully.");
+            }
+        } catch (error) {
+            console.error("Error updating campaign:", error);
+            setMessage("Error updating campaign.");
+        }
     };
 
     const toggleCancel = () => {
-        setIsEditMode(false);
-        setIsAddingDetail(false);
+        setIsEditing(false);
+        setAddDetail(false);
         setEditedDetails([]);
     };
 
     const addDetail = () => {
-        setIsAddingDetail(true);
+        setAddDetail(true);
     };
 
     const saveNewDetail = () => {
@@ -69,14 +212,14 @@ const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaig
             ]);
             setNewDetailLabel("");
             setNewDetailValue("");
-            setIsAddingDetail(false);
+            setAddDetail(false);
         }
     };
 
     const cancelNewDetail = () => {
         setNewDetailLabel("");
         setNewDetailValue("");
-        setIsAddingDetail(false);
+        setAddDetail(false);
     };
 
     const handleDetailChange = (index: number, newValue: string) => {
@@ -85,14 +228,14 @@ const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaig
         setEditedDetails(updatedDetails);
     };
 
-    const displayedDetails = isEditMode ? editedDetails : details;
+    const displayedDetails = isEditing ? editedDetails : details;
 
     return (
         <div className={styles.campaignDetailsContainer}>
             {displayedDetails.map((detail, index) => (
                 <div key={index} className={styles.campaignDetail}>
                     <div className={styles.label}>{detail.label}: </div>
-                    {isEditMode ? (
+                    {isEditing ? (
                         detail.type === "selection" ? (
                             <select
                                 value={editedDetails[index].value}
@@ -126,7 +269,7 @@ const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaig
                 </div>
             ))}
 
-            {isEditMode && isAddingDetail && (
+            {isEditing && isAddingDetail && (
                 <div className={styles.newDetailForm}>
                     <div className={styles.newDetailFormInput}>
                         <input
@@ -151,8 +294,10 @@ const CampaignContentDetails: React.FC<CampaignContentDetailsProps> = ({ campaig
                 </div>
             )}
 
+            {message && <div className={styles.message}>{message}</div>}
+
             <div className={styles.buttonsContainer}>
-                {isEditMode ? (
+                {isEditing ? (
                     <>
                         <PageButton label="SAVE" onClick={toggleSave} />
                         <PageButton label="ADD DETAIL" onClick={addDetail} />
