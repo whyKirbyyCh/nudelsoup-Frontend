@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/components/campaign/campaignAdditionPopup.module.css";
 import PageButton from "@/components/page/pageButton";
 import { useRouter } from "next/navigation";
@@ -18,14 +18,23 @@ interface Campaign {
     additionalFields?: Record<string, any>;
 }
 
+interface Product {
+    productId: string;
+    productTitle: string;
+}
+
 interface CampaignAdditionPopupInProductProps {
     onClose: () => void;
     onAddCampaign: (newCampaign: Campaign) => void;
+    productId: string;
+    userId: string;
 }
 
 const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductProps> = ({
                                                                          onClose,
                                                                          onAddCampaign,
+                                                                         productId,
+                                                                         userId,
                                                                      }) => {
     const [title, setTitle] = React.useState("");
     const [svgSrc, setSvgSrc] = React.useState<number | null>(0);
@@ -34,6 +43,7 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
     const [campaignGoal, setCampaignGoal] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
     const router = useRouter();
+    const [products, setProducts] = React.useState<Product[]>([]);
 
     const isFormValid =
         title !== "" &&
@@ -54,7 +64,27 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
         { id: 7, href: "campaignIcons/video-project-icon.svg" },
     ];
 
-    const handleSubmit = () => {
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(
+                    `/api/productDetails/productIdAndTitleByUserId?userId=${userId}`
+                );
+                if (!response.ok) {
+                    console.error("Error fetching products:", response.statusText);
+                    return;
+                }
+                const data = await response.json();
+                setProducts(data.products || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts().then();
+    }, [userId]);
+
+    const handleSubmit = async () => {
         if (!isFormValid || svgSrc === null) {
             return;
         }
@@ -70,10 +100,10 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
 
         const newCampaignId = `${hashTitle(title)}${Date.now().toString()}`;
 
-        onAddCampaign({
-            userId: "123",
-            productId: "123",
-            productTitle: "Sample Product",
+        const newCampaign: Campaign = {
+            userId: userId,
+            productId: productId,
+            productTitle: products.find(product => product.productId === productId)?.productTitle || "",
             campaignId: newCampaignId,
             title,
             svgSrc,
@@ -83,8 +113,32 @@ const CampaignAdditionPopupInProduct: React.FC<CampaignAdditionPopupInProductPro
             startDate,
             stillActive: true,
             additionalFields: {},
-        });
-        onClose();
+        };
+
+        try {
+            const response = await fetch(
+                "/api/campaignDetails/campaignSetNewCampaign",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newCampaign),
+                }
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Campaign added:", data);
+                onAddCampaign(newCampaign);
+                onClose();
+            } else {
+                const errorData = await response.json();
+                console.error("Error adding campaign:", errorData.message);
+            }
+        } catch (error) {
+            console.error("Error adding campaign:", error);
+        }
     };
 
     const directToCustom = () => {

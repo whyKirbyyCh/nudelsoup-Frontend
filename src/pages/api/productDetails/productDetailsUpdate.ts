@@ -23,14 +23,31 @@ export default async function handler(
     try {
         const { db } = await connectToDatabase();
         const productCollection = db.collection('products');
-        const { productTitle, productIcon, productBusinessModel, productType, productMarket, productDescription, additionalFields } = req.body;
+        const campaignsCollection = db.collection('campaigns');
 
-        // Ensure all necessary fields are provided
-        if (!productTitle || !productIcon || !productBusinessModel || !productType || !productMarket || !productDescription) {
-            return res.status(400).json({ message: 'Missing required product fields' });
+        const {
+            productTitle,
+            productIcon,
+            productBusinessModel,
+            productType,
+            productMarket,
+            productDescription,
+            additionalFields,
+        } = req.body;
+
+        if (
+            !productTitle ||
+            !productIcon ||
+            !productBusinessModel ||
+            !productType ||
+            !productMarket ||
+            !productDescription
+        ) {
+            return res
+                .status(400)
+                .json({ message: 'Missing required product fields' });
         }
 
-        // Create the update payload
         const updatePayload: any = {
             productTitle,
             productIcon,
@@ -40,12 +57,10 @@ export default async function handler(
             productDescription,
         };
 
-        // Include additional fields if provided
         if (additionalFields && typeof additionalFields === 'object') {
             updatePayload.additionalFields = additionalFields;
         }
 
-        // Perform the update
         const result = await productCollection.updateOne(
             { _id: new ObjectId(productId) },
             { $set: updatePayload }
@@ -55,9 +70,16 @@ export default async function handler(
             return res.status(404).json({ message: 'Product not found' });
         }
 
+        const updateCampaignResult = await campaignsCollection.updateMany(
+            { productId: productId },
+            { $set: { productTitle: productTitle } }
+        );
+
         return res.status(200).json({ message: 'Product updated successfully' });
     } catch (error: any) {
         console.error(error);
-        return res.status(500).json({ message: 'Internal server error: ' + error.message });
+        return res
+            .status(500)
+            .json({ message: 'Internal server error: ' + error.message });
     }
 }

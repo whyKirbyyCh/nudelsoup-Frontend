@@ -114,6 +114,8 @@ const ProductOptionPageContainer: React.FC<ProductOptionPageContainerProps> = ({
                             <CampaignAdditionPopupInProduct
                                 onClose={() => setShowAddCampaignMenu(false)}
                                 onAddCampaign={handleAddCampaign}
+                                productId={productId}
+                                userId={userId}
                             />
                         </div>
                     )}
