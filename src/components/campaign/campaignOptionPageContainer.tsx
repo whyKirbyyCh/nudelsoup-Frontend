@@ -6,9 +6,10 @@ import CampaignContentDetails from "@/components/campaign/campaignContentDetails
 
 interface CampaignOptionPageContainerProps {
     campaignId: string;
+    userId: string;
 }
 
-const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = ({ campaignId}) => {
+const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = ({ campaignId, userId}) => {
     const [activeTab, setActiveTab] = useState("DETAILS");
 
     return (
@@ -42,7 +43,7 @@ const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = 
             <div className={styles.campaignPageContent}>
                 {activeTab === "DETAILS" &&
                     <div>
-                        <CampaignContentDetails campaignId={campaignId} />
+                        <CampaignContentDetails campaignId={campaignId} userId={userId} />
                     </div>
                 }
                 {activeTab === "CONTENT" &&
