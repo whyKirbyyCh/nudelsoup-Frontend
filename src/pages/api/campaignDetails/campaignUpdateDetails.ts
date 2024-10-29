@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/db';
+import { ObjectId } from 'mongodb';
 
 interface ResponseData {
     message: string;
@@ -48,7 +49,7 @@ export default async function handler(
         const { db } = await connectToDatabase();
 
         const result = await db.collection('campaigns').updateOne(
-            { campaignId: campaignId.toString() },
+            { _id: new ObjectId(campaignId.toString()) },
             {
                 $set: {
                     userId,

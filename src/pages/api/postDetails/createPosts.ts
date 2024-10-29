@@ -138,8 +138,6 @@ export default async function handler(
 
         const responseData = await response.json();
 
-        console.log(responseData);
-
         return res.status(200).json({
             posts: responseData,
             message: responseData.message,

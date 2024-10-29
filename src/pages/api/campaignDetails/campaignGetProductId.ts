@@ -21,7 +21,7 @@ interface Campaign {
 
 interface ResponseData {
     message: string;
-    campaign?: Campaign;
+    productId?: string;
 }
 
 export default async function handler(
@@ -32,26 +32,32 @@ export default async function handler(
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { campaignId } = req.query;
+    const { campaignId, userId } = req.query;
 
-    if (!campaignId) {
-        return res.status(400).json({ message: 'Campaign ID is required.' });
+    if (!campaignId || !userId) {
+        return res.status(400).json({ message: 'Campaign ID and User ID are required.' });
     }
 
     try {
         const { db } = await connectToDatabase();
 
-        const campaign = await db.collection('campaigns').findOne({ _id: new ObjectId(campaignId.toString()) });
+        const campaign = await db.collection('campaigns').findOne({
+            _id: new ObjectId(campaignId.toString()),
+            userId: userId.toString(),
+        });
 
         if (!campaign) {
-            return res.status(404).json({ message: 'Campaign not found.' });
+            console.log('No campaign found with the provided Campaign ID and User ID.');
+            return res.status(200).json({
+                message: 'No campaign found with the provided Campaign ID and User ID.',
+            });
         }
 
-        const formattedCampaign = campaign as unknown as Campaign;
+        const { productId } = campaign as unknown as Campaign;
 
         return res.status(200).json({
-            message: 'Campaign retrieved successfully',
-            campaign: formattedCampaign,
+            message: 'Product ID retrieved successfully',
+            productId: productId,
         });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error: ' + error });

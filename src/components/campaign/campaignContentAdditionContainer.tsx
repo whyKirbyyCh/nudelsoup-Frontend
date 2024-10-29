@@ -8,21 +8,33 @@ import CampaignContentAdditionPostsContainer from "@/components/campaign/campaig
 import { useRouter } from "next/navigation";
 
 interface CampaignContentContainerProps {
+    productId: string;
     campaignId: string;
     userId: string;
 }
 
-const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> = ({ campaignId, userId }) => {
+interface RawPost {
+    title: string;
+    content: string;
+}
+
+interface Post {
+    id: string;
+    site: string;
+    title: string;
+    text: string;
+}
+
+const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> = ({ campaignId, userId, productId }) => {
     const router = useRouter();
     const [hasContentBeenCreated, setHasContentBeenCreated] = useState(false);
-    const [selectedService, setSelectedService] = useState("SELECTION");
     const [selectedServices, setSelectedServices] = useState<number[]>([]);
     const [topic, setTopic] = useState("");
     const [goal, setGoal] = useState("");
     const [remarks, setRemarks] = useState("");
     const [hasRedditBeenSelected, setHasRedditBeenSelected] = useState(false);
     const [selectedSubReddits, setSelectedSubReddits] = useState<number[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState("SELECT PRODUCT");
+    const [posts, setPosts] = useState<Post[]>([]);
 
     const services = [
         { id: 1, name: "Product Hunt" },
@@ -129,11 +141,6 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         setHasContentBeenCreated(!hasContentBeenCreated);
     };
 
-    const generateContent = () => {
-        console.log("generate content");
-        setHasContentBeenCreated(!hasContentBeenCreated);
-    };
-
     const resetContent = () => {
         setSelectedServices([]);
         setTopic("");
@@ -162,6 +169,77 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         const redditServiceId = 11;
         setHasRedditBeenSelected(selectedServices.includes(redditServiceId));
     }, [selectedServices]);
+
+    const handleDelete = (id: string) => {
+        setPosts(posts.filter((post) => post.id !== id));
+    };
+
+    const generateContent = async () => {
+        const servicesDict: Record<string, boolean> = {};
+
+        selectedServices.forEach((serviceId) => {
+            const service = services.find((s) => s.id === serviceId);
+            if (service) {
+                servicesDict[service.name] = true;
+            }
+        });
+
+        selectedSubReddits.forEach((subredditId) => {
+            const subreddit = subreddits.find((s) => s.id === subredditId);
+            if (subreddit) {
+                servicesDict[subreddit.name] = true;
+            }
+        });
+
+        if (Object.keys(servicesDict).length === 0) return;
+
+        const response = await fetch("/api/postDetails/createPosts", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                campaignId: campaignId,
+                userId: userId,
+                productId: productId,
+                services: servicesDict,
+                sscop: false,
+                cpop: false,
+                sspop: false,
+                ppsop: false,
+            }),
+        })
+
+        if (!response.ok) {
+            console.log("Error creating content");
+        }
+
+        const data = await response.json();
+        const rawPosts = data.posts;
+
+        const posts2: Post[] = Object.entries(rawPosts as Record<string, RawPost>).map(
+            ([site, post], index) => ({
+                id: (index + 1).toString(),
+                site,
+                title: post.title,
+                text: post.content,
+            })
+        );
+
+        setPosts(posts2);
+        console.log("content created");
+        setHasContentBeenCreated(true);
+    }
+
+    const handleSave = (id: string, newTitle: string, newText: string) => {
+        setPosts(
+            posts.map((post) =>
+                post.id === id
+                    ? { ...post, title: newTitle, text: newText }
+                    : post
+            )
+        );
+    };
 
     return (
         <div className={styles.campaignContentAdditionContainer}>
@@ -241,13 +319,11 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                 {hasContentBeenCreated &&
                     <div className={styles.campaignContentAdditionPosts}>
                         <CampaignContentAdditionPostsContainer
-                            userId={userId}
-                            campaignId={""}
-                            topic={topic}
-                            goal={goal}
-                            selectedServices={selectedServices}
-                            selectedSubReddits={selectedSubReddits}
+                            posts={posts}
                             onReset={onReset}
+                            onDelete={handleDelete}
+                            onSave={handleSave}
+                            setPosts={setPosts}
                         />
                     </div>
                 }
