@@ -35,7 +35,7 @@ export default async function handler(
         const { db } = await connectToDatabase();
 
         const posts = await db
-            .collection('posts')
+            .collection('post_archive')
             .find({ campaignId: campaignId.toString() })
             .toArray();
 

@@ -14,7 +14,7 @@ interface Post {
     campaignId: string;
     site: string;
     title: string;
-    text: string;
+    content: string;
 }
 
 const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId, userId}) => {
@@ -26,6 +26,7 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                 const response = await fetch(`/api/postDetails/postsAllPostsOverview?campaignId=${campaignId}`);
                 const data = await response.json();
                 setPosts(data.posts);
+                console.log(data.posts);
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
@@ -54,7 +55,7 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                         id={post.id}
                         site={post.site}
                         title={post.title}
-                        text={post.text}
+                        text={post.content}
                         allowNavigation={true}
                     />
                 ))}
