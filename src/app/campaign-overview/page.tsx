@@ -17,10 +17,10 @@ const getCookie = (name: string): string | undefined => {
 };
 
 interface Campaign {
+    campaignId: string;
     userId: string;
     productId: string;
     productTitle: string;
-    campaignId: string;
     title: string;
     targetAudience: string;
     campaignType: string;
@@ -69,7 +69,12 @@ export default function Page() {
                     return
                 }
                 const data = await response.json();
-                setCampaigns(data.campaigns);
+                setCampaigns(
+                    data.campaigns.map((campaign: any) => ({
+                        ...campaign,
+                        campaignId: campaign._id,
+                    }))
+                );
             } catch (err) {
                 return
             }
