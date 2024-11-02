@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styles from "../../styles/components/campaign/campaignContentAdditionPostsContainer.module.css";
 import PostsContainer from "@/components/posts/postsContainer";
 import PageButton from "@/components/page/pageButton";
-import PopupPublishTOS from "@/components/popup/popupPublishTOS";
+import PopupConnect from "@/components/popup/popupConnect";
+import PopupProvidePostLink from "@/components/popup/popupProvidePostLink";
 import PostAdditionButton from "@/components/posts/postAdditionButton";
 import PostsAdditionPopup from "@/components/posts/postsAdditionPopup";
 
@@ -23,17 +24,43 @@ interface Post {
 
 const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPostsContainerProps> = ({ posts, onReset, onSave, onDelete, setPosts }) => {
     const [showAddPostMenu, setShowAddPostMenu] = useState(false);
-
-
+    const [showConnectPopup, setShowConnectPopup] = useState(false);
+    const [showConnectIndividualPopup, setShowConnectIndividualPopup] = useState(false);
+    const [connectionPostId, setConnectionPostId] = useState<string | null>(null);
 
     const handleAddPost = () => {
         console.log("add post");
         setShowAddPostMenu(true);
     };
 
-    const handleConnect = () => {
-        console.log("connect");
+    const handleConnectPost = (id: string) => {
+        setConnectionPostId(id);
+        setShowConnectIndividualPopup(true);
     }
+
+    const closeConnectPost = () => {
+        setConnectionPostId(null);
+        setShowConnectIndividualPopup(false);
+    }
+
+    const saveConnectPost = (link: string) => {
+        // TODO: check and then save the link
+        console.log("connect post", connectionPostId);
+        setShowConnectIndividualPopup(false);
+        setConnectionPostId(null);
+
+    }
+
+    const handleConnect= () => {
+        console.log("connect");
+        setShowConnectPopup(false);
+    }
+
+    const resetPosts = () => {
+        setPosts([]);
+        onReset();
+    }
+
 
     return (
         <div className={styles.campaignContentAdditionPostsContainer}>
@@ -50,19 +77,38 @@ const CampaignContentAdditionPostsContainer: React.FC<CampaignContentAdditionPos
                         text={post.text}
                         onDelete={onDelete}
                         onSave={onSave}
+                        onConnect={handleConnectPost}
+                        allowNavigation={false}
                     />
                 ))}
                 <PostAdditionButton onClick={handleAddPost}/>
             </div>
             <div className={styles.campaignContentAdditionPostsContainerButton}>
-                <PageButton label={"CONNECT"} onClick={handleConnect} />
-                <PageButton label={"RESET"} onClick={onReset} />
+                <PageButton label={"CONNECT"} onClick={() => setShowConnectPopup(true)} />
+                <PageButton label={"RESET"} onClick={resetPosts} />
             </div>
             {showAddPostMenu && (
                 <div className={styles.campaignContentAdditionPostsContainerPopup}>
                     <PostsAdditionPopup
                         onClose={() => setShowAddPostMenu(false)}
                         onAddPost={(post) => setPosts([...posts, post])}
+                    />
+                </div>
+            )}
+            {showConnectPopup && (
+                <div className={styles.campaignContentAdditionPostsContainerPopup}>
+                    <PopupConnect
+                        onAgree={handleConnect}
+                        onDisagree={() => setShowConnectPopup(false)}
+                    />
+                </div>
+            )}
+            {showConnectIndividualPopup && (
+                <div className={styles.campaignContentAdditionPostsContainerPopup}>
+                    <PopupProvidePostLink
+                        onSave={saveConnectPost}
+                        onClose={closeConnectPost}
+                        site={posts.find((post) => post.id === connectionPostId)?.site || ""}
                     />
                 </div>
             )}

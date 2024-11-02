@@ -69,7 +69,6 @@ export default function Page() {
                     return
                 }
                 const data = await response.json();
-                console.log("data", data.campaigns);
                 setCampaigns(
                     data.campaigns.map((campaign: any) => ({
                         ...campaign,

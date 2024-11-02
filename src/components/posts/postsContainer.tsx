@@ -10,10 +10,11 @@ interface PostsContainerProps {
     text: string;
     onDelete?: (id: string) => void;
     onSave?: (id: string, newTitle: string, newText: string) => void;
+    onConnect?: (id: string) => void;
     allowNavigation?: boolean;
 }
 
-const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave, allowNavigation = false}) => {
+const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, onDelete, onSave, onConnect, allowNavigation = false}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
     const [editedText, setEditedText] = useState(text);
@@ -50,13 +51,19 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
         }
     };
 
+    const handleConnectClick = () => {
+        if (onConnect) {
+            onConnect(id);
+        }
+    };
+
     const handleNavigate = () => {
         console.log("navigate to post", id);
         router.push(`/post?id=${id}`);
     }
 
     const handleNoNavigation = () => {
-        console.log("no navigation");
+        return;
     }
 
     return (
@@ -96,6 +103,7 @@ const PostsContainer: React.FC<PostsContainerProps> = ({id, title, text, site, o
                 ) : (
                     <>
                         {onSave && <PageButtonSmall label="EDIT" onClick={handleEditClick} />}
+                        {onConnect && <PageButtonSmall label="CONNECT" onClick={handleConnectClick} />}
                         {onDelete && <PageButtonSmall label="DELETE" onClick={handleDeleteClick} />}
                     </>
                 )}

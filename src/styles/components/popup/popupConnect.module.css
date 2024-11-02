@@ -12,9 +12,21 @@
     text-align: center;
 }
 
+.popupPublishTOSTitle {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: calc(var(--page-title-font-size) - 1.5vw);
+}
+
+.popupPublishTOSBody{
+    text-align: center;
+    margin-bottom: 2em;
+    font-size: var(--page-font-size);
+}
+
 .popupPublishTOSContent {
     background-color: var(--background-color);
-    padding: 2em 2em 2em 2em;
+    padding: 4em;
     border: 0.1em solid var(--text-color);
     max-width: 50vw;
     width: 100%;
@@ -29,6 +41,6 @@
     justify-content: center;
     align-content: center;
     width: 100%;
-    gap: 1em;
+    gap: 2em;
     margin-top: 1em;
 }

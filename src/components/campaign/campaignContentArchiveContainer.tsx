@@ -26,7 +26,6 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
                 const response = await fetch(`/api/postDetails/postsAllPostsOverview?campaignId=${campaignId}`);
                 const data = await response.json();
                 setPosts(data.posts);
-                console.log(data.posts);
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
