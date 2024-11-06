@@ -3,7 +3,7 @@ import styles from "../../styles/components/account/accountCreationAccountContai
 import PageButton from "@/components/page/pageButton";
 
 interface AccountCreationAccountContainerProps {
-    userId: number;
+    userId: string;
     onSubmit: () => void;
 }
 

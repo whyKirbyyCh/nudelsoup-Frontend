@@ -4,7 +4,7 @@ import PagePricingSchemaSwap from "../page/pagePricingSchemaSwap";
 import PageButton from "@/components/page/pageButton";
 
 interface AccountCreationUserNotificationPreferencesProps {
-    userId: number;
+    userId: string;
     onSubmit: () => void;
 }
 

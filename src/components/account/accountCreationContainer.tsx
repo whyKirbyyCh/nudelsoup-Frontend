@@ -11,6 +11,7 @@ import AccountCreationMarketContainer from "@/components/account/accountCreation
 import AccountCreationUserNotificationPreferences from "@/components/account/accountCreationUserNotificationPreferences";
 import AccountCreationNextStepsContainer from "@/components/account/accountCreationNextStepsContainer";
 import AccountCreationSavePopup from "@/components/account/accountCreationSavePopup";
+import AccountConnectionContainer from "@/components/account/accountConnectionContainer";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const getCookie = (name: string): string | undefined => {
@@ -23,7 +24,7 @@ const getCookie = (name: string): string | undefined => {
 const AccountCreationContainer = () => {
     const router = useRouter();
     const [selectedOption, setSelectedOption] = useState(0);
-    const [userId, setUserId] = useState(-1);
+    const [userId, setUserId] = useState("-1");
     const [showSavePopup, setShowSavePopup] = useState(false);
 
     useEffect(() => {
@@ -41,11 +42,11 @@ const AccountCreationContainer = () => {
     }, []);
 
     const selectOptionNext = () => {
-        setSelectedOption((selectedOption + 1) % 6);
+        setSelectedOption((selectedOption + 1) % 7);
     };
 
     const selectOptionBack = () => {
-        setSelectedOption((selectedOption - 1 + 6) % 6);
+        setSelectedOption((selectedOption - 1 + 7) % 7);
     };
 
     const saveAndExit = () => {
@@ -59,7 +60,7 @@ const AccountCreationContainer = () => {
     const onAccept = async () => {
         setShowSavePopup(false);
 
-        if (userId === -1) {
+        if (userId === "-1") {
             console.error("User ID not available, cannot proceed.");
             return;
         }
@@ -147,7 +148,15 @@ const AccountCreationContainer = () => {
                     onClick={() => handleSelectOption(5)}
                     role="navigation"
                 >
-                    {selectedOption === 5 && <div className={styles.decorativeCircle1}></div>}
+                    {selectedOption === 5 && <div className={styles.decorativeCircle2}></div>}
+                    <div className={styles.accountCreationCategoryBoxText}>SOCIAL ACCOUNTS</div>
+                </div>
+                <div
+                    className={styles.accountCreationCategoryBox5}
+                    onClick={() => handleSelectOption(6)}
+                    role="navigation"
+                >
+                    {selectedOption === 6 && <div className={styles.decorativeCircle1}></div>}
                     <div className={styles.accountCreationCategoryBoxText}>NEXT STEPS</div>
                 </div>
                 <div className={styles.accountCreationCategoryButtons}>
@@ -157,27 +166,30 @@ const AccountCreationContainer = () => {
                 </div>
             </div>
             <div className={styles.accountCreationRightside}>
-                {userId === -1 &&
+                {userId === "-1" &&
                     <div className={styles.loading}>
                         LOADING ACCOUNT CREATION PROCESS
                     </div>
                 }
-                {selectedOption === 0 && userId !== -1 &&
+                {selectedOption === 0 && userId !== "-1" &&
                     <AccountCreationAccountContainer userId={userId} onSubmit={selectOptionNext}/>
                 }
-                { selectedOption === 1 && userId !== -1 &&
+                { selectedOption === 1 && userId !== "-1" &&
                     <AccountCreationOrganisationContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 2 && userId !== -1 &&
+                { selectedOption === 2 && userId !== "-1" &&
                     <AccountCreationProductsContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 3 && userId !== -1 &&
+                { selectedOption === 3 && userId !== "-1" &&
                     <AccountCreationMarketContainer userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 4 && userId != -1 &&
+                { selectedOption === 4 && userId != "-1" &&
                     <AccountCreationUserNotificationPreferences userId={userId} onSubmit={selectOptionNext} />
                 }
-                { selectedOption === 5 && userId != -1 &&
+                { selectedOption === 5 && userId != "-1" &&
+                    <AccountConnectionContainer userId={userId} onSubmit={selectOptionNext} />
+                }
+                { selectedOption === 6 && userId != "-1" &&
                     <AccountCreationNextStepsContainer />
                 }
             </div>
