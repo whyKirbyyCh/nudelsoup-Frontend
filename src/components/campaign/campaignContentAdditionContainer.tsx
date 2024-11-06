@@ -5,6 +5,7 @@ import PageButtonSmall from "@/components/page/PageButtonSmall";
 import PageSelectionMenu from "@/components/page/pageSelectionMenu";
 import ServicesSelectionContainer from "@/components/services/servicesSelectionContainer";
 import CampaignContentAdditionPostsContainer from "@/components/campaign/campaignContentAdditionPostsContainer";
+import CampaignAdditionStyleSelector from "@/components/campaign/campaignAdditionStyleSelector";
 import { useRouter } from "next/navigation";
 
 interface CampaignContentContainerProps {
@@ -35,7 +36,7 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
     const [hasRedditBeenSelected, setHasRedditBeenSelected] = useState(false);
     const [selectedSubReddits, setSelectedSubReddits] = useState<number[]>([]);
     const [posts, setPosts] = useState<Post[]>([]);
-
+    const [selectedStyle, setSelectedStyle] = useState<string[]>([]);
     const services = [
         { id: 1, name: "Product Hunt" },
         { id: 2, name: "Makerlog" },
@@ -299,7 +300,10 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
                             </div>
                         </>
                     )}
-
+                    
+                    <div className={styles.label}>STYLE:</div>
+                    <CampaignAdditionStyleSelector selectedStyle={selectedStyle} />
+                    
                     <div className={styles.label}>REMARKS:</div>
                     <input
                         type="text"

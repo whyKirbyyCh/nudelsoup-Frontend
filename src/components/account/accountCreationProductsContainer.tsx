@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import styles from "../../styles/components/account/accountCreationProductContainer.module.css";
 
 interface AccountCreationProductsContainerProps {
-    userId: number;
+    userId: string;
     onSubmit: () => void;
 }
 
