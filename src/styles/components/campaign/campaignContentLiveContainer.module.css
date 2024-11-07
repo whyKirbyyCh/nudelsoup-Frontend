@@ -67,7 +67,7 @@
 }
 
 .infoButton::after {
-    content: "To get more information about the archived posts click here";
+    content: "To get more information about the live posts click here";
     position: absolute;
     top: 120%;
     right: 50%;

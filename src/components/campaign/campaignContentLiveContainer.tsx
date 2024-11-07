@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
-import styles from "../../styles/components/campaign/campaignContentArchiveContainer.module.css";
-import PostsContainer from "@/components/posts/postsContainer";
+import styles from "../../styles/components/campaign/campaignContentLiveContainer.module.css";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import ServicesSearchPosts from "@/components/services/servicesSearchPosts";
 import ServicesFilterPosts from "@/components/services/servicesFilterPosts";
-import { useRouter } from "next/navigation";
+import PostsContainer from "@/components/posts/postsContainer";
 
-interface CampaignContentArchiveContainerProps {
-    campaignId: string
-    userId: string
+interface CampaignContentLiveContainerProps {
+    campaignId: string;
+    userId: string;
 }
 
 interface Post {
@@ -18,7 +18,7 @@ interface Post {
     content: string;
 }
 
-const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId, userId}) => {
+const CampaignContentLiveContainer = ({ campaignId, userId }: CampaignContentLiveContainerProps) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
@@ -42,13 +42,13 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
     }, [campaignId]);
 
     const handleInfoButtonClick = () => {
-        router.push("/post-archive-info");
+        router.push("/post-live-info");
     };
 
     return (
         <div className={styles.campaignContentArchiveContainer}>
             <div className={styles.campaignContentContainerTitle}>
-                ARCHIVED POSTS
+                LIVE POSTS
             </div>
             <button className={styles.infoButton} onClick={handleInfoButtonClick}>
                 <span>ⓘ</span>
@@ -83,4 +83,4 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
     );
 };
 
-export default CampaignContentArchiveContainer
+export default CampaignContentLiveContainer;
