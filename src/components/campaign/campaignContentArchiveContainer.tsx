@@ -3,6 +3,7 @@ import styles from "../../styles/components/campaign/campaignContentArchiveConta
 import PostsContainer from "@/components/posts/postsContainer";
 import ServicesSearchPosts from "@/components/services/servicesSearchPosts";
 import ServicesFilterPosts from "@/components/services/servicesFilterPosts";
+import { useRouter } from "next/navigation";
 
 interface CampaignContentArchiveContainerProps {
     campaignId: string
@@ -19,6 +20,7 @@ interface Post {
 
 const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerProps> = ({ campaignId, userId}) => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -34,11 +36,18 @@ const CampaignContentArchiveContainer: React.FC<CampaignContentArchiveContainerP
         fetchPosts().then();
     }, [campaignId]);
 
+    const handleInfoButtonClick = () => {
+        router.push("/post-archive-info");
+    };
+
     return (
         <div className={styles.campaignContentArchiveContainer}>
             <div className={styles.campaignContentContainerTitle}>
                 ARCHIVED POSTS
             </div>
+            <button className={styles.infoButton} onClick={handleInfoButtonClick}>
+                <span>ⓘ</span>
+            </button>
             <div className={styles.campaignArchiveContentFunctions}>
                 <div className={styles.searchWrapper}>
                     <ServicesSearchPosts/>

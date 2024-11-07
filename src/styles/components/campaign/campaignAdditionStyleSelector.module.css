@@ -56,6 +56,7 @@
 
 .tagList {
     margin-top: 10px;
+    margin-bottom: 10px;
     position: relative;
     padding-right: 30px;
 }
@@ -63,8 +64,8 @@
 .infoButton {
     position: absolute;
     right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 10%;
+    transform: translateY(-10%);
     display: flex;
     align-items: center;
     justify-content: center;

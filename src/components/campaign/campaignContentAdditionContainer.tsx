@@ -242,11 +242,18 @@ const CampaignContentAdditionContainer: React.FC<CampaignContentContainerProps> 
         );
     };
 
+    const handleInfoButtonClick = () => {
+        router.push("/post-generation-info");
+    };
+
     return (
         <div className={styles.campaignContentAdditionContainer}>
             <div className={styles.campaignContentAdditionTitle}>
                 CREATE NEW CONTENT FOR THIS CAMPAIGN
             </div>
+            <button className={styles.infoButton} onClick={handleInfoButtonClick}>
+                <span>ⓘ</span>
+            </button>
             <div className={styles.campaignContentAddition}>
                 <div className={styles.campaignContentAdditionBody}>
                     <div className={styles.label}>TOPIC:</div>
