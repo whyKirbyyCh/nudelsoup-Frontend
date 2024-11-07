@@ -3,6 +3,7 @@ import styles from "../../styles/components/campaign/campaignOverviewPage.module
 import CampaignContentAdditionContainer from "@/components/campaign/campaignContentAdditionContainer";
 import CampaignContentArchiveContainer from "@/components/campaign/campaignContentArchiveContainer";
 import CampaignContentDetails from "@/components/campaign/campaignContentDetails";
+import CampaignContentLiveContainer from "@/components/campaign/campaignContentLiveContainer";
 
 interface CampaignOptionPageContainerProps {
     campaignId: string;
@@ -68,6 +69,7 @@ const CampaignOptionPageContainer: React.FC<CampaignOptionPageContainerProps> = 
                 {activeTab === "CONTENT" &&
                     <div className={styles.campaignContentTab}>
                         <CampaignContentAdditionContainer campaignId={campaignId} userId={userId} productId={productId} />
+                        <CampaignContentLiveContainer campaignId={campaignId} userId={userId} />
                         <CampaignContentArchiveContainer campaignId={campaignId}  userId={userId}/>
                     </div>
                 }

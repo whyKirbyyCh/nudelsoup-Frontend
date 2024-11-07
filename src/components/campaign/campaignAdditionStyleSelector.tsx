@@ -39,7 +39,12 @@ const CampaignAdditionStyleSelector: React.FC<CampaignAdditionStyleSelectorProps
             <div className={styles.inputContainer}>
                 <div className={styles.tagsArea}>
                     {tags.map((tag, index) => (
-                        <span key={index} className={styles.tag}>
+                        <span 
+                            key={index} 
+                            className={styles.tag}
+                            onClick={() => handleTagClick(tag)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             {tag}
                         </span>
                     ))}
