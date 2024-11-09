@@ -8,6 +8,7 @@ import styles from "./checout-sucessPage.module.css"
 import PurchaseConfirmationEmail from "@/components/mail/purchaseConfirmationEmail";
 import jwt, {JwtPayload} from "jsonwebtoken";
 
+
 const getCookie = (name: string): string | undefined => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
